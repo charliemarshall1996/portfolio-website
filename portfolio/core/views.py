@@ -6,7 +6,7 @@ from . import models
 
 def home_view(request):
     context = {
-        "qualifications": models.Qualification.objects.all(),
+        "qualifications": models.Qualification.objects.all().order_by("ongoing", "-date_earned"),
         "skills": models.Skill.objects.all(),
     }
     return render(request, "core/home.html", context)

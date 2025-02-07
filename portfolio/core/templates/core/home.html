@@ -34,6 +34,92 @@
     </div>
 </div>
 
+<div class="container-fluid">
+    <div class="row text-center py-2">
+        <div class="col">
+            <h2>About Me</h2>
+        </div>
+    </div>
+    <div class="row py-2">
+        <div class="col-1">
+        </div>
+        <div class="col">
+            <p>I am a highly motivated and reliable Research Manager, with over 6 years’ experience managing multilingual teams of up to 15 people and a wide range of skills and experience in social media platforms, Microsoft Office apps, Pandas, SciPy, Python, HTML, CSS, SQL and JavaScript. 
+            </p>
+            <br>
+            <p>
+                I am a clear and effective communicator both as a manager and a team member with strong problem-solving abilities. Someone who possesses an enthusiastic approach to work and the ability to plan projects and prioritise conflicting demands to exceed targets.
+            </p>
+            <br>
+            <p>
+                I am committed to building a successful and rewarding career in Data Engineering, using own personal experiences and skills gained from studies and previous employment, and build on skills and experience in a rewarding role, with opportunities to progress, learn and to build on skills and experience. 
+            </p>
+        </div>
+        <div class="col-1">
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col">
+            <h3>My Skills</h3>
+        </div>
+        <div class="col">
+            <h3>My Qualifications</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="accordion" id="skillsAccordion">
+                {% for skill in skills %}
+                    {% if not skill.parent %}
+                        <div class="accordion-item">
+                            <h4 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ skill.id }}" aria-expanded="true" aria-controls="collapse{{ skill.id }}">
+                                    {{ skill.name }}
+                                </button>
+                            </h4>
+                            <div id="collapse{{ skill.id }}" class="accordion-collapse collapse show" aria-labelledby="heading{{ skill.id }}" data-bs-parent="#skillsAccordion">
+                                <div class="accordion-body">
+                                    <div class="list-group list-group-flush">
+                                        {% for child in skill.children.all %}
+                                            <div class="list-group-item">
+                                                {{ child.name }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Qualification</th>
+                        <th scope="col">Institution</th>
+                        <th scope="col">Grade</th>
+                        <th scope="col">Date Earned</th>
+                        <th scope="col">Skills Used</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for qualification in qualifications %}
+                        <tr>
+                            <td>{{ qualification.name }}</td>
+                            <td>{{ qualification.institution }}</td>
+                            <td>{{ qualification.grade }}</td>
+                            <td>{% if qualification.ongoing %}Ongoing{% else %}{{ qualification.date_earned }}{% endif %}</td>
+                            <td class="text-truncate">{% for skill in qualification.skills.all %}{{ skill.name }}, {% endfor %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block scripts %}
