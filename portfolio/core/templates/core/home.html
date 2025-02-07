@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+{% block styles %}<link rel="stylesheet" href="{% static 'core/home.css' %}">{% endblock %}
+{% block content %}
+<div class="container-fluid align-content-center" id="hero-container">
+    <div class="row text-center">
+        <div class="col-12">
+            <h1 class="hero-text">Charlie Marshall:</h1>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col">
+            <p class="display-6 hero-text" id="header-text"></p>
+        </div>
+    </div>
+    <div class="row text-center py-5">
+        <div class="col-3">
+        </div>
+        <div class="col-2">
+            <a class="btn btn-outline-primary" href="#">Download My CV</a>
+        </div>
+        <div class="col-2">
+            <a class="btn btn-outline-primary" href="#">Read My Blog</a>
+        </div>
+        <div class="col-2">
+            <a class="btn btn-outline-primary" href="#">Browse My Projects</a>
+        </div>
+        <div class="col-3">
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'core/hero.js' %}" defer></script>
+{% endblock %}

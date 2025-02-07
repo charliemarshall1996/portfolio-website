@@ -1,0 +1,14 @@
+
+#hero-container {
+    height: 91vh;
+    background-color: black;
+}
+
+.hero-text {
+    color: white;
+}
+
+.btn-outline-primary {
+    color: white;
+    border-color: white;
+}

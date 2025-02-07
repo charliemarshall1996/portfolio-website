@@ -1,6 +1,9 @@
-from django.contrib import admin
 from django.urls import path
 
 from . import views
 
-urlpatterns = []
+app_name = "core"
+
+urlpatterns = [
+    path("", views.home_view, name="home"),
+]
