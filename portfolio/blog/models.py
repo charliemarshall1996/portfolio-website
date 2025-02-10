@@ -23,7 +23,7 @@ class BlogIndexPage(Page):
         context = super().get_context(request)
         blogpages = self.get_children().live().order_by('-first_published_at')
 
-        paginator = Paginator(blogpages, 1)
+        paginator = Paginator(blogpages, 10)
         # Try to get the ?page=x value
         page = request.GET.get("page")
         try:

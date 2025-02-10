@@ -38,3 +38,24 @@
     max-height: 300px;
     overflow-y: auto;
 }
+
+.navbar, .navbar-container, header {
+    background-color: black !important;
+
+}
+
+.nav-link {
+    color: white !important;
+}
+
+.nav-link:hover, .nav-link:active {
+    color: #FFD700 !important;
+}
+
+.navbar-brand {
+    color: white !important;
+}
+
+.navbar-brand:hover, .navbar-brand:active {
+    color: #FFD700 !important;
+}
