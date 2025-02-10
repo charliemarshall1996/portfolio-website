@@ -1,0 +1,38 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block styles %}<link rel="stylesheet" href="{% static 'blog/blog.css' %}">{% endblock %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-blogindexpage{% endblock %}
+
+{% block content %}
+<div class="container-fluid index-container">
+    <div class="row justify-self-around py-2">
+        {% for post in blogpages %}
+        {% with post=post.specific %}
+            <div class="col-3 px-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>{{ post.title }}</h5>
+                        <p class="meta">{{ post.date }}</p>
+                    </div>
+                    <div class="card-body">
+                        {% with post.main_image as main_image %}
+                            {% if main_image %}{% image main_image fill-160x100 %}{% endif %}
+                        {% endwith %}
+                        <p>{{ post.intro }}</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="{% pageurl post %}" class="btn btn-outline-primary">Read more</a>
+                    </div>
+                </div>
+
+            </div>
+        {% endwith %}
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

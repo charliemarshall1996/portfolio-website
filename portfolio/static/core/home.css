@@ -1,0 +1,40 @@
+
+#hero-container {
+    height: 91vh;
+    background-color: black;
+}
+
+.hero-text {
+    color: white;
+}
+
+.btn-outline-primary {
+    color: white;
+    border-color: white;
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:active {
+    color: black !important;
+    background-color: white !important;
+    border-color: white !important;
+}
+
+.table {
+    table-layout: fixed;
+}
+
+.table-btn {
+    color: black;
+    border-color: black;
+}
+
+.table-btn:hover, .table-btn:active {
+    color: white !important;
+    background-color: black !important;
+    border-color: black !important;
+}
+
+.scrollable-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
