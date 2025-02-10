@@ -5,6 +5,7 @@
 {% load static %}
 {% block title %}Home{% endblock %}
 {% block styles %}<link rel="stylesheet" href="{% static 'core/home.css' %}">{% endblock %}
+
 {% block content %}
 <div class="container-fluid align-content-center" id="hero-container">
     <div class="row text-center">
@@ -62,12 +63,11 @@
         <div class="col">
             <h3>My Skills</h3>
         </div>
-        <div class="col">
-            <h3>My Qualifications</h3>
-        </div>
     </div>
     <div class="row py-2">
-        <div class="col">
+        <div class="col-1">
+        </div>
+        <div class="col-10">
             <div class="accordion" id="skillsAccordion">
                 {% for skill in skills %}
                     {% if not skill.parent %}
@@ -102,7 +102,18 @@
                 {% endfor %}
             </div>
         </div>
+        <div class="col-1">
+        </div>
+    </div>
+    <div class="row text-center py-2">
         <div class="col">
+            <h3>My Qualifications</h3>
+        </div>
+    </div>
+    <div class="row py-2">
+        <div class="col-1">
+        </div>
+        <div class="col-10">
             <table class="table">
                 <thead>
                     <tr>
@@ -111,20 +122,25 @@
                         <th scope="col">Grade</th>
                         <th scope="col">Date Earned</th>
                         <th scope="col">Skills Used</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for qualification in qualifications %}
                         <tr>
-                            <td>{{ qualification.name }}</td>
-                            <td>{{ qualification.institution.name }}</td>
-                            <td>{{ qualification.grade }}</td>
-                            <td>{% if qualification.ongoing %}Ongoing{% else %}{{ qualification.date_earned }}{% endif %}</td>
-                            <td class="text-truncate">{% for skill in qualification.skills.all %}{{ skill.name }}, {% endfor %}</td>
+                            <td class="text-truncate whitespace-nowrap overflow-hidden text-ellipsis">{{ qualification.name }}</td>
+                            <td class="text-truncate whitespace-nowrap overflow-hidden text-ellipsis">{{ qualification.institution.name }}</td>
+                            <td class="text-truncate whitespace-nowrap overflow-hidden text-ellipsis">{% if qualification.grade != None %}{{ qualification.grade }}{% else %}N/A{% endif %}</td>
+                            <td class="text-truncate whitespace-nowrap overflow-hidden text-ellipsis">{% if qualification.ongoing %}Ongoing{% else %}{{ qualification.date_earned|date:"F, Y" }}{% endif %}</td>
+                            <td class="text-truncate whitespace-nowrap overflow-hidden text-ellipsis">{% for skill in qualification.skills.all %}{{ skill.name }}, {% endfor %}</td> 
+                            <td><button class="btn btn-outline-primary btn-sm table-btn" data-bs-toggle="modal" data-bs-target="#qualificationModal{{ qualification.id }}">View</button></td>
                         </tr>
+                    {% include "core/modals/qualification_view.html" with qualification=qualification %}
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+        <div class="col-1">
         </div>
     </div>
 </div>

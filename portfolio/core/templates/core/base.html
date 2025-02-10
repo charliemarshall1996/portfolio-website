@@ -33,7 +33,13 @@
     <main>
         {% block content %}{% endblock %}
     </main>
-    
+    <footer class="py-3 container-fluid">
+      <div class="row text-start">
+        <div class="col">
+          <p>&copy; Charlie Marshall {% now "Y" %}</p>
+        </div>
+      </div>
+    </footer>
     
 </body>
 </html>
