@@ -9,8 +9,10 @@ from taggit.models import TaggedItemBase
 # Create your models here.
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.models import Page, Orderable
-from wagtail.fields import RichTextField
+from wagtail.fields import RichTextField, StreamField
+from wagtail import blocks
 from wagtail.search import index
+from wagtailcodeblock.blocks import CodeBlock
 
 
 class BlogIndexPage(Page):
@@ -54,9 +56,14 @@ class BlogPageTag(TaggedItemBase):
 class BlogPage(Page):
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
-    body = RichTextField(blank=True)
-
+    body = StreamField([
+        ('paragraph', blocks.RichTextBlock(blank=True, features=[
+            'h2', 'h3', 'bold', 'italic', 'link', 'code'])),
+        ('code', CodeBlock(label=('Code')))])
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
+    github = models.URLField(blank=True)
+    website = models.URLField(blank=True)
+    data_source = models.URLField(blank=True)
 
     def main_image(self):
         gallery_item = self.gallery_images.first()
@@ -73,7 +80,7 @@ class BlogPage(Page):
     content_panels = Page.content_panels + [MultiFieldPanel([
         "date",
         FieldPanel(
-            "tags"),], heading="Blog information"), "intro", "body", "gallery_images",
+            "tags"),], heading="Blog information"), "github", "website", "data_source", "intro", "body", "gallery_images",
     ]
 
 
