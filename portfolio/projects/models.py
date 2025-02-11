@@ -55,8 +55,10 @@ class ProjectPage(Page):
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
     body = RichTextField(blank=True)
-
     tags = ClusterTaggableManager(through=ProjectPageTag, blank=True)
+    github = models.URLField(blank=True)
+    website = models.URLField(blank=True)
+    data_source = models.URLField(blank=True)
 
     def main_image(self):
         gallery_item = self.gallery_images.first()
@@ -73,7 +75,7 @@ class ProjectPage(Page):
     content_panels = Page.content_panels + [MultiFieldPanel([
         "date",
         FieldPanel(
-            "tags"),], heading="Project information"), "intro", "body", "gallery_images",
+            "tags"),], heading="Project information"), "github", "website", "data_source", "intro", "body", "gallery_images",
     ]
 
 

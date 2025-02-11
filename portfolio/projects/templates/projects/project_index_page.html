@@ -16,7 +16,7 @@
     <div class="row py-2">
         <div class="col">
             <div class="list-group list-group-active">
-            {% for post in projectpages %}
+            {% for post in Projectpages %}
             {% with post=post.specific %}
                 <a href="{% pageurl post %}" class="list-group-item text-center list-group-item-action">
                     <div class="row">
@@ -29,7 +29,7 @@
                             {% endwith %}
                         </div>
                         <div class="col-4">
-                            <p>{{ post.intro }}</p>
+                            <p class="text-truncate whitespace-nowrap overflow-hidden text-ellipsis">{{ post.intro }}</p>
                         </div>
                         <div class="col-2">
                             <p class="meta">{{ post.date }}</p>

@@ -1,25 +1,80 @@
 {% extends "core/base.html" %}
 
+{% load static %}
 {% load wagtailcore_tags wagtailimages_tags %}
-
-{% block body_class %}template-blogpage{% endblock %}
+{% block styles %}<link rel="stylesheet" href="{% static 'projects/projects.css' %}">{% endblock %}
+{% block body_class %}template-projectpage{% endblock %}
 
 {% block content %}
-    <h1>{{ page.title }}</h1>
-    <p class="meta">{{ page.date }}</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <div class="row">
+                <div class="col">
+                    <h1>{{ page.title }}</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p class="meta">{{ page.date }}</p>
+                </div>
+            </div>
+            <div class="row text-start py-2">
+                {% if page.github %}
+                <div class="col-auto">
+                    <a href="{{ page.github }}" class="btn btn-primary btn-sm">View on GitHub <i class="bi bi-github" style="font-size: 1rem;"></i></a>
+                </div>
+                {% endif %}
+                {% if page.website %}
+                <div class="col-auto">
+                    <a href="{{ page.website }}" class="btn btn-primary btn-sm">View website <i class="bi bi-link" style="font-size: 1rem;"></i></a>
+                </div>
+                {% endif %}
+                {% if page.data_source %}
+                <div class="col-auto">
+                    <a href="{{ page.data_source }}" class="btn btn-primary btn-sm">View data source <i class="bi bi-link" style="font-size: 1rem;"></i></a>
+                </div>
+                {% endif %}
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="intro">{{ page.intro }}</div>
+                </div>
+            </div>
 
-    <div class="intro">{{ page.intro }}</div>
+            <div class="row">
+                <div class="col">
+                    {{ page.body|richtext }}
+                </div>
+            </div>
 
-    {{ page.body|richtext }}
+            <!-- Add this: -->
+            {% if page.gallery_images.all %}
+            <div class="row">
+                <div class="col">
+                    <h2>Gallery</h2>
+                </div>
+            </div>
+            <div class="row">
+            {% for item in page.gallery_images.all %}
+                <div class="col">
+                    <div style="float: inline-start; margin: 10px">
+                        {% image item.image fill-320x240 %}
+                        <p>{{ item.caption }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
 
-    <!-- Add this: -->
-    {% for item in page.gallery_images.all %}
-        <div style="float: inline-start; margin: 10px">
-            {% image item.image fill-320x240 %}
-            <p>{{ item.caption }}</p>
+            <div class="row">
+                <div class="col">
+                    <p><a href="{{ page.get_parent.url }}">Return to projects</a></p>
+                </div>
+            </div>
+            {% endif %}
         </div>
-    {% endfor %}
-
-    <p><a href="{{ page.get_parent.url }}">Return to blog</a></p>
-
+        <div class="col-2"></div>
+    </div>
+</div>
 {% endblock %}
