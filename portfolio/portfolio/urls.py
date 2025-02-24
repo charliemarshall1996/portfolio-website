@@ -26,6 +26,7 @@ from wagtail.documents import urls as wagtaildocs_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("core.urls")),
+    path("free-sites/", include("freesites.urls")),
     # path("projects/", include("projects.urls")),
     path('cms/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),

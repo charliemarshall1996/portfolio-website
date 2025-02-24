@@ -18,19 +18,46 @@
             <p class="display-6 hero-text" id="header-text"></p>
         </div>
     </div>
-    <div class="row text-center py-5">
+    <div class="row text-center py-5 d-none d-md-flex">
         <div class="col-3">
         </div>
         <div class="col-2">
-            <a class="btn btn-outline-primary" href="#">Download My CV</a>
+            <a class="btn btn-outline-primary" href="/media/documents/charlie_marshall.docx">Download My CV</a>
         </div>
         <div class="col-2">
-            <a class="btn btn-outline-primary" href="#">Read My Blog</a>
+            <a class="btn btn-outline-primary" href="/pages/blog/">Read My Blog</a>
         </div>
         <div class="col-2">
-            <a class="btn btn-outline-primary" href="#">Browse My Projects</a>
+            <a class="btn btn-outline-primary" href="/pages/projects/">Browse My Projects</a>
         </div>
         <div class="col-3">
+        </div>
+    </div>
+    <div class="row text-center py-3 d-flex d-md-none">
+        <div class="col-4 d-flex">
+        </div>
+        <div class="col-4 justify-content-center d-flex">
+            <a class="btn btn-outline-primary" href="/media/documents/charlie_marshall.docx">Download My CV</a>
+        </div>
+        <div class="col-4 d-flex">
+        </div>
+    </div>
+    <div class="row text-center py-3 d-flex d-md-none">
+        <div class="col-4 d-flex">
+        </div>
+        <div class="col-4 justify-content-center d-flex">
+            <a class="btn btn-outline-primary" href="/pages/blog/">Read My Blog</a>
+        </div>
+        <div class="col-4 d-flex">
+        </div>
+    </div>
+    <div class="row text-center py-3 d-flex d-md-none">
+        <div class="col-4 d-flex">
+        </div>
+        <div class="col-4 justify-content-center d-flex">
+            <a class="btn btn-outline-primary" href="/pages/projects/">Browse My Projects</a>
+        </div>
+        <div class="col-4 d-flex">
         </div>
     </div>
 </div>
@@ -119,9 +146,9 @@
                     <tr>
                         <th scope="col">Qualification</th>
                         <th scope="col">Institution</th>
-                        <th scope="col">Grade</th>
-                        <th scope="col">Date Earned</th>
-                        <th scope="col">Skills Used</th>
+                        <th class="d-none d-md-flex" scope="col">Grade</th>
+                        <th class="d-none d-md-flex" scope="col">Date Earned</th>
+                        <th class="d-none d-md-flex" scope="col">Skills Used</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -130,9 +157,9 @@
                         <tr>
                             <td class="text-truncate whitespace-nowrap overflow-hidden text-ellipsis">{{ qualification.name }}</td>
                             <td class="text-truncate whitespace-nowrap overflow-hidden text-ellipsis">{{ qualification.institution.name }}</td>
-                            <td class="text-truncate whitespace-nowrap overflow-hidden text-ellipsis">{% if qualification.grade != None %}{{ qualification.grade }}{% else %}N/A{% endif %}</td>
-                            <td class="text-truncate whitespace-nowrap overflow-hidden text-ellipsis">{% if qualification.ongoing %}Ongoing{% else %}{{ qualification.date_earned|date:"F, Y" }}{% endif %}</td>
-                            <td class="text-truncate whitespace-nowrap overflow-hidden text-ellipsis">{% for skill in qualification.skills.all %}{{ skill.name }}, {% endfor %}</td> 
+                            <td class="d-none d-md-flex text-truncate whitespace-nowrap overflow-hidden text-ellipsis">{% if qualification.grade != None %}{{ qualification.grade }}{% else %}N/A{% endif %}</td>
+                            <td class="d-none d-md-flex text-truncate whitespace-nowrap overflow-hidden text-ellipsis">{% if qualification.ongoing %}Ongoing{% else %}{{ qualification.date_earned|date:"F, Y" }}{% endif %}</td>
+                            <td class="d-none d-md-flex text-truncate whitespace-nowrap overflow-hidden text-ellipsis">{% for skill in qualification.skills.all %}{{ skill.name }}, {% endfor %}</td> 
                             <td><button class="btn btn-outline-primary btn-sm table-btn" data-bs-toggle="modal" data-bs-target="#qualificationModal{{ qualification.id }}">View</button></td>
                         </tr>
                     {% include "core/modals/qualification_view.html" with qualification=qualification %}

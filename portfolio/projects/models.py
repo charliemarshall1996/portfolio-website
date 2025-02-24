@@ -25,7 +25,7 @@ class ProjectIndexPage(Page):
         context = super().get_context(request)
         Projectpages = self.get_children().live().order_by('-first_published_at')
         # Paginate all posts by 2 per page
-        paginator = Paginator(Projectpages, 2)
+        paginator = Paginator(Projectpages, 10)
         # Try to get the ?page=x value
         page = request.GET.get("page")
         try:
@@ -58,7 +58,7 @@ class ProjectPage(Page):
     intro = models.CharField(max_length=250)
     body = StreamField([
         ('paragraph', blocks.RichTextBlock(blank=True, features=[
-            'h2', 'h3', 'bold', 'italic', 'link', 'code'])),
+            'h2', 'h3', 'bold', 'italic', 'link', 'ol', 'ul', 'hr', 'image', 'code'])),
         ('code', CodeBlock(label=('Code')))])
     tags = ClusterTaggableManager(through=ProjectPageTag, blank=True)
     github = models.URLField(blank=True)
@@ -80,7 +80,7 @@ class ProjectPage(Page):
     content_panels = Page.content_panels + [MultiFieldPanel([
         "date",
         FieldPanel(
-            "tags"),], heading="Blog information"), "github", "website", "data_source", "intro", "body", "gallery_images",
+            "tags"),], heading="Blog information"), "github", "website", "data_source", "intro", FieldPanel('body'), "gallery_images",
     ]
 
 

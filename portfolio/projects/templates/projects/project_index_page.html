@@ -42,29 +42,29 @@
             </div>
         </div>
     </div>
-    {% if projectpages.paginator.num_pages > 1 %}
+    {% if Projectpages.paginator.num_pages > 1 %}
     <div class="row py-2">
       <div class="col">
         <div class="pagination">
-          {% if projectpages.has_previous %}
+          {% if Projectpages.has_previous %}
             <li class="page-item">
-              <a href="?page={{ projectpages.previous_page_number }}" class="page-link">
+              <a href="?page={{ Projectpages.previous_page_number }}" class="page-link">
                 <span>&laquo;</span>
               </a>
             </li>
           {% endif %}
 
-          {% for page_num in projectpages.paginator.page_range %}
-            <li class="page-item {% if page_num == projectpages.number %} active{% endif %}">
+          {% for page_num in Projectpages.paginator.page_range %}
+            <li class="page-item {% if page_num == Projectpages.number %} active{% endif %}">
               <a href="?page={{ page_num }}" class="page-link">
                 {{ page_num }}
               </a>
             </li>
           {% endfor %}
 
-          {% if projectpages.has_next %}
+          {% if Projectpages.has_next %}
             <li class="page-item">
-              <a href="?page={{ projectpages.next_page_number }}" class="page-link">
+              <a href="?page={{ Projectpages.next_page_number }}" class="page-link">
                 <span>&raquo;</span>
               </a>
             </li>
