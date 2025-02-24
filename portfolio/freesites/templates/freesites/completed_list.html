@@ -1,0 +1,60 @@
+{% extends "core/admin_base.html" %}
+
+{% block admin_content %}
+<div class="container-fluid">
+    <div class="row text-center">
+        <div class="col">
+            <h1>Completed Inquiries</h1>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="col">
+            
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Queue Position</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if inquiries %}
+                {% for inquiry in inquiries %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>  <!-- Display queue position -->
+                        <td>{{ inquiry.name }}</td>
+                        <td>{{ inquiry.email }}</td>
+                        <td>{{ inquiry.description }}</td>
+                        <td>{{ inquiry.status }}</td>
+                        <td>
+                            <!-- Mark as 'In Progress' button -->
+                            {% if inquiry.status == 'pending' %}
+                            <form action="{% url 'freesites:in_progress_inquiry' inquiry.id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" {% if inquiry.status == 'in progress' %}disabled{% endif %}>In Progress</button>
+                            </form>
+                            {% endif %}
+                            {% if inquiry.status == 'pending' %}
+                            <!-- Mark as 'Complete' button -->
+                            <form action="{% url 'freesites:complete_inquiry' inquiry.id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" {% if inquiry.status == 'completed' %}disabled{% endif %}>Complete</button>
+                            </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% else %}
+                <td scope="row"><p>No inquiries in the queue.</p></td>
+                    
+                {% endif %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+{% extends "core/base.html" %}
+{% load static %}
+{% block styles %}<link rel="stylesheet" href="{% static 'freesites/style.css' %}">{% endblock %}
+{% block title %}Free Website Inquiry{% endblock %}
+{% block content %}
+
+
+<div class="container-fluid align-content-center">
+    <div class="row text-center">
+        <div class="col">
+            <h1>Get Your Free Website</h1>
+        </div>
+    </div>
+    <div class="row py-3">
+        <div class="col">
+            <div class="card mx-auto">
+                {% load crispy_forms_tags %}
+                <form method="POST">
+                    <div class="card-body">
+                        {% csrf_token %}
+                        {{ form.honeypot }}
+                        {{ form|crispy }}
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- JavaScript for Dynamic Formset Handling -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let container = document.getElementById("formset-container");
+        let addFormButton = document.getElementById("add-form");
+        let totalForms = document.querySelector("#id_sociallink_set-TOTAL_FORMS");
+
+        addFormButton.addEventListener("click", function () {
+            let formNum = Number(totalForms.value);
+            let newForm = container.firstElementChild.cloneNode(true);
+
+            newForm.innerHTML = newForm.innerHTML.replace(/-\d+-/g, `-${formNum}-`);
+            newForm.querySelector("input").value = "";
+            container.appendChild(newForm);
+
+            totalForms.value = formNum + 1;
+        });
+
+        container.addEventListener("click", function (event) {
+            if (event.target.classList.contains("remove-form")) {
+                event.target.closest(".formset-form").remove();
+                totalForms.value = Number(totalForms.value) - 1;
+            }
+        });
+    });
+</script>

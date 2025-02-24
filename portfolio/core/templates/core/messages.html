@@ -1,0 +1,51 @@
+
+{% if messages %}
+    {% for message in messages %}
+        {% with message_class="alert-info" %}
+            {% if message.tags == 'error' %}
+                {% with message_class="alert-danger" %}
+                {% endwith %}
+            {% elif message.tags == 'success' %}
+                {% with message_class="alert-success" %}
+                {% endwith %}
+            {% elif message.tags == 'warning' %}
+                {% with message_class="alert-warning" %}
+                {% endwith %}
+            {% elif message.tags == 'info' %}
+                {% with message_class="alert-info" %}
+                {% endwith %}
+            {% endif %}
+            
+            <div class="alert {{ message_class }} alert-dismissible fade show" role="alert">
+                {{ message|safe }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endwith %}
+    {% endfor %}
+{% endif %}
+
+<!--
+<div class="alert alert-primary" role="alert">
+    A simple primary alert—check it out!
+</div>
+<div class="alert alert-secondary" role="alert">
+A simple secondary alert—check it out!
+</div>
+<div class="alert alert-success" role="alert">
+A simple success alert—check it out!
+</div>
+<div class="alert alert-danger" role="alert">
+A simple danger alert—check it out!
+</div>
+<div class="alert alert-warning" role="alert">
+A simple warning alert—check it out!
+</div>
+<div class="alert alert-info" role="alert">
+A simple info alert—check it out!
+</div>
+<div class="alert alert-light" role="alert">
+A simple light alert—check it out!
+</div>
+<div class="alert alert-dark" role="alert">
+A simple dark alert—check it out!
+</div> -->

@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row text-center">
+        <div class="col">
+            <h1>Your Website Status</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <p><strong>Your tracking code:</strong> {{ inquiry.code }}</p>
+                            <p><strong>Current position in queue:</strong> {{ position }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,71 @@
+.btn-outline-primary {
+    color: black;
+    border-color: black;
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:active {
+    color: white !important;
+    background-color: black !important;
+    border-color: black !important;
+}
+
+.btn-primary {
+    color: white;
+    background-color: black;
+    border-color: black;
+}
+
+.btn-primary:hover, .btn-primary:active {
+    color: black !important;
+    background-color: white !important;
+    border-color: black !important;
+}
+
+.table {
+    table-layout: fixed;
+}
+
+.table-btn {
+    color: black;
+    border-color: black;
+}
+
+.table-btn:hover, .table-btn:active {
+    color: white !important;
+    background-color: black !important;
+    border-color: black !important;
+}
+
+.scrollable-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.navbar, .navbar-container, header {
+    background-color: black !important;
+
+}
+
+.nav-link {
+    color: white !important;
+}
+
+.nav-link:hover, .nav-link:active {
+    color: #FFD700 !important;
+}
+
+.navbar-brand {
+    color: white !important;
+}
+
+.navbar-brand:hover, .navbar-brand:active {
+    color: #FFD700 !important;
+}
+
+.container-fluid {
+    min-height: 100vh !important;
+}
+
+#footer {
+    width: 100vw;
+}
