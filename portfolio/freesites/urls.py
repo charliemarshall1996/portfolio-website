@@ -16,4 +16,5 @@ urlpatterns = [
          views.complete_inquiry, name='complete_inquiry'),
     path('in_progress/<int:inquiry_id>/',
          views.in_progress_inquiry, name='in_progress_inquiry'),
+    path('review/', views.review, name='review')
 ]

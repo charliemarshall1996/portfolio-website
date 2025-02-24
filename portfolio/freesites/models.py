@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Inquiry(models.Model):
@@ -33,3 +34,18 @@ class WebLink(models.Model):
     inquiry = models.ForeignKey(
         Inquiry, related_name="links", on_delete=models.CASCADE)
     url = models.URLField()
+
+
+class Review(models.Model):
+    name = models.CharField(max_length=255)
+    review = models.TextField()
+    positives = models.TextField()
+    improvements = models.TextField()
+    rating = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        validators=[
+            MinValueValidator(1),
+            MaxValueValidator(10)
+        ]
+    )

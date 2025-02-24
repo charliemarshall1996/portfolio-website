@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import InquiryForm
+from .forms import InquiryForm, ReviewForm
 from .models import Inquiry
 
 # Create your views here.
@@ -14,6 +14,28 @@ def is_superuser(user):
 
 def home_view(request):
     return render(request, "freesites/index.html")
+
+
+def review(request):
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            print("form valid")
+            review = form.save()
+            review.save()
+            messages.success(
+                request=request, message="Thank you for submitting a review!")
+            return redirect("freesites:home")
+        else:
+            print(f"form invalid {form.errors}")
+            messages.error(
+                f"There was an error submitting your review {form.errors}")
+            return redirect("freesites:review")
+    else:
+        form = ReviewForm()
+        context = {"form": form}
+
+        return render(request, "freesites/review.html", context=context)
 
 
 @login_required
@@ -40,6 +62,12 @@ def complete_inquiry(request, inquiry_id):
     inquiry = Inquiry.objects.get(id=inquiry_id)
     inquiry.status = 'completed'
     inquiry.save()
+
+    subject = "Your Website Is Completed"
+    message = f"Hello {inquiry.name},\n\nThank you for entrusting me with the development of your website.\n\n"
+    html_message = f"<p>Hello {inquiry.name},</p><p>Thank you for entrusting me with the development of your website.</p><p>Please consider giving me a <a href='https://www.charlie-marshall.dev/free-sites/review'>review</a></p>"
+    send_mail(subject, message,
+              "charlie.marshall@charlie-marshall.dev", [inquiry.email], html_message=html_message)
 
     # Decrement the count of pending inquiries
     # This is an example, adjust logic as needed
