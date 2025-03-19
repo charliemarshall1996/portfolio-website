@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+{% extends 'core/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="container-fluid container-content px-0"> <!-- Remove horizontal padding for full-width sections -->
+
+    <!-- Hero Section -->
+    <section class="hero-section bg-dark text-white align-content-center py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h1 class="display-4 mb-4">Hi, I'm Charlie</h1>
+                    <p class="lead mb-4">I Build Dynamic, Data-Driven Web Applications with Django</p>
+                    <a href="#contact" class="btn btn-light btn-lg">Start Your Project</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="mb-4">About Me</h2>
+                    <p class="lead">
+                        I'm a freelance web developer specializing in Django, Python, and data-driven solutions. 
+                        With a passion for turning complex ideas into scalable, user-friendly web applications, 
+                        I help businesses unlock the power of their data through custom software solutions.
+                    </p>
+                    <p>
+                        My expertise includes building RESTful APIs, integrating databases, and creating dynamic dashboards 
+                        that provide actionable insights. Whether it's a small business website or a large-scale web application, 
+                        I focus on delivering clean, maintainable code and exceptional user experiences.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <a href="#"><i class="bi bi-telephone-fill"></i></a>
+                    <a href="#"><i class="bi bi-envelope-fill"></i></a>
+                    <a href="#"><i class="bi bi-building-fill"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">My Portfolio</h2>
+            
+            <div class="row g-4">
+                
+                <!-- Portfolio Item 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow">
+                        <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Project 1">
+                        <div class="card-body">
+                            <h3 class="card-title">AppTrack</h3>
+                            <p class="card-text">
+                                A free-to-use job application-tracking app built with Django.
+                            </p>
+                            <a href="#" class="btn btn-outline-secondary">View Project</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow">
+                        <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Project 2">
+                        <div class="card-body">
+                            <h3 class="card-title">Data Dashboard</h3>
+                            <p class="card-text">
+                                A dynamic data visualization dashboard for analyzing business metrics, powered by Django and Chart.js.
+                            </p>
+                            <a href="#" class="btn btn-outline-secondary">View Project</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Item 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow">
+                        <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Project 3">
+                        <div class="card-body">
+                            <h3 class="card-title">CRM System</h3>
+                            <p class="card-text">
+                                A custom CRM system designed for small businesses, featuring user management, task tracking, and reporting.
+                            </p>
+                            <a href="#" class="btn btn-outline-secondary">View Project</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5">What I Offer</h2>
+            
+            <div class="row g-4">
+                <!-- Service Card 1 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow">
+                        <div class="card-body">
+                            <div class="text-center mb-4">
+                                <i class="bi bi-code-square display-4 text-secondary"></i>
+                            </div>
+                            <h3 class="card-title text-center">Web Development</h3>
+                            <ul class="list-unstyled">
+                                <li class="mb-3">
+                                    <i class="bi bi-check2-circle text-success me-2"></i>
+                                    Custom Django Applications
+                                </li>
+                                <li class="mb-3">
+                                    <i class="bi bi-check2-circle text-success me-2"></i>
+                                    REST API Development
+                                </li>
+                                <li class="mb-3">
+                                    <i class="bi bi-check2-circle text-success me-2"></i>
+                                    Database Integration
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 2 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow">
+                        <div class="card-body">
+                            <div class="text-center mb-4">
+                                <i class="bi bi-bar-chart-line display-4 text-secondary"></i>
+                            </div>
+                            <h3 class="card-title text-center">Data Solutions</h3>
+                            <ul class="list-unstyled">
+                                <li class="mb-3">
+                                    <i class="bi bi-check2-circle text-success me-2"></i>
+                                    Data Visualization
+                                </li>
+                                <li class="mb-3">
+                                    <i class="bi bi-check2-circle text-success me-2"></i>
+                                    Real-Time Analytics
+                                </li>
+                                <li class="mb-3">
+                                    <i class="bi bi-check2-circle text-success me-2"></i>
+                                    Custom Dashboards
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Card 3 -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow">
+                        <div class="card-body">
+                            <div class="text-center mb-4">
+                                <i class="bi bi-gear display-4 text-secondary"></i>
+                            </div>
+                            <h3 class="card-title text-center">Optimization</h3>
+                            <ul class="list-unstyled">
+                                <li class="mb-3">
+                                    <i class="bi bi-check2-circle text-success me-2"></i>
+                                    Performance Tuning
+                                </li>
+                                <li class="mb-3">
+                                    <i class="bi bi-check2-circle text-success me-2"></i>
+                                    Scalability Solutions
+                                </li>
+                                <li class="mb-3">
+                                    <i class="bi bi-check2-circle text-success me-2"></i>
+                                    Website Maintenance
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing Banner -->
+            <div class="alert alert-info mt-5 text-center">
+                <h4 class="alert-heading">Transparent Pricing</h4>
+                <p class="mb-0">
+                    Hourly Rate: £45 | Project-Based Quotes Available
+                    <br>
+                    <small>Free initial consultation for all projects</small>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5 bg-secondary text-white">
+        <div class="container text-center">
+            <h2 class="mb-4">Ready to Start Your Project?</h2>
+            <p class="lead mb-4">Let's discuss how I can help bring your vision to life</p>
+            <a href="#contact" class="btn btn-light btn-lg">Get in Touch</a>
+        </div>
+    </section>
+
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+
+@import "../../../../node_modules/bootstrap/scss/_functions.scss";
+@import "../../../../node_modules/bootstrap/scss/_variables.scss";
+
+$primary: #669bbc;   // Vibrant Tech Blue 
+$secondary: #003049; // Gunmetal Gray
+$tertiary: #c1121f;  // Charcoal Black
+$light: #FCF6ED;     // Soft White
+$dark: #780000;      // Charcoal Black (Replacing Bootstrap's Default Dark)
+
+// merge with existing $theme-colors map
+$theme-colors: map-merge($theme-colors, (
+  "primary": $primary,
+  "secondary": $secondary,
+  "tertiary": $tertiary,
+  "light": $light,
+  "dark": $dark,
+));
+
+// Override Bootstrap Accordion Button
+.accordion-button {
+  background-color: $light;
+  color: $secondary;
+  border-color: $dark;
+
+  &:hover {
+    background-color: darken($light, 10%); // Darken background on hover
+    border-color: darken($dark, 10%); // Darken border on hover
+  }
+
+  &:focus {
+    box-shadow: none; // Optional: remove focus shadow
+  }
+
+  &.collapsed {
+    background-color: lighten($light, 10%); // Lighter background when collapsed
+  }
+
+  &.active {
+    background-color: $secondary;
+    color: $light;
+  }
+}
+
+@import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
