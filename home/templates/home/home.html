@@ -56,7 +56,8 @@
                         <div class="col-8 text-center">
                             <a class="text-secondary px-3" href="tel:+447464706184" data-bs-toggle="tooltip" data-bs-title="Call Me"><i class="bi bi-telephone-fill"></i></a>
                             <a class="text-secondary px-3" href="mailto:charlie@charlie-marshall.dev" data-bs-toggle="tooltip" data-bs-title="Email Me"><i class="bi bi-envelope-fill"></i></a>
-                            <a class="text-secondary px-3" href="#"><i class="bi bi-building-fill" data-bs-toggle="tooltip" data-bs-title="My Address"></i></a>
+                            {% include 'home/modals/address_modal.html' %}
+                            <a class="text-secondary px-3" data-bs-toggle="modal" data-bs-target="#addressModal"><i class="bi bi-building-fill" data-bs-toggle="tooltip" data-bs-title="My Address"></i></a>
                             <a class="text-secondary px-3" href="/media/documents/charlie_marshall.docx" data-bs-toggle="tooltip" data-bs-title="My CV"><i class="bi bi-file-text-fill"></i></a>
                         </div>
                     </div>
@@ -295,3 +296,4 @@
 </script>
 
 {% endblock %}
+
