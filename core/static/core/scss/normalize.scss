@@ -8,14 +8,36 @@ $tertiary: #FF6B6B;  // Charcoal Black
 $light: #F8F9FA;     // Soft White
 $dark: #212529;      // Charcoal Black (Replacing Bootstrap's Default Dark)
 
+
+$display: "Roboto Condensed", sans-serif;
+$lead: "Roboto", sans-serif;
 // merge with existing $theme-colors map
 $theme-colors: map-merge($theme-colors, (
   "primary": $primary,
   "secondary": $secondary,
   "tertiary": $tertiary,
   "light": $light,
-  "dark": $dark,
+  "dark": $dark
 ));
+
+// Step 1: Import Bootstrap (if not already imported)
+@import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
+
+// Step 2: Define your custom font variables
+$font-family-display: 'Roboto Condensed', sans-serif; // Replace with your desired display font
+$font-family-lead: 'Roboto', sans-serif;  // Replace with your desired lead font
+
+// Step 3: Override Bootstrap's typography variables
+$display-font-family: $font-family-display;
+$lead-font-family: $font-family-lead;
+
+// Step 4: Optionally, adjust font weights and sizes
+$display-font-weight: 700; // Bold for display headings
+$lead-font-weight: 600;    // Semi-bold for lead paragraphs
+$lead-font-size: 1.25rem;  // Adjust lead font size if needed
+
+// Step 5: Include Bootstrap with your customizations
+@import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
 
 // Override Bootstrap Accordion Button
 .accordion-button {
