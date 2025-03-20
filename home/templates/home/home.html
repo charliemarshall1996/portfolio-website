@@ -3,6 +3,7 @@
 {% load static %}
 
 
+
 {% block content %}
 
 <div class="container-fluid container-content px-0"> <!-- Remove horizontal padding for full-width sections -->
@@ -53,10 +54,10 @@
                     </p>
                     <div class="row justify-content-center">
                         <div class="col-8 text-center">
-                            <a class="text-secondary px-3" href="tel:+447464706184"><i class="bi bi-telephone-fill"></i></a>
-                            <a class="text-secondary px-3" href="mailto:charlie@charlie-marshall.dev"><i class="bi bi-envelope-fill"></i></a>
-                            <a class="text-secondary px-3" href="#"><i class="bi bi-building-fill"></i></a>
-                            <a class="text-secondary px-3" href="/media/documents/charlie_marshall.docx"><i class="bi bi-file-text-fill"></i></a>
+                            <a class="text-secondary px-3" href="tel:+447464706184" data-bs-toggle="tooltip" data-bs-title="Call Me"><i class="bi bi-telephone-fill"></i></a>
+                            <a class="text-secondary px-3" href="mailto:charlie@charlie-marshall.dev" data-bs-toggle="tooltip" data-bs-title="Email Me"><i class="bi bi-envelope-fill"></i></a>
+                            <a class="text-secondary px-3" href="#"><i class="bi bi-building-fill" data-bs-toggle="tooltip" data-bs-title="My Address"></i></a>
+                            <a class="text-secondary px-3" href="/media/documents/charlie_marshall.docx" data-bs-toggle="tooltip" data-bs-title="My CV"><i class="bi bi-file-text-fill"></i></a>
                         </div>
                     </div>
                 </div>
@@ -287,4 +288,10 @@
     </section>
 
 </div>
+
+<script>
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+</script>
+
 {% endblock %}
