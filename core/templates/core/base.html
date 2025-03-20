@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Charlie Marshall">
+	{% block metatags %}{% endblock %}
     <title>Charlie Marshall | Freelance Django Developer</title>
 	
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -19,7 +21,7 @@
 </head>
 <body class="body-light">
     <header>
-        <nav class="navbar navbar-expand-lg bg-dark navbar-dark px-5">
+        <nav class="navbar navbar-expand-lg bg-primary navbar-dark px-5">
 			<a class="navbar-brand" href="{% url 'home:home' %}">CM</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span><i class="bi bi-list"></i></span>

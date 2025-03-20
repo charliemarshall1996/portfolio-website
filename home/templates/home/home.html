@@ -2,6 +2,24 @@
 {% extends 'core/base.html' %}
 {% load static %}
 
+{% block metatags %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Hi, I'm Charlie. I build dynamic, data-driven web applications with Django. Specializing in custom Django apps, REST APIs, and data solutions.">
+<meta name="keywords" content="Django, Python, Web Development, Data Solutions, REST APIs, Freelance Developer">
+<meta property="og:title" content="Charlie Marshall - Django Web Developer">
+<meta property="og:description" content="Hi, I'm Charlie. I build dynamic, data-driven web applications with Django. Specializing in custom Django apps, REST APIs, and data solutions.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.charlie-marshall.dev">
+<meta property="og:image" content="{% static 'home/images/data.jpg' %}">
+<meta property="og:site_name" content="Charlie Marshall - Django Web Developer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Charlie Marshall - Django Web Developer">
+<meta name="twitter:description" content="Hi, I'm Charlie. I build dynamic, data-driven web applications with Django. Specializing in custom Django apps, REST APIs, and data solutions.">
+<meta name="twitter:image" content="{% static 'home/images/data.jpg' %}">
+<link rel="canonical" href="https://www.charlie-marshall.dev">
+{% endblock %}
+
 
 
 {% block content %}
@@ -9,13 +27,13 @@
 <div class="container-fluid container-content px-0"> <!-- Remove horizontal padding for full-width sections -->
 
     <!-- Hero Section -->
-    <section class="hero-section bg-dark text-white align-content-center py-5">
+    <section class="hero-section bg-primary text-white align-content-center py-5">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8 text-center">
                     <h1 class="display-4 mb-4">Hi, I'm Charlie</h1>
                     <p class="lead mb-4">I Build Dynamic, Data-Driven Web Applications with Django</p>
-                    <a href="#contact" class="btn btn-light btn-lg">Start Your Project</a>
+                    <!-- <a href="#contact" class="btn btn-light btn-lg">Start Your Project</a> -->
                 </div>
             </div>
         </div>
@@ -37,10 +55,10 @@
     <section class="py-5 bg-light">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="d-md-flex d-none col-lg-5 text-end">
-                    <img class="img" src="{% static 'home/images/data.jpg' %}" style="max-width: 450px">
+                <div class="d-md-flex d-none col-lg-6 text-end">
+                    <img class="img" src="{% static 'home/images/data.jpg' %}" alt="Data dashboard" style="max-width: 475px">
                 </div>
-                <div class="col-lg-5 col-md-8">
+                <div class="col-lg-6 col-md-8">
                     <h2 class="mb-4 py-3">About Me</h2>
                     <p class="lead">
                         I'm a freelance web developer specializing in Django, Python, and data-driven solutions. 
@@ -54,11 +72,11 @@
                     </p>
                     <div class="row justify-content-center">
                         <div class="col-8 text-center">
-                            <a class="text-secondary px-3" href="tel:+447464706184" data-bs-toggle="tooltip" data-bs-title="Call Me"><i class="bi bi-telephone-fill"></i></a>
-                            <a class="text-secondary px-3" href="mailto:charlie@charlie-marshall.dev" data-bs-toggle="tooltip" data-bs-title="Email Me"><i class="bi bi-envelope-fill"></i></a>
+                            <a class="text-tertiary px-3" href="tel:+447464706184" data-bs-toggle="tooltip" data-bs-title="Call Me"><i class="bi bi-telephone-fill"></i></a>
+                            <a class="text-tertiary px-3" href="mailto:charlie@charlie-marshall.dev" data-bs-toggle="tooltip" data-bs-title="Email Me"><i class="bi bi-envelope-fill"></i></a>
                             {% include 'home/modals/address_modal.html' %}
-                            <a class="text-secondary px-3" data-bs-toggle="modal" data-bs-target="#addressModal"><i class="bi bi-building-fill" data-bs-toggle="tooltip" data-bs-title="My Address"></i></a>
-                            <a class="text-secondary px-3" href="/media/documents/charlie_marshall.docx" data-bs-toggle="tooltip" data-bs-title="My CV"><i class="bi bi-file-text-fill"></i></a>
+                            <a class="text-tertiary px-3" data-bs-toggle="modal" data-bs-target="#addressModal"><i class="bi bi-building-fill" data-bs-toggle="tooltip" data-bs-title="My Address"></i></a>
+                            <a class="text-tertiary px-3" href="/media/documents/charlie_marshall.docx" data-bs-toggle="tooltip" data-bs-title="My CV"><i class="bi bi-file-text-fill"></i></a>
                         </div>
                     </div>
                 </div>
@@ -279,7 +297,7 @@
         </div>
     </section>
 
-    <!-- CTA Section -->
+    <!-- CTA Section 
     <section class="py-5 bg-secondary text-white">
         <div class="container text-center">
             <h2 class="mb-4">Ready to Start Your Project?</h2>
@@ -287,6 +305,7 @@
             <a href="#contact" class="btn btn-light btn-lg">Get in Touch</a>
         </div>
     </section>
+    -->
 
 </div>
 

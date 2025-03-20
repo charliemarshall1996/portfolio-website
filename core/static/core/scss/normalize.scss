@@ -2,11 +2,11 @@
 @import "../../../../node_modules/bootstrap/scss/_functions.scss";
 @import "../../../../node_modules/bootstrap/scss/_variables.scss";
 
-$primary: #669bbc;   // Vibrant Tech Blue 
-$secondary: #003049; // Gunmetal Gray
-$tertiary: #c1121f;  // Charcoal Black
-$light: #FCF6ED;     // Soft White
-$dark: #780000;      // Charcoal Black (Replacing Bootstrap's Default Dark)
+$primary: #03045E;   // Vibrant Tech Blue 
+$secondary: #48CAE4; // Gunmetal Gray
+$tertiary: #FF6B6B;  // Charcoal Black
+$light: #F8F9FA;     // Soft White
+$dark: #212529;      // Charcoal Black (Replacing Bootstrap's Default Dark)
 
 // merge with existing $theme-colors map
 $theme-colors: map-merge($theme-colors, (
