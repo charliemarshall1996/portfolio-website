@@ -12,3 +12,5 @@ def home_view(request):
 
 class CompanyListView(ListView):
     model = Company
+    paginate_by = 10
+    ordering = ["-name"]

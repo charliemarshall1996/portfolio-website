@@ -6,5 +6,5 @@ app_name = "crm"
 
 urlpatterns = [
     path("", views.home_view, name="home"),
-    path("companies/", views.CompanyListView.as_view(), name="companies"),
+    path("/companies", views.CompanyListView.as_view(), name="companies"),
 ]
