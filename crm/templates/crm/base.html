@@ -26,16 +26,13 @@
 <body class="body-light">
     <header>
         <nav class="navbar navbar-expand-lg bg-primary navbar-dark px-5">
-			<a class="navbar-brand" href="{% url 'home:home' %}">CM</a>
+			<a class="navbar-brand" href="{% url 'crm:home' %}">CM</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span><i class="bi bi-list"></i></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav w-100">
-					<li class="nav-item d-none d-md-flex ms-auto">
-						<a class="nav-link" href="{% url 'crm:companies' %}">Companies</a>
-					</li>
-					<li class="nav-item d-flex d-md-none">
+					<li class="nav-item">
 						<a class="nav-link" href="{% url 'crm:companies' %}">Companies</a>
 					</li>
 				</ul>
