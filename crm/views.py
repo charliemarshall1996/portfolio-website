@@ -7,7 +7,11 @@ from django.views.generic import (ListView,
                                   CreateView)
 
 from .forms import CompanyForm
-from .models import Company, Contact, Interaction
+from .models import (Company,
+                     Contact,
+                     Interaction,
+                     Project,
+                     Task)
 # Create your views here.
 
 
@@ -118,3 +122,48 @@ class ContactUpdateView(UpdateView):
     def get_success_url(self):
         # Redirect to the detail view of the updated company
         return reverse('crm:contact', kwargs={'pk': self.object.pk})
+
+# Interaction
+
+
+class InteractionListView(ListView):
+    model = Interaction
+    paginate_by = 10
+    ordering = ["-company__name"]
+
+
+class InteractionDetailView(DetailView):
+    model = Interaction
+
+
+class InteractionCreateView(CreateView):
+    model = Interaction
+    fields = [
+        'company',
+        'contact',
+        'medium',
+        'summary',
+        'detail',
+        'date',
+        'time',
+        'follow_up'
+    ]
+    success_url = reverse_lazy('crm:interactions')
+
+
+class InteractionUpdateView(UpdateView):
+    model = Contact
+    fields = [
+        'company',
+        'contact',
+        'medium',
+        'summary',
+        'detail',
+        'date',
+        'time',
+        'follow_up'
+    ]
+
+    def get_success_url(self):
+        # Redirect to the detail view of the updated company
+        return reverse('crm:interaction', kwargs={'pk': self.object.pk})

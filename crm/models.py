@@ -57,10 +57,18 @@ class Contact(models.Model):
 
 
 class Interaction(models.Model):
+
+    MEDIUM_CHOICES = [
+        ('ph', 'Phone'),
+        ('em', 'Email'),
+        ('vc', 'Video Call'),
+        ('li', 'LinkedIn')
+    ]
     contact = models.ForeignKey(
         Contact, related_name="interactions", on_delete=models.SET_NULL, blank=True, null=True)
     company = models.ForeignKey(
         Company, related_name="interactions", on_delete=models.CASCADE)
+    medium = models.CharField(max_length=2, choices=MEDIUM_CHOICES)
     summary = models.CharField(max_length=255)
     detail = models.TextField()
     date = models.DateField()
