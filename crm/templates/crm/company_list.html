@@ -11,6 +11,12 @@
         </div>
     </div>
 
+    <div class="row justify-content-center py-3">
+        <div class="col-10">
+            <a href="{% url 'crm:company-create' %}" class="btn btn-primary">Create Company</a>
+        </div>
+    </div>
+
     <div class="row justify-content-center">
         <div class="col-10">
             <table class="table table-hover">
@@ -22,12 +28,12 @@
                 </thead>
                 <tbody>
                     {% for company in object_list %}
-                    <a href="#">
+                    
                         <tr>
                             <td>{{ company.name }}</td>
-                            <td>{{ company.get_status }}</td>
+                            <td>{{ company.get_status_display }}</td>
+                            <td><a href="{% url 'crm:company' company.pk %}" class="stretched-link"></a></a></td>
                         </tr>
-                    </a>
                     {% endfor %}
                 </tbody>
             </table>

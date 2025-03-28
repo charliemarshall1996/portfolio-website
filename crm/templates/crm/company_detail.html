@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% extends 'crm/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center text-center py-3">
+        <div class="col-10">
+            <h1>{{ object.name }}</h1>
+        </div>
+    </div>
+    <div class="row justify-content-center text-center">
+        <div class="col-10">
+            <small>
+                <p><strong>Status:</strong> {{ object.get_status_display }} | <strong>Location:</strong> {{ object.city }} | {{ object.region }} | {{ object.country }}</p>
+                <p><strong>Phone:</strong> {{ object.phone }} | <strong>Email:</strong> {{ object.email }}</p>
+                {% if object.website and object.website is not 'None' %}<a href="{{ object.website }}" target="_blank"><i class="bi bi-globe"></i></a>{% endif %}{% if object.website and object.linkedin %} | {% endif %}{% if object.linkedin and object.linked is not 'None' %}<a href="#" target="_blank"><i class="bi bi-linkedin"></i></a>{% endif %}
+            </small>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-10">
+            <a class="btn btn-primary" href="{% url 'crm:company-update' object.pk %}">Update</a>
+        </div>
+    </div>
+
+    <div class="row justify-content-center py-3">
+        <div class="col-5">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Contacts</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-5">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Interactions</h2>
+                </div>
+                <div class="card-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
