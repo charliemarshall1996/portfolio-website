@@ -30,13 +30,12 @@
                 </thead>
                 <tbody>
                     {% for interaction in object_list %}
-                    
-                        <tr>
+                        <tr class="position-relative">
                             <td>{{ interaction.first_name }}</td>
                             <td>{{ interaction.last_name }}</td>
                             <td>{{ interaction.job_title }}</td>
                             <td>{{ interaction.company.name }}</td>
-                            <td><a href="{% url 'crm:interaction' interaction.pk %}" class="stretched-link"></a></a></td>
+                            <td><a href="{% url 'crm:interaction-detail' interaction.pk %}" class="stretched-link"></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

@@ -32,7 +32,26 @@
                 </div>
                 <div class="card-body">
                     <table class="table">
-
+                        <thead>
+                            <tr>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Job Title</th>
+                                <th scope="col">Primary Contact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for contact in contacts %}
+                            
+                                <tr>
+                                    <td>{{ contact.first_name }}</td>
+                                    <td>{{ contact.last_name }}</td>
+                                    <td>{{ contact.job_title }}</td>
+                                    <td>{% if contact.is_primary %}<i class="bi bi-check2"></i>{% else %}<i class="bi bi-x-lg"></i>{% endif %}</td>
+                                    <td><a href="{% url 'crm:contact' contact.pk %}" class="stretched-link"></a></a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
                     </table>
                 </div>
             </div>

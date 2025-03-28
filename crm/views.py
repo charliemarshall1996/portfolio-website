@@ -30,7 +30,7 @@ class CompanyDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['contacts'] = Contact.objects.filter(company=self.object)
+        context['contacts'] = Contact.objects.filter(company=self.object.pk)
         return context
 
 

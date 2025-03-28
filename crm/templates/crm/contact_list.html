@@ -31,12 +31,12 @@
                 <tbody>
                     {% for contact in object_list %}
                     
-                        <tr>
+                        <tr class="position-relative">
                             <td>{{ contact.first_name }}</td>
                             <td>{{ contact.last_name }}</td>
                             <td>{{ contact.job_title }}</td>
                             <td>{{ contact.company.name }}</td>
-                            <td><a href="{% url 'crm:contact' contact.pk %}" class="stretched-link"></a></a></td>
+                            <td><a href="{% url 'crm:contact-detail' contact.pk %}" class="stretched-link"></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
