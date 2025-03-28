@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% extends 'crm/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center py-3">
+        <div class="col-10">
+            <h1>Create Contact</h1>
+        </div>
+    </div>
+    <div class="row justify-content-center py-3">
+        <div class="col-10">
+            {% load crispy_forms_tags %}
+            <form method="post">{% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-primary" value="Save">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

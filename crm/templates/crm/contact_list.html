@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+{% extends 'crm/base.html' %}
+{% load static %}
+{% load url_replace %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row justify-content-center text-center py-3">
+        <div class="col-10">
+            <h1>Contacts</h1>
+        </div>
+    </div>
+
+    <div class="row justify-content-center py-3">
+        <div class="col-10">
+            <a href="{% url 'crm:contact-create' %}" class="btn btn-primary">Create contact</a>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-10">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Job Title</th>
+                        <th scope="col">Company</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contact in object_list %}
+                    
+                        <tr>
+                            <td>{{ contact.first_name }}</td>
+                            <td>{{ contact.last_name }}</td>
+                            <td>{{ contact.job_title }}</td>
+                            <td>{{ contact.company.name }}</td>
+                            <td><a href="{% url 'crm:contact' contact.pk %}" class="stretched-link"></a></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row text-center justify-content-center py-3">
+        <div class="col-10">
+            <nav class="page-navigation">
+                <ul class="pagination pagination-sm justify-content-center align-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?{% url_replace request 'page' 1 %}" aria-label="First">&laquo;</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?{% url_replace request 'page' page_obj.previous_page_number %}" aria-label="Previous">&lsaquo;</a>
+                        </li>
+                    {% endif %}
+
+                    {% for page in page_obj.paginator.page_range %}
+                            {% if page == page_obj.number %}
+                                <li class="page-item active"><span class="page-link">{{ page }}</span></li>
+                            {% elif page <= page_obj.number|add:9 and page >= page_obj.number|add:-9 %}
+                                <li class="page-item"><a class="page-link" href="?{% url_replace request 'page' page %}">{{ page }}</a></li>
+                            {% endif %}
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?{% url_replace request 'page' page_obj.next_page_number %}" aria-label="Next">&rsaquo;</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?{% url_replace request 'page' page_obj.paginator.num_pages %}" aria-label="Last">&raquo;</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}
