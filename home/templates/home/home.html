@@ -295,16 +295,16 @@
         </div>
     </section>
 
-    <!-- CTA Section
+    <!-- CTA Section -->
     <section class="py-5 bg-secondary text-white">
         <div class="container text-center">
             <h2 class="mb-4">Ready to Start Your Project?</h2>
             <p class="lead mb-4">Let's discuss how I can help bring your vision to life</p>
-            <a href="#contact" class="btn btn-light btn-lg">Get in Touch</a>
+            <a type="button" class="btn btn-light btn-lg" data-bs-toggle="modal" data-bs-target="#bookingModal">Get in Touch</a>
         </div>
     </section>
-    -->
-
+    
+    {% include 'booking/modals/booking_modal.html' %}
 </div>
 
 <script>
