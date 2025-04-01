@@ -1,31 +1,35 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import (ListView,
                                   UpdateView,
-                                  DeleteView,
                                   DetailView,
                                   CreateView)
 
-from .forms import CompanyForm
 from .models import (Company,
                      Contact,
-                     Interaction,
-                     Project,
-                     Task)
+                     Interaction)
 # Create your views here.
 
 
-def home_view(request):
-    return render(request, 'crm/home.html')
+def dashboard_view(request):
+    return render(request, 'crm/dashboard.html')
 
 
-class CompanyListView(ListView):
+class CRMLoginView(LoginView):
+    template_name = "crm/login.html"
+    next_page = reverse_lazy('crm:dashboard')
+
+
+class CompanyListView(ListView, LoginRequiredMixin):
     model = Company
     paginate_by = 10
     ordering = ["-name"]
 
 
-class CompanyDetailView(DetailView):
+class CompanyDetailView(DetailView, LoginRequiredMixin):
     model = Company
 
     def get_context_data(self, **kwargs):
@@ -34,7 +38,7 @@ class CompanyDetailView(DetailView):
         return context
 
 
-class CompanyCreateView(CreateView):
+class CompanyCreateView(CreateView, LoginRequiredMixin):
     model = Company
     fields = [
         'name',
@@ -52,7 +56,7 @@ class CompanyCreateView(CreateView):
     success_url = reverse_lazy('crm:companies')
 
 
-class CompanyUpdateView(UpdateView):
+class CompanyUpdateView(UpdateView, LoginRequiredMixin):
     model = Company
     fields = [
         'name',
@@ -73,13 +77,13 @@ class CompanyUpdateView(UpdateView):
         return reverse('crm:company', kwargs={'pk': self.object.pk})
 
 
-class ContactListView(ListView):
+class ContactListView(ListView, LoginRequiredMixin):
     model = Contact
     paginate_by = 10
     ordering = ["-company__name"]
 
 
-class ContactDetailView(DetailView):
+class ContactDetailView(DetailView, LoginRequiredMixin):
     model = Contact
 
     def get_context_data(self, **kwargs):
@@ -89,7 +93,7 @@ class ContactDetailView(DetailView):
         return context
 
 
-class ContactCreateView(CreateView):
+class ContactCreateView(CreateView, LoginRequiredMixin):
     model = Contact
     fields = [
         'first_name',
@@ -105,7 +109,7 @@ class ContactCreateView(CreateView):
     success_url = reverse_lazy('crm:contacts')
 
 
-class ContactUpdateView(UpdateView):
+class ContactUpdateView(UpdateView, LoginRequiredMixin):
     model = Contact
     fields = [
         'first_name',
@@ -126,17 +130,17 @@ class ContactUpdateView(UpdateView):
 # Interaction
 
 
-class InteractionListView(ListView):
+class InteractionListView(ListView, LoginRequiredMixin):
     model = Interaction
     paginate_by = 10
     ordering = ["-company__name"]
 
 
-class InteractionDetailView(DetailView):
+class InteractionDetailView(DetailView, LoginRequiredMixin):
     model = Interaction
 
 
-class InteractionCreateView(CreateView):
+class InteractionCreateView(CreateView, LoginRequiredMixin):
     model = Interaction
     fields = [
         'company',
@@ -151,7 +155,7 @@ class InteractionCreateView(CreateView):
     success_url = reverse_lazy('crm:interactions')
 
 
-class InteractionUpdateView(UpdateView):
+class InteractionUpdateView(UpdateView, LoginRequiredMixin):
     model = Contact
     fields = [
         'company',
