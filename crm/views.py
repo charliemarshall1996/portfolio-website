@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render
@@ -53,7 +53,7 @@ class CompanyCreateView(CreateView, LoginRequiredMixin):
         'status',
         'notes'
     ]
-    success_url = reverse_lazy('crm:companies')
+    success_url = reverse_lazy('crm:company-list')
 
 
 class CompanyUpdateView(UpdateView, LoginRequiredMixin):
@@ -74,7 +74,7 @@ class CompanyUpdateView(UpdateView, LoginRequiredMixin):
 
     def get_success_url(self):
         # Redirect to the detail view of the updated company
-        return reverse('crm:company', kwargs={'pk': self.object.pk})
+        return reverse('crm:company-detail', kwargs={'pk': self.object.pk})
 
 
 class ContactListView(ListView, LoginRequiredMixin):
@@ -106,7 +106,7 @@ class ContactCreateView(CreateView, LoginRequiredMixin):
         'is_primary',
         'notes'
     ]
-    success_url = reverse_lazy('crm:contacts')
+    success_url = reverse_lazy('crm:contact-list')
 
 
 class ContactUpdateView(UpdateView, LoginRequiredMixin):
@@ -125,7 +125,7 @@ class ContactUpdateView(UpdateView, LoginRequiredMixin):
 
     def get_success_url(self):
         # Redirect to the detail view of the updated company
-        return reverse('crm:contact', kwargs={'pk': self.object.pk})
+        return reverse('crm:contact-detail', kwargs={'pk': self.object.pk})
 
 # Interaction
 
@@ -152,7 +152,7 @@ class InteractionCreateView(CreateView, LoginRequiredMixin):
         'time',
         'follow_up'
     ]
-    success_url = reverse_lazy('crm:interactions')
+    success_url = reverse_lazy('crm:interaction-list')
 
 
 class InteractionUpdateView(UpdateView, LoginRequiredMixin):
@@ -170,4 +170,4 @@ class InteractionUpdateView(UpdateView, LoginRequiredMixin):
 
     def get_success_url(self):
         # Redirect to the detail view of the updated company
-        return reverse('crm:interaction', kwargs={'pk': self.object.pk})
+        return reverse('crm:interaction-detail', kwargs={'pk': self.object.pk})
