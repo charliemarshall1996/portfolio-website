@@ -14,3 +14,7 @@ p {
 main {
     min-height: 100vh;
 }
+
+.modal.fade .modal-dialog {
+    transform: none !important;
+}

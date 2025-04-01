@@ -1,3 +1,5 @@
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
     const timeSlotSelect = document.getElementById('timeSlot');
@@ -7,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initialView: 'dayGridMonth',
         selectable: true,
         weekends: false,
+        contentHeight: 'auto',
         select: function(info) {
             const selectedDate = info.startStr;
             console.log('Selected date:', selectedDate);
@@ -33,6 +36,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     calendar.render();
+
+    document.getElementById('bookingModal').addEventListener('shown.bs.modal', () => {
+        calendar.updateSize();
+    });
     
     // Generate time slots from 09:00 to 17:00 in 15-minute increments
     function generateTimeSlots(bookedTimes) {
@@ -79,3 +86,4 @@ document.addEventListener('DOMContentLoaded', function() {
         req.send(JSON.stringify(data));
     });
 });
+
