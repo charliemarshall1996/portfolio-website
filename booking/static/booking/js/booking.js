@@ -31,8 +31,29 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         selectOverlap: false,
         selectAllow: function(selectInfo) {
-            return selectInfo.start.getTime() === selectInfo.end.getTime() - 86400000;
-        }
+            // Get current date without time component
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            // Your existing logic - selection must be exactly one day
+            const isOneDaySelection = selectInfo.start.getTime() === selectInfo.end.getTime() - 86400000;
+            
+            // New logic - selection must not be in the past
+            const isNotPastDate = selectInfo.start >= today;
+            
+            // Both conditions must be true
+            return isOneDaySelection && isNotPastDate;
+            },
+            // Optional: Visually disable past dates
+            validRange: {
+                start: new Date()
+            },
+            // Optional: Style past dates differently
+            dayCellClassNames: function(arg) {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                return arg.date < today ? 'fc-past-disabled' : '';
+            }
     });
     
     calendar.render();
