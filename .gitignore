@@ -162,3 +162,4 @@ cython_debug/
 *settings.py
 
 *keys.json
+*secrets.json
