@@ -58,5 +58,7 @@ class BookingAPI(views.APIView):
                 first_name, date, start_time)
             send_mail("Meeting Confirmation Email - Charlie Marshall Web Development", message=message,
                       from_email="charlie@charlie-marshall.dev", recipient_list=[email])
+            send_mail(f"New Booking from {first_name}", message=f"New meeting request from {first_name} at {start_time} on {date}. Email: {email}",
+                      from_email="charlie@charlie-marshall.dev", recipient_list=["charlie@charlie-marshall.dev"])
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
