@@ -11,7 +11,6 @@ from django.views.generic import (ListView,
 from .models import (Company,
                      Contact,
                      Interaction)
-# Create your views here.
 
 
 def dashboard_view(request):
