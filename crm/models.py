@@ -5,7 +5,6 @@ Data description for contained models:
 - Contact: a person working for a lead, prospect, client or former-client company.
 - Interaction: an interaction had with a lead, prospect, client or former-client company
 and/or contact.
-- 
 """
 
 from django.db import models
@@ -15,6 +14,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Company(models.Model):
+    """Django model of a lead, prospect, client or former-client company."""
     STATUS_CHOICES = [
         ("le", "Lead"),
         ("pr", "Prospect"),
@@ -22,14 +22,8 @@ class Company(models.Model):
         ("fo", "Former"),
     ]
 
-    INDUSTRY_CHOICES = [
-        ("ed", "Education"),
-        ("lo", "Logistics"),
-        ("fs", "Financial Services"),
-        ("mk", "Marketing"),
-    ]
     name = models.CharField(max_length=255)
-    industry = models.CharField(max_length=2, choices=INDUSTRY_CHOICES)
+    industry = models.CharField(max_length=255)
     website = models.URLField(blank=True, null=True)
     linkedin = models.URLField(blank=True, null=True)
     phone = PhoneNumberField(blank=True, null=True)
@@ -42,11 +36,12 @@ class Company(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
+    def __str__(self):  # noqa: D105
         return f"{self.name} | {self.industry}"
 
 
 class Contact(models.Model):
+    """Django representation of a person working for a company."""
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     job_title = models.CharField(max_length=255)
@@ -65,11 +60,12 @@ class Contact(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
+    def __str__(self):  # noqa: D105
         return f"{self.first_name} {self.last_name} | {self.company}"
 
 
 class Interaction(models.Model):
+    """Django representation of an interaction with a Contact and/or Company."""
     MEDIUM_CHOICES = [
         ("ph", "Phone"),
         ("em", "Email"),
@@ -89,11 +85,10 @@ class Interaction(models.Model):
     medium = models.CharField(max_length=2, choices=MEDIUM_CHOICES)
     summary = models.CharField(max_length=255)
     detail = models.TextField()
-    date = models.DateField()
-    time = models.TimeField()
+    timestamp = models.DateTimeField()
     follow_up = models.DateField(blank=True, null=True)
 
-    def __str__(self):
+    def __str__(self):  # noqa: D105
         return (
             f"{self.contact.first_name}, {self.company.name} | {self.date}, {self.time}"
         )

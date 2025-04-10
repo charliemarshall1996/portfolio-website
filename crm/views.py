@@ -81,7 +81,8 @@ class ContactDetailView(DetailView, LoginRequiredMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["interactions"] = Interaction.objects.filter(contact=self.object)
+        context["interactions"] = Interaction.objects.filter(
+            contact=self.object)
         return context
 
 
