@@ -1,0 +1,68 @@
+
+# PYTEST
+[tool.pytest.ini_options]
+addopts = "--ignore=./apptrack/manage.py --ignore=*conftest.py --ignore=*__init__.py --ignore=*migrations/ --cov=apptrack --cov-report html:docs/reports/coverage/html"
+log_cli = "true"
+log_cli_level = "DEBUG"
+log_cli_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+
+DJANGO_SETTINGS_MODULE = "apptrack.settings"
+pythonpath = "./apptrack"
+python_files = "tests.py test_*.py *_tests.py"
+
+# RUFF
+[tool.ruff]
+# Specify any rules to ignore
+output-format = "grouped"
+
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+    "*migrations/",
+    "conf.py",
+    "*tests*",
+    "conftest.py",
+]
+
+
+[tool.ruff.lint]
+select = ["A", "B", "C", "D", "E", "F", "N", "S"]  # Select error codes
+extend-select = ["D"]  # Enable pydocstyle rules
+
+# Enable Google-style docstrings
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.format]
+# Enable reformatting of code snippets in docstrings.
+docstring-code-format = true
+docstring-code-line-length = 80
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/*.py" = ["S101"]
+

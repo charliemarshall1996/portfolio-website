@@ -13,7 +13,7 @@ class Booking(models.Model):
     notes = models.TextField(blank=True, null=True)
 
     class Meta:
-        unique_together = ('date', 'time')
+        unique_together = ("date", "time")
 
     def __str__(self):
         return f"{self.first_name} | {self.company} | {self.date}, {self.time}"

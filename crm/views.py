@@ -1,25 +1,19 @@
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import (ListView,
-                                  UpdateView,
-                                  DetailView,
-                                  CreateView)
+from django.views.generic import ListView, UpdateView, DetailView, CreateView
 
-from .models import (Company,
-                     Contact,
-                     Interaction)
+from .models import Company, Contact, Interaction
 
 
 def dashboard_view(request):
-    return render(request, 'crm/dashboard.html')
+    return render(request, "crm/dashboard.html")
 
 
 class CRMLoginView(LoginView):
     template_name = "crm/login.html"
-    next_page = reverse_lazy('crm:dashboard')
+    next_page = reverse_lazy("crm:dashboard")
 
 
 class CompanyListView(ListView, LoginRequiredMixin):
@@ -33,47 +27,47 @@ class CompanyDetailView(DetailView, LoginRequiredMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['contacts'] = Contact.objects.filter(company=self.object.pk)
+        context["contacts"] = Contact.objects.filter(company=self.object.pk)
         return context
 
 
 class CompanyCreateView(CreateView, LoginRequiredMixin):
     model = Company
     fields = [
-        'name',
-        'industry',
-        'website',
-        'linkedin',
-        'phone',
-        'email',
-        'city',
-        'region',
-        'country',
-        'status',
-        'notes'
+        "name",
+        "industry",
+        "website",
+        "linkedin",
+        "phone",
+        "email",
+        "city",
+        "region",
+        "country",
+        "status",
+        "notes",
     ]
-    success_url = reverse_lazy('crm:company-list')
+    success_url = reverse_lazy("crm:company-list")
 
 
 class CompanyUpdateView(UpdateView, LoginRequiredMixin):
     model = Company
     fields = [
-        'name',
-        'industry',
-        'website',
-        'linkedin',
-        'phone',
-        'email',
-        'city',
-        'region',
-        'country',
-        'status',
-        'notes'
+        "name",
+        "industry",
+        "website",
+        "linkedin",
+        "phone",
+        "email",
+        "city",
+        "region",
+        "country",
+        "status",
+        "notes",
     ]
 
     def get_success_url(self):
         # Redirect to the detail view of the updated company
-        return reverse('crm:company-detail', kwargs={'pk': self.object.pk})
+        return reverse("crm:company-detail", kwargs={"pk": self.object.pk})
 
 
 class ContactListView(ListView, LoginRequiredMixin):
@@ -87,44 +81,44 @@ class ContactDetailView(DetailView, LoginRequiredMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['interactions'] = Interaction.objects.filter(
-            contact=self.object)
+        context["interactions"] = Interaction.objects.filter(contact=self.object)
         return context
 
 
 class ContactCreateView(CreateView, LoginRequiredMixin):
     model = Contact
     fields = [
-        'first_name',
-        'last_name',
-        'job_title',
-        'company',
-        'email',
-        'phone',
-        'linkedin',
-        'is_primary',
-        'notes'
+        "first_name",
+        "last_name",
+        "job_title",
+        "company",
+        "email",
+        "phone",
+        "linkedin",
+        "is_primary",
+        "notes",
     ]
-    success_url = reverse_lazy('crm:contact-list')
+    success_url = reverse_lazy("crm:contact-list")
 
 
 class ContactUpdateView(UpdateView, LoginRequiredMixin):
     model = Contact
     fields = [
-        'first_name',
-        'last_name',
-        'job_title',
-        'company',
-        'email',
-        'phone',
-        'linkedin',
-        'is_primary',
-        'notes'
+        "first_name",
+        "last_name",
+        "job_title",
+        "company",
+        "email",
+        "phone",
+        "linkedin",
+        "is_primary",
+        "notes",
     ]
 
     def get_success_url(self):
         # Redirect to the detail view of the updated company
-        return reverse('crm:contact-detail', kwargs={'pk': self.object.pk})
+        return reverse("crm:contact-detail", kwargs={"pk": self.object.pk})
+
 
 # Interaction
 
@@ -142,31 +136,31 @@ class InteractionDetailView(DetailView, LoginRequiredMixin):
 class InteractionCreateView(CreateView, LoginRequiredMixin):
     model = Interaction
     fields = [
-        'company',
-        'contact',
-        'medium',
-        'summary',
-        'detail',
-        'date',
-        'time',
-        'follow_up'
+        "company",
+        "contact",
+        "medium",
+        "summary",
+        "detail",
+        "date",
+        "time",
+        "follow_up",
     ]
-    success_url = reverse_lazy('crm:interaction-list')
+    success_url = reverse_lazy("crm:interaction-list")
 
 
 class InteractionUpdateView(UpdateView, LoginRequiredMixin):
     model = Contact
     fields = [
-        'company',
-        'contact',
-        'medium',
-        'summary',
-        'detail',
-        'date',
-        'time',
-        'follow_up'
+        "company",
+        "contact",
+        "medium",
+        "summary",
+        "detail",
+        "date",
+        "time",
+        "follow_up",
     ]
 
     def get_success_url(self):
         # Redirect to the detail view of the updated company
-        return reverse('crm:interaction-detail', kwargs={'pk': self.object.pk})
+        return reverse("crm:interaction-detail", kwargs={"pk": self.object.pk})

@@ -6,14 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('crm', '0001_initial'),
+        ("crm", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='interaction',
-            name='medium',
-            field=models.CharField(choices=[('ph', 'Phone'), ('em', 'Email'), ('vc', 'Video Call'), ('li', 'LinkedIn')], default='di', max_length=2),
+            model_name="interaction",
+            name="medium",
+            field=models.CharField(
+                choices=[
+                    ("ph", "Phone"),
+                    ("em", "Email"),
+                    ("vc", "Video Call"),
+                    ("li", "LinkedIn"),
+                ],
+                default="di",
+                max_length=2,
+            ),
             preserve_default=False,
         ),
     ]
