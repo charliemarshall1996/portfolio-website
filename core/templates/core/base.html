@@ -33,6 +33,12 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav w-100">
+					<li class="nav-item d-none d-md-flex">
+						<a class="nav-link" href="{% url 'home:services' %}">Services</a>
+					</li>
+					<li class="nav-item d-flex d-md-none">
+						<a class="nav-link" href="{% url 'home:services' %}">Services</a>
+					</li>
 					<li class="nav-item d-none d-md-flex ms-auto">
 						<a class="nav-link" href="https://www.linkedin.com/in/charliemarshall19961/" target="_blank"><i class="bi bi-linkedin" style="font-size: 1rem;"></i>
 						</a>

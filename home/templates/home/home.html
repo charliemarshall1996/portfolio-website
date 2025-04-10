@@ -89,208 +89,100 @@
         <div class="container">
             <h2 class="text-center text-white mb-5">The Web Development Journey</h2>
 
-            <div class="row g-4">
-                <!-- Service Card 1 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow">
-                        <div class="card-body">
-                            <div class="text-center mb-4">
-                                <i class="bi bi-1-circle-fill display-4 text-secondary"></i>
-                            </div>
-                            <h3 class="card-title text-center">Discovery Call</h3>
-
-                            <p>We will begin the journey to building your ultimate web app
-                                with a discovery call.
-                                This call will allow me to better understand your desires
-                                for your application,
-                                and allow you ask any burning questions you may have about
-                                the journey ahead.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow">
-                        <div class="card-body">
-                            <div class="text-center mb-4">
-                                <i class="bi bi-2-circle display-4 text-secondary"></i>
-                            </div>
-                            <h3 class="card-title text-center">Project Definition</h3>
-
-                            <p>Based on the outcome of the discovery call, I will
-                                create a project definition document. This will ensure
-                                we all understand what is within the scope of the project,
-                                and what will be in the end product.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow">
-                        <div class="card-body">
-                            <div class="text-center mb-4">
-                                <i class="bi bi-3-circle-fill display-4 text-secondary"></i>
-                            </div>
-                            <h3 class="card-title text-center">Conceptualization</h3>
-                            <p>Now it's time to get to work!</p>
-                            <p>In the conceptualization stage, I will design and provide mockups of the end product.
-                                It is here where you'll be able to see what the product will look like,
-                                including any portals, and database schematics.
-                            </p>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row py-5 g-4">
-                <!-- Service Card 1 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow">
-                        <div class="card-body">
-                            <div class="text-center mb-4">
-                                <i class="bi bi-4-circle display-4 text-secondary"></i>
-                            </div>
-                            <h3 class="card-title text-center">Initial Build</h3>
-
-                            <p>
-                                Once you're happy with the concept, I will start the initial build.
-                                Here is where I will create the core functionality of the project.
-                                It will ensure for a solid foundation to build upon, when it comes to fine-tuning your application.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow">
-                        <div class="card-body">
-                            <div class="text-center mb-4">
-                                <i class="bi bi-5-circle-fill display-4 text-secondary"></i>
-                            </div>
-                            <h3 class="card-title text-center">Iterative Development</h3>
-                            <p>
-                                Once the foundations of the product are built, I get to work on the granular details.
-                                This is where we get to fine-tune the product to truly be the web app you envisioned.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow">
-                        <div class="card-body">
-                            <div class="text-center mb-4">
-                                <i class="bi bi-6-circle display-4 text-secondary"></i>
-                            </div>
-                            <h3 class="card-title text-center">Deployment</h3>
-                            <p>
-                                Once you are happy with the project, the product is now ready for deployment.
-                                It is now ready to show to the world!
-                            </p>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% include 'home/process_steps.html' %}
         </div>
     </section>
 
-    <!-- Services Section -->
     <section class="py-5 bg-light">
         <div class="container">
-            <h2 class="text-center mb-5">What I Offer</h2>
-
+            <h2 class="text-center mb-5 display-5 fw-bold">Transform Your Digital Presence</h2>
+            
             <div class="row g-4">
-                <!-- Service Card 1 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow">
-                        <div class="card-body">
-                            <div class="text-center mb-4">
-                                <i class="bi bi-code-square display-4 text-secondary"></i>
+                <!-- Web Development Card -->
+                <div class="col-6 col-lg-3">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body d-flex flex-column">
+                            <div class="text-center mb-3">
+                                <i class="bi bi-code-slash display-4 text-primary"></i>
+                                <span class="badge bg-primary-subtle text-primary mb-2">Custom Solutions</span>
                             </div>
-                            <h3 class="card-title text-center">Web Development</h3>
-                            <ul class="list-unstyled">
-                                <li class="mb-3">
-                                    <i class="bi bi-check2-circle text-success me-2"></i>
-                                    Custom Django Applications
-                                </li>
-                                <li class="mb-3">
-                                    <i class="bi bi-check2-circle text-success me-2"></i>
-                                    REST API Development
-                                </li>
-                                <li class="mb-3">
-                                    <i class="bi bi-check2-circle text-success me-2"></i>
-                                    Database Integration
-                                </li>
-                            </ul>
+                            <h3 class="text-center">Web Development</h3>
+                            <p class="flex-grow-1">Custom Django solutions tailored to your business needs.</p>
+                            <div class="text-center mt-auto pt-3">
+                                <a href="/services#web-dev" class="btn btn-outline-primary">Learn More</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Service Card 2 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow">
-                        <div class="card-body">
-                            <div class="text-center mb-4">
-                                <i class="bi bi-bar-chart-line display-4 text-secondary"></i>
+    
+                <!-- Web Management -->
+                <div class="col-6 col-lg-3">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body d-flex flex-column">
+                            <div class="text-center mb-3">
+                                <i class="bi bi-gear-wide-connected display-4 text-primary"></i>
+                                <span class="badge bg-primary-subtle text-primary mb-2">Ongoing Support</span>
                             </div>
-                            <h3 class="card-title text-center">Data Solutions</h3>
-                            <ul class="list-unstyled">
-                                <li class="mb-3">
-                                    <i class="bi bi-check2-circle text-success me-2"></i>
-                                    Data Visualization
-                                </li>
-                                <li class="mb-3">
-                                    <i class="bi bi-check2-circle text-success me-2"></i>
-                                    Real-Time Analytics
-                                </li>
-                                <li class="mb-3">
-                                    <i class="bi bi-check2-circle text-success me-2"></i>
-                                    Custom Dashboards
-                                </li>
-                            </ul>
+                            <h3 class="text-center">Web Management</h3>
+                            <p class="flex-grow-1">Pay-monthly packages to keep your site in tip-top shape.</p>
+                            <div class="text-center mt-auto pt-3">
+                                <a href="/services#web-management" class="btn btn-outline-primary">Learn More</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Service Card 3 -->
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow">
-                        <div class="card-body">
-                            <div class="text-center mb-4">
-                                <i class="bi bi-gear display-4 text-secondary"></i>
+    
+                <!-- Data Solutions Card -->
+                <div class="col-6 col-lg-3">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body d-flex flex-column">
+                            <div class="text-center mb-3">
+                                <i class="bi bi-graph-up-arrow display-4 text-primary"></i>
+                                <span class="badge bg-primary-subtle text-primary mb-2">Analytics</span>
                             </div>
-                            <h3 class="card-title text-center">Optimization</h3>
-                            <ul class="list-unstyled">
-                                <li class="mb-3">
-                                    <i class="bi bi-check2-circle text-success me-2"></i>
-                                    Performance Tuning
-                                </li>
-                                <li class="mb-3">
-                                    <i class="bi bi-check2-circle text-success me-2"></i>
-                                    Scalability Solutions
-                                </li>
-                                <li class="mb-3">
-                                    <i class="bi bi-check2-circle text-success me-2"></i>
-                                    Website Maintenance
-                                </li>
-                            </ul>
+                            <h3 class="text-center">Data Solutions</h3>
+                            <p class="flex-grow-1">Transform your data into actionable insights.</p>
+                            <div class="text-center mt-auto pt-3">
+                                <a href="/services#data-solutions" class="btn btn-outline-primary">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Data Management Card -->
+                <div class="col-6 col-lg-3">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body d-flex flex-column">
+                            <div class="text-center mb-3">
+                                <i class="bi bi-database-gear display-4 text-primary"></i>
+                                <span class="badge bg-primary-subtle text-primary mb-2">Optimization</span>
+                            </div>
+                            <h3 class="text-center">Data Management</h3>
+                            <p class="flex-grow-1">Get your data uniform and tidy.</p>
+                            <div class="text-center mt-auto pt-3">
+                                <a href="/services#data-management" class="btn btn-outline-primary">Learn More</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Pricing Banner -->
-            <div class="alert alert-info mt-5 text-center">
-                <h4 class="alert-heading">Transparent Pricing</h4>
-                <p class="mb-0">
-                    Hourly Rate: £35 | Project-Based Quotes Available
-                    <br>
-                    <small>Free initial consultation for all projects</small>
-                </p>
+    
+            <!-- Enhanced Pricing Banner -->
+            <div class="alert alert-primary mt-5 text-center border-start border-end border-5 border-primary">
+                <h4 class="alert-heading fw-bold">🚀 Flexible Pricing Options</h4>
+                <div class="d-flex justify-content-center gap-4 flex-wrap mt-3">
+                    <div>
+                        <h5 class="mb-0">£35/hr</h5>
+                        <small>Hourly Rate</small>
+                    </div>
+                    <div class="vr"></div>
+                    <div>
+                        <h5 class="mb-0">from £70/mo</h5>
+                        <small>Maintenance Plans</small>
+                    </div>
+                </div>
+                <hr>
+                <p class="mb-0">Includes free initial consultation and project scoping</p>
             </div>
         </div>
     </section>

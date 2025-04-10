@@ -1,0 +1,342 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block metatags %}
+<meta name="description" content="Professional Django development services including web applications, data solutions, and ongoing maintenance. Transparent pricing and clear processes.">
+<title>Charlie Marshall | Professional Django Development Services</title>
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-services bg-primary text-white py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-4 mb-4">Development Services</h1>
+                <p class="lead mb-4">Custom solutions built with Django expertise</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Navigation -->
+<nav class="bg-light py-3 sticky-top">
+    <div class="container">
+        <div class="row g-2 justify-content-center">
+            <div class="col-auto">
+                <a href="#web-development" class="btn btn-sm btn-outline-primary">Web Development</a>
+            </div>
+            <div class="col-auto">
+                <a href="#web-management" class="btn btn-sm btn-outline-primary">Web Management</a>
+            </div>
+            <div class="col-auto">
+                <a href="#data-solutions" class="btn btn-sm btn-outline-primary">Data Solutions</a>
+            </div>
+            <div class="col-auto">
+                <a href="#data-management" class="btn btn-sm btn-outline-primary">Data Management</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Web Development Section -->
+<section id="web-development" class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-4 text-center mb-4 mb-lg-0">
+                <i class="bi bi-code-square display-1 text-primary"></i>
+                <h2 class="mt-3">Web Development</h2>
+                <div class="d-grid gap-2 d-lg-block mt-4">
+                    <a href="#pricing" class="btn btn-outline-primary">See Pricing</a>
+                    <a href="#contact" class="btn btn-primary">Start Project</a>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="ps-lg-5">
+                    <h3 class="mb-4">Custom Django Solutions</h3>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <i class="bi bi-braces display-6 text-primary mb-3"></i>
+                                    <h4>Full-Stack Development</h4>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="bi bi-check2 me-2 text-success"></i>Custom web applications</li>
+                                        <li class="mb-2"><i class="bi bi-check2 me-2 text-success"></i>E-commerce solutions</li>
+                                        <li class="mb-2"><i class="bi bi-check2 me-2 text-success"></i>API development</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <i class="bi bi-tools display-6 text-primary mb-3"></i>
+                                    <h4>Technical Stack</h4>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-primary-subtle text-primary">Django</span>
+                                        <span class="badge bg-primary-subtle text-primary">Python</span>
+                                        <span class="badge bg-primary-subtle text-primary">PostgreSQL</span>
+                                        <span class="badge bg-primary-subtle text-primary">Docker</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Data Solutions Section -->
+<section id="data-solutions" class="py-5 bg-dark">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 order-lg-1 order-2">
+                <div class="pe-lg-5">
+                    <h3 class="mb-4 text-light">Data Solutions</h3>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <i class="bi bi-clipboard-data display-6 text-primary mb-3"></i>
+                                    <h4>Data Analysis & Visualization</h4>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="bi bi-check2 me-2 text-success"></i>Interactive dashboards</li>
+                                        <li class="mb-2"><i class="bi bi-check2 me-2 text-success"></i>Business intelligence</li>
+                                        <li class="mb-2"><i class="bi bi-check2 me-2 text-success"></i>KPI tracking</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <i class="bi bi-database display-6 text-primary mb-3"></i>
+                                    <h4>Data Integration</h4>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="bi bi-check2 me-2 text-success"></i>API integrations</li>
+                                        <li class="mb-2"><i class="bi bi-check2 me-2 text-success"></i>Legacy system migration</li>
+                                        <li class="mb-2"><i class="bi bi-check2 me-2 text-success"></i>ETL pipelines</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center mb-4 mb-lg-0 order-lg-2 order-1">
+                <i class="bi bi-graph-up-arrow display-1 text-tertiary"></i>
+                <h2 class="mt-3 text-light">Data Solutions</h2>
+                <div class="d-grid gap-2 d-lg-block mt-4">
+                    <a href="#pricing" class="btn btn-outline-tertiary">See Pricing</a>
+                    <a href="#contact" class="btn btn-tertiary">Discuss Project</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Web Development Section -->
+<section id="web-management" class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-4 text-center mb-4 mb-lg-0">
+                <i class="bi bi-code-square display-1 text-primary"></i>
+                <h2 class="mt-3">Web Management</h2>
+                <div class="d-grid gap-2 d-lg-block mt-4">
+                    <a href="#pricing" class="btn btn-outline-primary">See Pricing</a>
+                    <a href="#contact" class="btn btn-primary">Start Project</a>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="ps-lg-5">
+                    <h3 class="mb-4">Ongoing Support</h3>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <i class="bi bi-gear-wide-connected display-4 text-primary"></i>
+                                    <h4>Full-Stack Development</h4>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="bi bi-check2 me-2 text-success"></i>Custom web applications</li>
+                                        <li class="mb-2"><i class="bi bi-check2 me-2 text-success"></i>E-commerce solutions</li>
+                                        <li class="mb-2"><i class="bi bi-check2 me-2 text-success"></i>API development</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <i class="bi bi-tools display-6 text-primary mb-3"></i>
+                                    <h4>Technical Stack</h4>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-primary-subtle text-primary">Django</span>
+                                        <span class="badge bg-primary-subtle text-primary">Python</span>
+                                        <span class="badge bg-primary-subtle text-primary">PostgreSQL</span>
+                                        <span class="badge bg-primary-subtle text-primary">Docker</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Data Management Section -->
+<section id="data-solutions" class="py-5 bg-dark">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 order-lg-1 order-2">
+                <div class="pe-lg-5">
+                    <h3 class="mb-4 text-light">Data Solutions</h3>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <i class="bi bi-clipboard-data display-6 text-primary mb-3"></i>
+                                    <h4>Data Analysis & Visualization</h4>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="bi bi-check2 me-2 text-success"></i>Interactive dashboards</li>
+                                        <li class="mb-2"><i class="bi bi-check2 me-2 text-success"></i>Business intelligence</li>
+                                        <li class="mb-2"><i class="bi bi-check2 me-2 text-success"></i>KPI tracking</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <i class="bi bi-database display-6 text-primary mb-3"></i>
+                                    <h4>Data Integration</h4>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="bi bi-check2 me-2 text-success"></i>API integrations</li>
+                                        <li class="mb-2"><i class="bi bi-check2 me-2 text-success"></i>Legacy system migration</li>
+                                        <li class="mb-2"><i class="bi bi-check2 me-2 text-success"></i>ETL pipelines</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center mb-4 mb-lg-0 order-lg-2 order-1">
+                <i class="bi bi-graph-up-arrow display-1 text-tertiary"></i>
+                <h2 class="mt-3 text-light">Data Solutions</h2>
+                <div class="d-grid gap-2 d-lg-block mt-4">
+                    <a href="#pricing" class="btn btn-outline-tertiary">See Pricing</a>
+                    <a href="#contact" class="btn btn-tertiary">Discuss Project</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Pricing Section -->
+<section id="pricing" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Transparent Pricing</h2>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="h4 mb-0">Hourly Development</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="display-4 mb-3">£35</div>
+                        <p class="text-muted">per hour</p>
+                        <ul class="list-unstyled">
+                            <li class="mb-3"><i class="bi bi-check2 me-2 text-success"></i>Flexible engagement</li>
+                            <li class="mb-3"><i class="bi bi-check2 me-2 text-success"></i>Detailed time tracking</li>
+                            <li class="mb-3"><i class="bi bi-check2 me-2 text-success"></i>Weekly progress reports</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="h4 mb-0">Project-Based</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="display-4 mb-3">£999+</div>
+                        <p class="text-muted">fixed price</p>
+                        <ul class="list-unstyled">
+                            <li class="mb-3"><i class="bi bi-check2 me-2 text-success"></i>Fixed scope & timeline</li>
+                            <li class="mb-3"><i class="bi bi-check2 me-2 text-success"></i>Milestone payments</li>
+                            <li class="mb-3"><i class="bi bi-check2 me-2 text-success"></i>Post-launch support</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="h4 mb-0">Maintenance</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="display-4 mb-3">£299</div>
+                        <p class="text-muted">per month</p>
+                        <ul class="list-unstyled">
+                            <li class="mb-3"><i class="bi bi-check2 me-2 text-success"></i>24/7 monitoring</li>
+                            <li class="mb-3"><i class="bi bi-check2 me-2 text-success"></i>Security updates</li>
+                            <li class="mb-3"><i class="bi bi-check2 me-2 text-success"></i>Performance optimization</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Process Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Development Process</h2>
+        
+        {% include 'home/process_steps.html' %} <!-- Reuse your process steps from homepage -->
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container text-center">
+        <h2 class="mb-4">Ready to Start Your Project?</h2>
+        <p class="lead mb-4">Let's discuss how I can help bring your vision to life</p>
+        <a type="button" class="btn btn-light btn-lg" data-bs-toggle="modal" data-bs-target="#bookingModal">
+            Schedule Free Consultation
+        </a>
+    </div>
+</section>
+
+{% include 'booking/modals/booking_modal.html' %}
+
+<style>
+    .hero-services {
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                    url('{% static 'home/images/services-bg.jpg' %}');
+        background-size: cover;
+        background-position: center;
+    }
+    
+    .card-header {
+        border-bottom: none;
+    }
+    
+    .list-unstyled li {
+        padding-left: 1.5rem;
+        text-indent: -1.5rem;
+    }
+</style>
+
+{% endblock %}
