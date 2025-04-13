@@ -53,6 +53,9 @@ telepath==0.3.1
 tomlkit==0.13.2
 typing_extensions==4.12.2
 tzdata==2025.1
+ua-parser==1.0.1
+ua-parser-builtins==0.18.0.post1
 urllib3==2.3.0
+user-agents==2.2.0
 wagtail==6.4.1
 Willow==1.9.0
