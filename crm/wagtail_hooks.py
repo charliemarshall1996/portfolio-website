@@ -7,6 +7,7 @@ from . import views
 @hooks.register('register_admin_urls')
 def register_calendar_url():
     return [
+        urls.path("dashboard/", views.dashboard_view, name="dashboard"),
         urls.path("companies", views.CompanyListView.as_view(),
                   name="company-list"),
         urls.path("company/<int:pk>", views.CompanyDetailView.as_view(),
@@ -63,3 +64,8 @@ def register_contact_menu_item():
 def register_interaction_menu_item():
     return menu.MenuItem('Interactions', urls.reverse('interaction-list'),
                          icon_name='mail')
+
+
+@hooks.register('register_admin_menu_item')
+def register_dashboard_menu_item():
+    return menu.MenuItem('Dashboard', urls.reverse('dashboard'), icon_name="desktop")

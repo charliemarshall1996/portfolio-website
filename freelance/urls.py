@@ -29,16 +29,17 @@ from wagtail.documents import urls as wagtaildocs_urls
 
 urlpatterns = [
     path('django-admin/', admin.site.urls),
-
     path('admin/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
-    path('', include(wagtail_urls)),
 
-    re_path("", include("home.urls")),
-    re_path("crm/", include("crm.urls")),
+    # Add explicit paths BEFORE Wagtail's catch-all
+    re_path("visitors/", include("visitors.urls")),
     re_path("blog/", include("blog.urls")),
     re_path("booking/", include("booking.urls")),
 
+    # Wagtail catch-all should come LAST
+    path('', include(wagtail_urls)),
+    re_path("", include("home.urls")),
 ]
 
 if settings.DEBUG:
