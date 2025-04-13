@@ -1,3 +1,13 @@
 .container {
     margin: 5px;
 }
+
+.card {
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+canvas {
+    max-height: 400px;
+    min-height: 300px;
+}
