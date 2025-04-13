@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ page.title }}</h1>
+    <p>{{ page.date }}</p>
+    
+    <div class="stream-content">
+        {% for block in page.body %}
+            <div class="block-{{ block.block_type }}">
+                {% include_block block %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

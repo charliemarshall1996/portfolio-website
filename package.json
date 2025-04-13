@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "bootstrap": "^5.3.3"
+  },
+  "devDependencies": {
+    "babel-plugin-react-compiler": "^19.0.0-beta-e993439-20250405",
+    "eslint-plugin-react-compiler": "^19.0.0-beta-e993439-20250405"
   }
 }
