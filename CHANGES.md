@@ -13,3 +13,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - home app
 - crm app
 - booking app
+- Wagtail cms
+- blog app
