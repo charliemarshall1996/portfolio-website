@@ -26,7 +26,8 @@ class BlogPostPage(Page):
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    thumbnail = models.ImageField(upload_to='media/blog/images/')
+    thumbnail = models.ForeignKey('wagtailimages.Image', on_delete=models.CASCADE,
+                                  related_name='+')
     summary = models.CharField(max_length=250)
     body = StreamField([
         ('paragraph', blocks.RichTextBlock()),

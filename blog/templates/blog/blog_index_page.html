@@ -1,0 +1,44 @@
+\{% extends "core/base.html" %}
+<!---->
+\\{% load wagtailcore_tags %}{% load wagtailimages_tags %}
+<!---->
+\\\{% block body_class %}template-blogindexpage{% endblock %}
+<!---->
+\\\\{% block content%}
+<div class="container">
+  <div class="row text-center py-3">
+    <div class="col">
+      <h1>{{ page.title }}</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <ul class="list-group list-group-flush">
+        {% for post in page.get_children %}
+        <a class="list-group-item list-group-item-action" href="#">
+          <div class="row">
+            <div class="col">
+              {% image post.specific.thumbnail fill-80x80 %}
+            </div>
+            <div class="col">
+              <strong class="text-nowrap text-truncate elipse"
+                >{{ post.title }}</strong
+              >
+            </div>
+            <div class="col">
+              <strong class="text-nowrap text-truncate elipse"
+                >{{ post.summary }}</strong
+              >
+            </div>
+            <div class="col">
+              <p>{{ post.specific.date_published|date:"D d M Y" }}</p>
+            </div>
+          </div>
+        </a>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

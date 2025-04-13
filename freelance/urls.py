@@ -32,7 +32,7 @@ urlpatterns = [
 
     path('admin/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
-    path('pages/', include(wagtail_urls)),
+    path('', include(wagtail_urls)),
 
     re_path("", include("home.urls")),
     re_path("crm/", include("crm.urls")),
