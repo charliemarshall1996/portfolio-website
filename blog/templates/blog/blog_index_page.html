@@ -1,10 +1,7 @@
 {% extends "core/base.html" %}
-<!---->
-\\{% load wagtailcore_tags %}{% load wagtailimages_tags %}
-<!---->
-\\\{% block body_class %}template-blogindexpage{% endblock %}
-<!---->
-\\\\{% block content%}
+{% load wagtailcore_tags %}{% load wagtailimages_tags %}
+{% block body_class %}template-blogindexpage{% endblock %}
+{% block content%}
 <div class="container">
   <div class="row text-center py-3">
     <div class="col">
@@ -15,7 +12,7 @@
     <div class="col">
       <ul class="list-group list-group-flush">
         {% for post in page.get_children %}
-        <a class="list-group-item list-group-item-action" href="#">
+        <a class="list-group-item list-group-item-action" href="{% pageurl post.specific fallback='coming_soon' %}">
           <div class="row">
             <div class="col">
               {% image post.specific.thumbnail fill-80x80 %}
