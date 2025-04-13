@@ -1,17 +1,62 @@
-{% extends 'core/base.html' %}
-{% load wagtailcore_tags %}
-
-{% block content %}
+{% extends 'core/base.html' %} {% load wagtailcore_tags %} {% block content %}
 <div class="container">
-    <h1>{{ page.title }}</h1>
-    <p>{{ page.date }}</p>
-    
-    <div class="stream-content">
-        {% for block in page.body %}
-            <div class="block-{{ block.block_type }}">
-                {% include_block block %}
-            </div>
-        {% endfor %}
+  <div class="row justify-content-center text-center py-3">
+    <div class="col-6">
+      <h1>{{ page.title }}</h1>
     </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <p class="text-emphasis">{{ page.date_published|date:"d M Y" }}</p>
+    </div>
+  </div>
+
+  <div class="stream-content">
+    <div class="row justify-content-center">
+      <div class="col-6">
+        {% for block in page.body %}
+          <div class="block-{{ block.block_type }}">{% include_block block %}</div>
+        {% endfor %}
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="row justify-content-center py-4">
+    <div class="col-8 text-center">
+      <h3 class="mb-3">Share this post</h3>
+      {% with url=request.build_absolute_uri|urlencode title=page.title|urlencode %}
+      <div class="btn-group" role="group" aria-label="Social sharing buttons">
+        <a
+          href="https://www.facebook.com/sharer/sharer.php?u={{ url }}"
+          class="btn btn-primary btn-sm"
+          target="_blank"
+          rel="noopener noreferrer">
+          <i class="bi bi-facebook"></i>
+        </a>
+        <a
+          href="https://twitter.com/intent/tweet?url={{ url }}&text={{ title }}"
+          class="btn btn-primary btn-sm"
+          target="_blank"
+          rel="noopener noreferrer">
+          <i class="bi bi-twitter-x"></i>
+        </a>
+        <a
+          href="https://www.linkedin.com/shareArticle?mini=true&url={{ url }}&title={{ title }}"
+          class="btn btn-primary btn-sm"
+          target="_blank"
+          rel="noopener noreferrer">
+          <i class="bi bi-linkedin"></i>
+        </a>
+        <a
+          href="mailto:?subject={{ page.title|urlencode }}&body=Check%20this%20out:%20{{ url }}"
+          class="btn btn-primary btn-sm"
+          rel="noopener noreferrer">
+          <i class="bi bi-envelope"></i>
+        </a>
+      </div>
+      {% endwith %}
+    </div>
+  </div>
+  {% endblock %}
 </div>
-{% endblock %}
