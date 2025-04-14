@@ -7,7 +7,8 @@ from .models import BlogPostPage
 class BlogPostForm(forms.ModelForm):
     class Meta:
         model = BlogPostPage
-        fields = ['title', 'thumbnail', 'date_published', 'summary', 'body']
+        fields = ['title', 'thumbnail',
+                  'date_published', 'summary', 'tags', 'body']
 
     def clean_body(self):
         raw_data = self.data.get('body')

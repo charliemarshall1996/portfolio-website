@@ -1,4 +1,22 @@
-{% extends 'core/base.html' %} {% load wagtailcore_tags %} {% block content %}
+{% extends 'core/base.html' %} 
+{% load wagtailcore_tags %}
+{% load static %}
+{% block metatags %}
+<meta name="description" content="{{ page.summary }}">
+<meta name="keywords" content="{% with tags=page.tags.all %}{% if tags %}{% for tag in tags %}{{ tag }},{% endfor %}{% endif %}{% endwith %}">
+<meta property="og:title" content="{{ page.title }}">
+<meta property="og:description" content="{{ page.summary }}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{% pageurl page %}">
+<meta property="og:image" content="{% static 'home/images/data.jpg' %}">
+<meta property="og:site_name" content="Charlie Marshall | Django Developer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page.title }}">
+<meta name="twitter:description" content="{{ page.summary }}">
+<meta name="twitter:image" content="media/images/home/data.jpg">
+<link rel="canonical" href="https://www.charlie-marshall.dev">
+{% endblock %}
+{% block content %}
 <div class="container">
   <div class="row justify-content-center text-center py-3">
     <div class="col-8">

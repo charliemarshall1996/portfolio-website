@@ -52,6 +52,7 @@ class BlogPostPage(Page):
         FieldPanel('date_published'),
         FieldPanel('thumbnail'),
         FieldPanel('summary'),
+        FieldPanel('tags'),
         FieldPanel('body'),
     ]
 
