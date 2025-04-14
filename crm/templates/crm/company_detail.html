@@ -32,7 +32,7 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-10">
-            <a class="btn btn-primary" href="{% url 'crm:company-update' object.pk %}">Update</a>
+            <a class="btn btn-primary" href="{% url 'company-update' object.pk %}">Update</a>
         </div>
     </div>
 
@@ -60,7 +60,7 @@
                                     <td>{{ contact.last_name }}</td>
                                     <td>{{ contact.job_title }}</td>
                                     <td>{% if contact.is_primary %}<i class="bi bi-check2"></i>{% else %}<i class="bi bi-x-lg"></i>{% endif %}</td>
-                                    <td><a href="{% url 'crm:contact-detail' contact.pk %}" class="stretched-link"></a></a></td>
+                                    <td><a href="{% url 'contact-detail' contact.pk %}" class="stretched-link"></a></a></td>
                                 </tr>
                             {% endfor %}
                         </tbody>

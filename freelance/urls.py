@@ -38,8 +38,9 @@ urlpatterns = [
     re_path("booking/", include("booking.urls")),
 
     # Wagtail catch-all should come LAST
-    path('', include(wagtail_urls)),
     re_path("", include("home.urls")),
+    path('', include(wagtail_urls)),
+
 ]
 
 if settings.DEBUG:

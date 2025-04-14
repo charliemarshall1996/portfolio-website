@@ -24,7 +24,7 @@
 
     <div class="row justify-content-center py-3">
         <div class="col-10">
-            <a href="{% url 'crm:contact-create' %}" class="btn btn-primary">Create contact</a>
+            <a href="{% url 'contact-create' %}" class="btn btn-primary">Create contact</a>
         </div>
     </div>
 
@@ -47,7 +47,7 @@
                             <td>{{ contact.last_name }}</td>
                             <td>{{ contact.job_title }}</td>
                             <td>{{ contact.company.name }}</td>
-                            <td><a href="{% url 'crm:contact-detail' contact.pk %}" class="stretched-link"></a></td>
+                            <td><a href="{% url 'contact-detail' contact.pk %}" class="stretched-link"></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

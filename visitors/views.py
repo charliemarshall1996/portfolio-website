@@ -28,15 +28,22 @@ class VisitorViewSet(viewsets.ModelViewSet):
         # Aggregate data
         device_data = queryset.values('device').annotate(total=Count('id'))
         browser_data = queryset.values('browser').annotate(total=Count('id'))
-        time_series = queryset.annotate(date=functions.TruncDate('first_visited')).values('date').annotate(
-            visits=Count('id'),
-            pageviews=Sum('page_views')
+        time_series = queryset.annotate(date=functions.TruncDate('first_visited')
+                                        ).values('date').annotate(
+                                            visits=Count('id'),
+                                            pageviews=Sum('page_views')
         ).order_by('date')
 
         # Top pages calculation
+        private_pages = ['favicon', 'static',
+                         'media', 'admin', 'visitors', 'crm']
         all_pages = []
         for visitor in queryset:
-            all_pages.extend(visitor.visited_pages)
+            visited_pages = visitor.visited_pages
+            for page in visited_pages:
+                if page.split('/')[1] not in private_pages and page.split('/')[-1] != \
+                        'favicon.ico':
+                    all_pages.append(page)
         from collections import Counter
         top_pages = Counter(all_pages).most_common(5)
 
@@ -46,22 +53,3 @@ class VisitorViewSet(viewsets.ModelViewSet):
             'time_series': time_series,
             'top_pages': [{'page': p[0], 'views': p[1]} for p in top_pages]
         })
-
-
-"""class VisitorStatsAPI(views.APIView):
-    permission_classes = [permissions.IsAdminUser]
-
-    def get(self, request):
-        visitors_per_day = models.Visitor.objects.annotate(
-            day=TruncDay('first_visited')
-        ).values('day').annotate(count=Count('id')).order_by('day')
-
-        browsers = models.Visitor.objects.values('browser').annotate(
-            count=Count('id')
-        ).order_by('-count')[:10]
-
-        return response.Response({
-            'visitors_per_day': list(visitors_per_day),
-            'browsers': list(browsers),
-        })
-"""

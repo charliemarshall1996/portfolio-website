@@ -25,7 +25,7 @@
 
     <div class="row justify-content-center py-3">
         <div class="col-10">
-            <a href="{% url 'crm:company-create' %}" class="btn btn-primary">Create Company</a>
+            <a href="{% url 'company-create' %}" class="btn btn-primary">Create Company</a>
         </div>
     </div>
 
@@ -44,7 +44,7 @@
                         <tr class="position-relative">
                             <td>{{ company.name }}</td>
                             <td>{{ company.get_status_display }}</td>
-                            <td><a href="{% url 'crm:company-detail' company.pk %}" class="stretched-link"></a></td>
+                            <td><a href="{% url 'company-detail' company.pk %}" class="stretched-link"></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
