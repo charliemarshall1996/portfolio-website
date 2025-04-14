@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Namespace URLs for CRM pages
 - URLs on reversals
+- URLs on blog
+- URLs on blog post
 
 ### Changed
 
