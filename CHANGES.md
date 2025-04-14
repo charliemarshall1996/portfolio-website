@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- base.html to add navlink for blog
 - Namespace URLs from CRM HTML to general names
 - Changed reverse URLs from CRM views to general names
 
