@@ -16,11 +16,6 @@ class BlogPageTag(TaggedItemBase):
         'blog.BlogPostPage', on_delete=models.CASCADE, related_name='tagged_items')
 
 
-class BlogIndexPage(Page):
-    # Parent page type (this will be the container for blog posts)
-    subpage_types = ['blog.BlogPostPage']
-
-
 class BlogPostPage(Page):
     date_published = models.DateTimeField()
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
@@ -57,3 +52,23 @@ class BlogPostPage(Page):
     ]
 
     parent_page_types = ['blog.BlogIndexPage']
+
+
+class BlogIndexPage(Page):
+    # Add any fields or methods needed for your index page
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+
+        # Get live, child pages of this index page, ordered by reverse date
+        blog_pages = BlogPostPage.objects.live().child_of(
+            self).order_by('-date_published')
+
+        # Optional: Add pagination
+        from django.core.paginator import Paginator
+        paginator = Paginator(blog_pages, per_page=10)
+        page_number = request.GET.get('page')
+        paginated_pages = paginator.get_page(page_number)
+
+        context['blog_posts'] = paginated_pages
+        return context

@@ -1,5 +1,6 @@
 {% extends "core/base.html" %}
 {% load wagtailcore_tags %}{% load wagtailimages_tags %}
+{% include "wagtailadmin/pagination.html" with items=blog_pages %}
 {% block body_class %}template-blogindexpage{% endblock %}
 {% block content %}
 <div class="container">
@@ -11,21 +12,25 @@
   <div class="row">
     <div class="col">
       <ul class="list-group list-group-flush">
-        {% for post in page.get_children %}
+        {% for post in blog_posts %}
         <a class="list-group-item list-group-item-action" href="{% pageurl post.specific fallback='coming_soon' %}">
           <div class="row">
             <div class="col">
               {% image post.specific.thumbnail fill-80x80 %}
             </div>
-            <div class="col">
-              <strong class="text-nowrap text-truncate elipse"
-                >{{ post.title }}</strong
-              >
-            </div>
-            <div class="col">
-              <strong class="text-nowrap text-truncate elipse"
-                >{{ post.summary }}</strong
-              >
+            <div class="col-8">
+                <div class="row">
+                    <div class="col text-nowrap text-truncate ellipsis">
+                        <strong
+                            >{{ post.title }}</strong
+                          >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col ">
+                        <p class="text-nowrap text-truncate ellipsis">{{ post.summary }}</p>
+                    </div>
+                </div>
             </div>
             <div class="col">
               <p>{{ post.specific.date_published|date:"D d M Y" }}</p>
