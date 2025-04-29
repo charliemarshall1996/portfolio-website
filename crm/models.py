@@ -85,7 +85,8 @@ class Interaction(models.Model):
     medium = models.CharField(max_length=2, choices=MEDIUM_CHOICES)
     summary = models.CharField(max_length=255)
     detail = models.TextField()
-    timestamp = models.DateTimeField()
+    time = models.TimeField()
+    date = models.DateField()
     follow_up = models.DateField(blank=True, null=True)
 
     def __str__(self):  # noqa: D105
