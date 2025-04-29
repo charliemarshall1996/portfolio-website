@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [V0.0.2] - UNRELEASED
 
+### Added
+
+- models to track services
+- models to track invoices
+- models to track contracts
+
+### Changed
+
+- CRM
+
 ### Fixed
 
 - Blog index showing unpublished posts
