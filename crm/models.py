@@ -15,7 +15,8 @@ from io import BytesIO
 from docx import Document
 from modelcluster.models import ClusterableModel
 from modelcluster.fields import ParentalKey
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
+from wagtail.models import Orderable
+from wagtail.admin.panels import (FieldPanel, MultiFieldPanel, InlinePanel)
 from django.db import models
 from django.utils import timezone
 
@@ -56,14 +57,93 @@ class Company(models.Model):
         verbose_name_plural = "Companies"
 
 
-class Contact(models.Model):
+class ProConItem(Orderable, models.Model):
+    text = models.CharField(max_length=255)
+
+    class Meta:
+        abstract = True
+
+
+class ProItem(ProConItem):
+    website = ParentalKey('Website', related_name='pros')
+    panels = [
+        FieldPanel('text'),
+    ]
+
+
+class ConItem(ProConItem):
+    website = ParentalKey('Website', related_name='cons')
+    panels = [
+        FieldPanel('text'),
+    ]
+
+
+class Website(Orderable, ClusterableModel):
+    contact = ParentalKey('Contact', related_name='websites')
+    url = models.URLField()
+    ssl_certificate = models.BooleanField(default=False)
+
+    load_time_under_3_seconds = models.BooleanField(default=False)
+    images_optimized_for_loading = models.BooleanField(default=False)
+    n_broken_links = models.IntegerField(default=0, blank=True)
+
+    looks_good_on_mobile = models.BooleanField(default=False)
+    readable_without_zooming = models.BooleanField(default=False)
+    elements_overflow_off_screen = models.BooleanField(default=False)
+
+    meta_titles_and_descriptions = models.BooleanField(default=False)
+    indexed_by_google = models.BooleanField(default=False)
+    basic_keyword_targeting = models.BooleanField(default=False)
+
+    updated_in_last_3_months = models.BooleanField(default=False)
+    clear_contact_info = models.BooleanField(default=False)
+    n_bugs = models.IntegerField(default=0, blank=True)
+
+    panels = [
+        MultiFieldPanel([
+            FieldPanel('url'),
+            FieldPanel('ssl_certificate'),
+        ], heading="Basic"),
+        MultiFieldPanel([
+            FieldPanel('load_time_under_3_seconds'),
+            FieldPanel('images_optimized_for_loading'),
+            FieldPanel('n_broken_links'),
+        ], heading="Load Times"),
+        MultiFieldPanel([
+            FieldPanel('looks_good_on_mobile'),
+            FieldPanel('readable_without_zooming'),
+            FieldPanel('elements_overflow_off_screen'),
+        ], heading="Responsiveness"),
+        MultiFieldPanel([
+            FieldPanel('meta_titles_and_descriptions'),
+            FieldPanel('indexed_by_google'),
+            FieldPanel('basic_keyword_targeting'),
+        ], heading="SEO"),
+        MultiFieldPanel([
+            FieldPanel('updated_in_last_3_months'),
+            FieldPanel('clear_contact_info'),
+            FieldPanel('n_bugs')
+        ], heading="General"),
+        MultiFieldPanel([
+            InlinePanel('pros', label="Pros"),
+            InlinePanel('cons', label="Cons"),
+        ], heading="Pros and Cons"),
+    ]
+
+
+class Contact(ClusterableModel):
     SALUTATION_CHOICES = [
         ('mr', 'Mr.'),
         ('mrs', 'Mrs.'),
         ('ms', 'Ms.'),
         ('dr', 'Dr.'),
     ]
-
+    STATUS_CHOICES = [
+        ("le", "Lead"),
+        ("pr", "Prospect"),
+        ("cl", "Client"),
+        ("fc", "Former Client")
+    ]
     salutation = models.CharField(
         max_length=10, choices=SALUTATION_CHOICES, blank=True)
     first_name = models.CharField(max_length=255)
@@ -74,6 +154,9 @@ class Contact(models.Model):
     email = models.EmailField(blank=True)
     phone = models.CharField(max_length=20, blank=True)
     mobile = models.CharField(max_length=20, blank=True)
+    linkedin = models.URLField(blank=True)
+    status = models.CharField(
+        max_length=2, choices=STATUS_CHOICES, default=STATUS_CHOICES[0])
     notes = models.TextField(blank=True)
 
     panels = [
@@ -84,10 +167,13 @@ class Contact(models.Model):
         ], heading="Name"),
         FieldPanel('company'),
         FieldPanel('position'),
+        FieldPanel('status'),
         MultiFieldPanel([
             FieldPanel('email'),
             FieldPanel('phone'),
             FieldPanel('mobile'),
+            FieldPanel('linkedin'),
+            InlinePanel('websites', label="Website"),
         ], heading="Contact Information"),
         FieldPanel('notes'),
     ]
