@@ -34,7 +34,6 @@ urlpatterns = [
     # Add explicit paths BEFORE Wagtail's catch-all
     re_path("visitors/", include("visitors.urls")),
     re_path("blog/", include("blog.urls")),
-    path("booking/", include("booking.urls")),
     # Wagtail catch-all should come LAST
     re_path("", include("home.urls")),
     path("", include(wagtail_urls)),
