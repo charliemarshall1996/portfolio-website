@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - models to track services
 - models to track invoices
 - models to track contracts
+- integration with Calendly
 
 ### Changed
 
@@ -22,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Blog index showing unpublished posts
 - Text truncation on blog_index.html
 - Interaction form
+- Booking modal
 
 ## [V0.0.1] - 2025-04-14
 
