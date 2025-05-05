@@ -1,0 +1,173 @@
+accesskeys,"Access keys let users quickly focus a part of the page. For proper navigation, each access key must be unique."
+aria_allowed_attr,Each ARIA `role` supports a specific subset of `aria-*` attributes. Mismatching these invalidates the `aria-*` attributes.
+aria_allowed_role,Many HTML elements can only be assigned certain ARIA roles. Using ARIA roles where they are not allowed can interfere with the accessibility of the web page.
+aria_command_name,"When an element doesn't have an accessible name, screen readers announce it with a generic name, making it unusable for users who rely on screen readers."
+aria_conditional_attr,Some ARIA attributes are only allowed on an element under certain conditions.
+aria_deprecated_role,Deprecated ARIA roles may not be processed correctly by assistive technology.
+aria_dialog_name,ARIA dialog elements without accessible names may prevent screen readers users from discerning the purpose of these elements.
+aria_hidden_body,"Assistive technologies, like screen readers, work inconsistently when `aria-hidden=""true""` is set on the document `<body>`."
+aria_hidden_focus,"Focusable descendents within an `[aria-hidden=""true""]` element prevent those interactive elements from being available to users of assistive technologies like screen readers."
+aria_input_field_name,"When an input field doesn't have an accessible name, screen readers announce it with a generic name, making it unusable for users who rely on screen readers."
+aria_meter_name,"When a meter element doesn't have an accessible name, screen readers announce it with a generic name, making it unusable for users who rely on screen readers."
+aria_progressbar_name,"When a `progressbar` element doesn't have an accessible name, screen readers announce it with a generic name, making it unusable for users who rely on screen readers."
+aria_prohibited_attr,Using ARIA attributes in roles where they are prohibited can mean that important information is not communicated to users of assistive technologies.
+aria_required_attr,Some ARIA roles have required attributes that describe the state of the element to screen readers.
+aria_required_children,Some ARIA parent roles must contain specific child roles to perform their intended accessibility functions.
+aria_required_parent,Some ARIA child roles must be contained by specific parent roles to properly perform their intended accessibility functions.
+aria_roles,ARIA roles must have valid values in order to perform their intended accessibility functions.
+aria_text,"Adding `role=text` around a text node split by markup enables VoiceOver to treat it as one phrase, but the element's focusable descendents will not be announced."
+aria_toggle_field_name,"When a toggle field doesn't have an accessible name, screen readers announce it with a generic name, making it unusable for users who rely on screen readers."
+aria_tooltip_name,"When a tooltip element doesn't have an accessible name, screen readers announce it with a generic name, making it unusable for users who rely on screen readers."
+aria_treeitem_name,"When a `treeitem` element doesn't have an accessible name, screen readers announce it with a generic name, making it unusable for users who rely on screen readers."
+aria_valid_attr,"Assistive technologies, like screen readers, can't interpret ARIA attributes with invalid names."
+aria_valid_attr_value,"Assistive technologies, like screen readers, can't interpret ARIA attributes with invalid values."
+bootup_time,"Consider reducing the time spent parsing, compiling, and executing JS. You may find delivering smaller JS payloads helps with this."
+button_name,"When a button doesn't have an accessible name, screen readers announce it as ""button"", making it unusable for users who rely on screen readers."
+bypass,Adding ways to bypass repetitive content lets keyboard users navigate the page more efficiently.
+cache_insight,A long cache lifetime can speed up repeat visits to your page.
+canonical,Canonical links suggest which URL to show in search results.
+charset,A character encoding declaration is required. It can be done with a `<meta>` tag in the first 1024 bytes of the HTML or in the Content-Type HTTP response header.
+clickjacking_mitigation,The `X-Frame-Options` (XFO) header or the `frame-ancestors` directive in the `Content-Security-Policy` (CSP) header control where a page can be embedded. These can mitigate clickjacking attacks by blocking some or all sites from embedding the page.
+cls_culprits_insight,"Layout shifts occur when elements move absent any user interaction. Investigate the causes of layout shifts, such as elements being added, removed, or their fonts changing as the page loads."
+color_contrast,Low-contrast text is difficult or impossible for many users to read.
+crawlable_anchors,"Search engines may use `href` attributes on links to crawl websites. Ensure that the `href` attribute of anchor elements links to an appropriate destination, so more pages of the site can be discovered. Learn how to make links crawlable"
+critical_request_chains,"The Critical Request Chains below show you what resources are loaded with a high priority. Consider reducing the length of chains, reducing the download size of resources, or deferring the download of unnecessary resources to improve page load."
+csp_xss,A strong Content Security Policy (CSP) significantly reduces the risk of cross-site scripting (XSS) attacks. Learn how to use a CSP to prevent XSS
+cumulative_layout_shift,Cumulative Layout Shift measures the movement of visible elements within the viewport.
+custom_controls_labels,"Custom interactive controls have associated labels, provided by aria-label or aria-labelledby."
+custom_controls_roles,Custom interactive controls have appropriate ARIA roles.
+definition_list,"When definition lists are not properly marked up, screen readers may produce confusing or inaccurate output."
+deprecations,Deprecated APIs will eventually be removed from the browser.
+diagnostics,Collection of useful page vitals.
+dlitem,Definition list items (`<dt>` and `<dd>`) must be wrapped in a parent `<dl>` element to ensure that screen readers can properly announce them.
+doctype,Specifying a doctype prevents the browser from switching to quirks-mode.
+document_latency_insight,"Your first network request is the most important.  Reduce its latency by avoiding redirects, ensuring a fast server response, and enabling text compression."
+document_title,"The title gives screen reader users an overview of the page, and search engine users rely on it heavily to determine if a page is relevant to their search."
+dom_size,"A large DOM will increase memory usage, cause longer style calculations, and produce costly layout reflows."
+dom_size_insight,"A large DOM can increase the duration of style calculations and layout reflows, impacting page responsiveness. A large DOM will also increase memory usage."
+duplicate_id_aria,The value of an ARIA ID must be unique to prevent other instances from being overlooked by assistive technologies.
+duplicated_javascript,"Remove large, duplicate JavaScript modules from bundles to reduce unnecessary bytes consumed by network activity."
+duplicated_javascript_insight,"Remove large, duplicate JavaScript modules from bundles to reduce unnecessary bytes consumed by network activity."
+efficient_animated_content,Large GIFs are inefficient for delivering animated content. Consider using MPEG4/WebM videos for animations and PNG/WebP for static images instead of GIF to save network bytes. Learn more about efficient video formats
+empty_heading,A heading with no content or inaccessible text prevent screen reader users from accessing information on the page's structure.
+errors_in_console,Errors logged to the console indicate unresolved problems. They can come from network request failures and other browser concerns. Learn more about this errors in console diagnostic audit
+final_screenshot,The last screenshot captured of the pageload.
+first_contentful_paint,First Contentful Paint marks the time at which the first text or image is painted.
+first_meaningful_paint,First Meaningful Paint measures when the primary content of a page is visible.
+focus_traps,A user can tab into and out of any control or region without accidentally trapping their focus.
+focusable_controls,Custom interactive controls are keyboard focusable and display a focus indicator.
+font_display,Leverage the `font-display` CSS feature to ensure text is user-visible while webfonts are loading.
+font_display_insight,Consider setting font-display to swap or optional to ensure text is consistently visible. swap can be further optimized to mitigate layout shifts with font metric overrides.
+font_size,Font sizes less than 12px are too small to be legible and require mobile visitors to “pinch to zoom” in order to read. Strive to have >60% of page text ≥12px.
+forced_reflow_insight,"Many APIs, typically reading layout geometry, force the rendering engine to pause script execution in order to calculate the style and layout."
+form_field_multiple_labels,"Form fields with multiple labels can be confusingly announced by assistive technologies like screen readers which use either the first, the last, or all of the labels."
+frame_title,Screen reader users rely on frame titles to describe the contents of frames.
+geolocation_on_start,Users are mistrustful of or confused by sites that request their location without context. Consider tying the request to a user action instead.
+has_hsts,"Deployment of the HSTS header significantly reduces the risk of downgrading HTTP connections and eavesdropping attacks. A rollout in stages, starting with a low max-age is recommended."
+heading_order,"Properly ordered headings that do not skip levels convey the semantic structure of the page, making it easier to navigate and understand when using assistive technologies."
+hreflang,hreflang links tell search engines what version of a page they should list in search results for a given language or region.
+html_has_lang,"If a page doesn't specify a `lang` attribute, a screen reader assumes that the page is in the default language that the user chose when setting up the screen reader. If the page isn't actually in the default language, then the screen reader might not announce the page's text correctly."
+html_lang_valid,Specifying a valid BCP 47 language helps screen readers announce text properly.
+html_xml_lang_mismatch,"If the webpage does not specify a consistent language, then the screen reader might not announce the page's text correctly."
+http_status_code,Pages with unsuccessful HTTP status codes may not be indexed properly.
+identical_links_same_purpose,"Links with the same destination should have the same description, to help users understand the link's purpose and decide whether to follow it."
+image_alt,"Informative elements should aim for short, descriptive alternate text. Decorative elements can be ignored with an empty alt attribute."
+image_aspect_ratio,Image display dimensions should match natural aspect ratio.
+image_delivery_insight,Reducing the download time of images can improve the perceived load time of the page and LCP. Learn more about optimizing image size
+image_redundant_alt,"Informative elements should aim for short, descriptive alternative text. Alternative text that is exactly the same as the text adjacent to the link or image is potentially confusing for screen reader users, because the text will be read twice."
+image_size_responsive,Image natural dimensions should be proportional to the display size and the pixel ratio to maximize image clarity.
+input_button_name,Adding discernable and accessible text to input buttons may help screen reader users understand the purpose of the input button.
+input_image_alt,"When an image is being used as an `<input>` button, providing alternative text can help screen reader users understand the purpose of the button."
+inspector_issues,"Issues logged to the `Issues` panel in Chrome Devtools indicate unresolved problems. They can come from network request failures, insufficient security controls, and other browser concerns. Open up the Issues panel in Chrome DevTools for more details on each issue."
+interaction_to_next_paint_insight,"Start investigating with the longest phase. Delays can be minimized. To reduce processing duration, optimize the main-thread costs, often JS."
+interactive,Time to Interactive is the amount of time it takes for the page to become fully interactive.
+interactive_element_affordance,"Interactive elements, such as links and buttons, should indicate their state and be distinguishable from non-interactive elements."
+is_crawlable,Search engines are unable to include your pages in search results if they don't have permission to crawl them.
+is_on_https,"All sites should be protected with HTTPS, even ones that don't handle sensitive data. This includes avoiding mixed content, where some resources are loaded over HTTP despite the initial request being served over HTTPS. HTTPS prevents intruders from tampering with or passively listening in on the communications between your app and your users, and is a prerequisite for HTTP/2 and many new web platform APIs."
+js_libraries,All front-end JavaScript libraries detected on the page.
+label,"Labels ensure that form controls are announced properly by assistive technologies, like screen readers."
+label_content_name_mismatch,Visible text labels that do not match the accessible name can result in a confusing experience for screen reader users.
+landmark_one_main,One main landmark helps screen reader users navigate a web page.
+largest_contentful_paint,Largest Contentful Paint marks the time at which the largest text or image is painted. Learn more about the Largest Contentful Paint metric
+largest_contentful_paint_element,This is the largest contentful element painted within the viewport. Learn more about the Largest Contentful Paint element
+layout_shifts,"These are the largest layout shifts observed on the page. Each table item represents a single layout shift, and shows the element that shifted the most. Below each item are possible root causes that led to the layout shift. Some of these layout shifts may not be included in the CLS metric value due to windowing. Learn how to improve CLS"
+lcp_discovery_insight,"Optimize LCP by making the LCP image discoverable from the HTML immediately, and avoiding lazy-loading"
+lcp_lazy_loaded,"Above-the-fold images that are lazily loaded render later in the page lifecycle, which can delay the largest contentful paint."
+lcp_phases_insight,"Each phase has specific improvement strategies. Ideally, most of the LCP time should be spent on loading the resources, not within delays."
+legacy_javascript,"Polyfills and transforms enable legacy browsers to use new JavaScript features. However, many aren't necessary for modern browsers. Consider modifying your JavaScript build process to not transpile Baseline features, unless you know you must support legacy browsers. Learn why most sites can deploy ES6+ code without transpiling"
+legacy_javascript_insight,"Polyfills and transforms enable legacy browsers to use new JavaScript features. However, many aren't necessary for modern browsers. Consider modifying your JavaScript build process to not transpile Baseline features, unless you know you must support legacy browsers. Learn why most sites can deploy ES6+ code without transpiling"
+link_in_text_block,Low-contrast text is difficult or impossible for many users to read. Link text that is discernible improves the experience for users with low vision.
+link_name,"Link text (and alternate text for images, when used as links) that is discernible, unique, and focusable improves the navigation experience for screen reader users."
+link_text,Descriptive link text helps search engines understand your content.
+list,Screen readers have a specific way of announcing lists. Ensuring proper list structure aids screen reader output.
+listitem,"Screen readers require list items (`<li>`) to be contained within a parent `<ul>`, `<ol>` or `<menu>` to be announced properly."
+logical_tab_order,Tabbing through the page follows the visual layout. Users cannot focus elements that are offscreen.
+long_tasks,"Lists the longest tasks on the main thread, useful for identifying worst contributors to input delay. Learn how to avoid long main-thread tasks"
+main_thread_tasks,Lists the toplevel main thread tasks that executed during page load.
+mainthread_work_breakdown,"Consider reducing the time spent parsing, compiling and executing JS. You may find delivering smaller JS payloads helps with this. Learn how to minimize main-thread work"
+managed_focus,"If new content, such as a dialog, is added to the page, the user's focus is directed to it."
+max_potential_fid,The maximum potential First Input Delay that your users could experience is the duration of the longest task.
+meta_description,Meta descriptions may be included in search results to concisely summarize page content.
+meta_refresh,"Users do not expect a page to refresh automatically, and doing so will move focus back to the top of the page. This may create a frustrating or confusing experience."
+meta_viewport,Disabling zooming is problematic for users with low vision who rely on screen magnification to properly see the contents of a web page.
+metrics,Collects all available metrics.
+modern_http_insight,"HTTP/2 and HTTP/3 offer many benefits over HTTP/1.1, such as multiplexing."
+modern_image_formats,"Image formats like WebP and AVIF often provide better compression than PNG or JPEG, which means faster downloads and less data consumption."
+network_dependency_tree_insight,"Avoid chaining critical requests by reducing the length of chains, reducing the download size of resources, or deferring the download of unnecessary resources to improve page load."
+network_requests,Lists the network requests that were made during page load.
+network_rtt,"Network round trip times (RTT) have a large impact on performance. If the RTT to an origin is high, it's an indication that servers closer to the user could improve performance."
+network_server_latency,"Server latencies can impact web performance. If the server latency of an origin is high, it's an indication the server is overloaded or has poor backend performance."
+no_document_write,"For users on slow connections, external scripts dynamically injected via `document.write()` can delay page load by tens of seconds. write()."
+non_composited_animations,Animations which are not composited can be janky and increase CLS. Learn how to avoid non-composited animations
+notification_on_start,Users are mistrustful of or confused by sites that request to send notifications without context. Consider tying the request to user gestures instead.
+object_alt,Screen readers cannot translate non-text content. Adding alternate text to `<object>` elements helps screen readers convey meaning to users.
+offscreen_content_hidden,Offscreen content is hidden with display: none or aria-hidden=true.
+offscreen_images,Consider lazy-loading offscreen and hidden images after all critical resources have finished loading to lower time to interactive.
+origin_isolation,The Cross-Origin-Opener-Policy (COOP) can be used to isolate the top-level window from other documents such as pop-ups.
+paste_preventing_inputs,"Preventing input pasting is a bad practice for the UX, and weakens security by blocking password managers."
+prioritize_lcp_image,"If the LCP element is dynamically added to the page, you should preload the image in order to improve LCP."
+redirects,Redirects introduce additional delays before the page can be loaded.
+redirects_http,Make sure that you redirect all HTTP traffic to HTTPS in order to enable secure web features for all your users.
+render_blocking_insight,"Requests are blocking the page's initial render, which may delay LCP. Deferring or inlining can move these network requests out of the critical path."
+render_blocking_resources,Resources are blocking the first paint of your page. Consider delivering critical JS/CSS inline and deferring all non-critical JS/styles.
+resource_summary,Aggregates all network requests and groups them by type
+robots_txt,"If your robots.txt file is malformed, crawlers may not be able to understand how you want your website to be crawled or indexed. txt."
+screenshot_thumbnails,This is what the load of your site looked like.
+script_treemap_data,Used for treemap app
+select_name,Form elements without effective labels can create frustrating experiences for screen reader users.
+server_response_time,Keep the server response time for the main document short because all other requests depend on it.
+skip_link,Including a skip link can help users skip to the main content to save time.
+speed_index,Speed Index shows how quickly the contents of a page are visibly populated.
+structured_data,Run the Structured Data Testing Tool and the Structured Data Linter to validate structured data.
+tabindex,"A value greater than 0 implies an explicit navigation ordering. Although technically valid, this often creates frustrating experiences for users who rely on assistive technologies."
+table_duplicate_name,"The summary attribute should describe the table structure, while `<caption>` should have the onscreen title. Accurate table mark-up helps users of screen readers."
+table_fake_caption,Screen readers have features to make navigating tables easier. Ensuring that tables use the actual caption element instead of cells with the `[colspan]` attribute may improve the experience for screen reader users.
+target_size,Touch targets with sufficient size and spacing help users who may have difficulty targeting small controls to activate the targets.
+td_has_header,Screen readers have features to make navigating tables easier. Ensuring that `<td>` elements in a large table (3 or more cells in width and height) have an associated table header may improve the experience for screen reader users.
+td_headers_attr,Screen readers have features to make navigating tables easier. Ensuring `<td>` cells using the `[headers]` attribute only refer to other cells in the same table may improve the experience for screen reader users.
+th_has_data_cells,Screen readers have features to make navigating tables easier. Ensuring table headers always refer to some set of cells may improve the experience for screen reader users.
+third_parties_insight,3rd party code can significantly impact load performance. Reduce and defer loading of 3rd party code to prioritize your page's content.
+third_party_cookies,Third-party cookies may be blocked in some contexts.
+third_party_facades,Some third-party embeds can be lazy loaded. Consider replacing them with a facade until they are required.
+third_party_summary,Third-party code can significantly impact load performance. Limit the number of redundant third-party providers and try to load third-party code after your page has primarily finished loading.
+total_blocking_time,"Sum of all time periods between FCP and Time to Interactive, when task length exceeded 50ms, expressed in milliseconds."
+total_byte_weight,Large network payloads cost users real money and are highly correlated with long load times.
+unminified_css,Minifying CSS files can reduce network payload sizes.
+unminified_javascript,Minifying JavaScript files can reduce payload sizes and script parse time.
+unsized_images,Set an explicit width and height on image elements to reduce layout shifts and improve CLS. Learn how to set image dimensions
+unused_css_rules,Reduce unused rules from stylesheets and defer CSS not used for above-the-fold content to decrease bytes consumed by network activity.
+unused_javascript,Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity.
+use_landmarks,"Landmark elements (`<main>`, `<nav>`, etc.) are used to improve the keyboard navigation of the page for assistive technology."
+user_timings,Consider instrumenting your app with the User Timing API to measure your app's real-world performance during key user experiences.
+uses_long_cache_ttl,A long cache lifetime can speed up repeat visits to your page.
+uses_optimized_images,Optimized images load faster and consume less cellular data.
+uses_passive_event_listeners,Consider marking your touch and wheel event listeners as `passive` to improve your page's scroll performance.
+uses_rel_preconnect,Consider adding `preconnect` or `dns-prefetch` resource hints to establish early connections to important third-party origins.
+uses_responsive_images,Serve images that are appropriately-sized to save cellular data and improve load time.
+uses_text_compression,"Text-based resources should be served with compression (gzip, deflate or brotli) to minimize total network bytes."
+valid_lang,Specifying a valid BCP 47 language on elements helps ensure that text is pronounced correctly by a screen reader.
+valid_source_maps,"Source maps translate minified code to the original source code. This helps developers debug in production. In addition, Lighthouse is able to provide further insights. Consider deploying source maps to take advantage of these benefits."
+video_caption,When a video provides a caption it is easier for deaf and hearing impaired users to access its information.
+viewport,"A `<meta name=""viewport"">` not only optimizes your app for mobile screen sizes, but also prevents a 300 millisecond delay to user input."
+viewport_insight,Tap interactions may be delayed by up to 300ms if the viewport is not optimized for mobile.
+visual_order_follows_dom,"DOM order matches the visual order, improving navigation for assistive technology."

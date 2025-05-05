@@ -28,19 +28,16 @@ from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
 urlpatterns = [
-    path('django-admin/', admin.site.urls),
-    path('admin/', include(wagtailadmin_urls)),
-    path('documents/', include(wagtaildocs_urls)),
-
+    path("django-admin/", admin.site.urls),
+    path("admin/", include(wagtailadmin_urls)),
+    path("documents/", include(wagtaildocs_urls)),
     # Add explicit paths BEFORE Wagtail's catch-all
     re_path("visitors/", include("visitors.urls")),
     re_path("blog/", include("blog.urls")),
-    re_path("booking/", include("booking.urls")),
-
+    path("booking/", include("booking.urls")),
     # Wagtail catch-all should come LAST
     re_path("", include("home.urls")),
-    path('', include(wagtail_urls)),
-
+    path("", include(wagtail_urls)),
 ]
 
 if settings.DEBUG:
@@ -48,9 +45,14 @@ if settings.DEBUG:
 
     # tell gunicorn where static files are in dev mode
     urlpatterns += staticfiles_urlpatterns()
-    urlpatterns += static(settings.MEDIA_URL + 'images/',
-                          document_root=os.path.join(settings.MEDIA_ROOT, 'images'))
+    urlpatterns += static(
+        settings.MEDIA_URL + "images/",
+        document_root=os.path.join(settings.MEDIA_ROOT, "images"),
+    )
     urlpatterns += [
-        path('favicon.ico', RedirectView.as_view(
-            url=settings.STATIC_URL + 'myapp/images/favicon.ico'))
+        path(
+            "favicon.ico",
+            RedirectView.as_view(url=settings.STATIC_URL +
+                                 "myapp/images/favicon.ico"),
+        )
     ]

@@ -15,7 +15,8 @@ class Booking(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
-        end = timezone.datetime.combine(
-            self.date, self.time) + timezone.timedelta(minutes=15)
+        end = timezone.datetime.combine(self.date, self.time) + timezone.timedelta(
+            minutes=15
+        )
         self.end = end.time()
         super().save(*args, **kwargs)

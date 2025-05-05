@@ -3,7 +3,22 @@
     "bootstrap": "^5.3.3"
   },
   "devDependencies": {
-    "babel-plugin-react-compiler": "^19.0.0-beta-e993439-20250405",
-    "eslint-plugin-react-compiler": "^19.0.0-beta-e993439-20250405"
-  }
+    "@eslint/js": "^9.26.0",
+    "eslint": "^9.26.0",
+    "globals": "^16.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jquery": "^3.7.1",
+    "jsdom": "^26.1.0"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "jest-environment-jsdom",
+    "testMatch":[ "**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj(mj)]s?(x)"]
+  },
+  "transform": {},
+  "type": "module"
 }

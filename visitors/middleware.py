@@ -18,10 +18,10 @@ class VisitorMiddleware:
         visitor, created = Visitor.objects.get_or_create(
             session_key=session_key,
             defaults={
-                'ip_address': ip,
-                'user_agent': request.META.get('HTTP_USER_AGENT', ''),
-                'referrer': request.META.get('HTTP_REFERER', ''),
-            }
+                "ip_address": ip,
+                "user_agent": request.META.get("HTTP_USER_AGENT", ""),
+                "referrer": request.META.get("HTTP_REFERER", ""),
+            },
         )
 
         # Update visitor data
@@ -37,16 +37,19 @@ class VisitorMiddleware:
         return response
 
     def get_client_ip(self, request):
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        return x_forwarded_for.split(',')[0] if x_forwarded_for else request.META.get('REMOTE_ADDR')
+        x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
+        return (
+            x_forwarded_for.split(",")[0]
+            if x_forwarded_for
+            else request.META.get("REMOTE_ADDR")
+        )
 
     def parse_user_agent(self, visitor):
         # Parse the user agent string
         ua = parse(visitor.user_agent)
 
         # Extract browser, OS, and device info
-        visitor.browser = f"{ua.browser.family} {ua.browser.version_string}".strip(
-        )
+        visitor.browser = f"{ua.browser.family} {ua.browser.version_string}".strip()
         visitor.os = f"{ua.os.family} {ua.os.version_string}".strip()
         visitor.device = ua.device.family
         visitor.save()  # Save parsed data
