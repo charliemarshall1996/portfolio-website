@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+{% extends 'core/base.html' %}
+
+
+<section class="hero-section bg-primary text-white align-content-center py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-4 mb-4">Web Development Audit Report</h1>
+                <p class="lead mb-4 text-tertiary">{{ url }}</p>
+                <p class="mb-4"><strong>Conducted On: </strong>{{ report_date }}</p>
+                <a type="button" class="btn btn-outline-light btn-lg" data-bs-toggle="modal" data-bs-target="#bookingModal">Turn Your Insights Into Action</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container my-5" id="intro">
+    <div class="row justify-content-center">
+        <div class="col-10">
+            <h2 class="text-primary">Intro</h2>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-10">
+            <p>Thank you for your interest in this free website audit report! As a freelance 
+                Data & Web Developer, I specialize in building and managing high-performance, data-driven, 
+                SEO-friendly, and user-centric web applications and tools. This report provides a detailed 
+                analysis of your website's performance, accessibility, SEO, and best practices based 
+                on <em class="text-emphasis">Google's Lighthouse metrics</em>.
+            </p>
+            <p>
+                A well-optimized website not only improves user experience but also <strong>boosts search 
+                engine rankings and conversion rates.</strong> The insights in this report will help you 
+                identify key areas for improvement, ensuring your site is <em class="text-emphasis">fast, accessible, and 
+                technically sound.</em>
+            </p>
+            <p>
+                If you'd like to discuss these findings further or explore how we can enhance your 
+                website's performance, feel free to reach out — <strong>I'd be happy to help!</strong>
+            </p>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-10">
+            <a class="btn btn-primary">Book a free consultation</a>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid my-5 bg-dark" id="core-scores">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-10">
+                <h2 class="text-tertiary">Core Scores</h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-10 text-light">
+                <p>
+                    The Core Scores provide the overview of your website analysis. They are split into four 
+                    categories: <em class="text-emphasis">Accessibility, Best Practices, Performance, Search Engine Optimization 
+                    (SEO)</em>. Each of these four categories are important for making your website gets 
+                    visitors and those visitors <strong>stay on your site</strong>. The longer they are on your site, 
+                    the more likely those visitors are to convert into paying customers.
+                </p>
+                <p>
+                    These scores represent a weighted average of a series of metrics which identify where 
+                    your website is performing well, but more importantly, where it is performing poorly.
+                    Based on analysis of these metrics, we should be able to identify problem areas, which 
+                    allow us to <em class="text-emphasis">define actionable steps</em> which can be taken to <strong>improve the traffic of your 
+                    website, leading to more customers.</strong>
+                </p>
+                <div class="row justify-content-center">
+                    <div class="col-3">
+                        <div class="card">
+                            <h3>Accessibility</h3>
+                            <p class="lead">{{ acessibility_score }}%</p>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card">
+                            <h3>Best Practices</h3>
+                            <p class="lead">{{ best_practices_score }}%</p>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card">
+                            <h3>Performance</h3>
+                            <p class="lead">{{ performance_score }}%</p>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card">
+                            <h3>Search Engine Optimization (SEO)</h3>
+                            <p class="lead">{{ seo_score }}%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% for section in audit_sections %}
+<section class="mb-5">
+    <h2>{{ section.name }}</h2>
+    <p class="text-muted">{{ section.intro }}</p>
+
+    <h5 class="mt-4">Overview</h5>
+    <ul class="list-group mb-4">
+        <li class="list-group-item"><strong>Passed:</strong> {{ section.overview.passed }}</li>
+        <li class="list-group-item"><strong>Failed:</strong> {{ section.overview.failed }}</li>
+        <li class="list-group-item"><strong>Needs Work:</strong> {{ section.overview.needs_work }}</li>
+    </ul>
+
+    <h5>Detailed Findings</h5>
+    <table class="table table-sm table-hover mt-3">
+        <thead class="table-light">
+            <tr>
+                <th>Audit</th>
+                <th>Status</th>
+                <th>Description</th>
+                <th>Impact</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for audit in section.audits %}
+            <tr>
+                <td>{{ audit.title }}</td>
+                <td class="audit-status {{ 'pass' if audit.passed else 'fail' }}">
+                    {{ 'Passed' if audit.passed else 'Failed' }}
+                </td>
+                <td>{{ audit.description }}</td>
+                <td>{{ audit.impact }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="section-summary mt-4">
+        <strong>Summary:</strong> {{ section.summary }}
+    </div>
+</section>
+{% endfor %}
+
+<section class="mb-5">
+    <h2>Actionable Insights</h2>
+
+    <h3>What You're Doing Well:</h3>
+    {% for insight in insights.passed %}
+    <div class="insight">
+        <h5>{{ insight.title }}</h5>
+        <p>{{ insight.recommendation }}</p>
+    </div>
+    {% endfor %}
+</section>
+
+<section class="mb-5">
+    <h2>Conclusion</h2>
+    <p>{{ conclusion_text }}</p>
+    <p><strong>Next Steps:</strong> To address the findings in this report, we recommend prioritizing high-impact fixes. Reach out if you'd like assistance implementing the improvements.</p>
+</section>
