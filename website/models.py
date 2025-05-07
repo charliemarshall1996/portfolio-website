@@ -10,6 +10,9 @@ class Website(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.url
+
 
 class Analysis(models.Model):
     website = models.ForeignKey(
@@ -17,3 +20,6 @@ class Analysis(models.Model):
     data = models.JSONField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.website.url
