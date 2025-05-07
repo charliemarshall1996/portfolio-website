@@ -1,6 +1,6 @@
 # website/tasks.py
 import logging
-from celery import shared_task
+from celery import app
 from .services.analyzer import WebsiteAnalyzer
 from . import models
 
@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
-@shared_task
 def analyse_website_marketing():
     logger.info("Starting website analysis...")
     analyzer = WebsiteAnalyzer()
@@ -25,3 +24,7 @@ def analyse_website_marketing():
                 website=website, data=data)
             analysis.save()
             break
+
+
+if __name__ == "__main__":
+    analyse_website_marketing()
