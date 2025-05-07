@@ -18,11 +18,10 @@ def analyse_website_marketing():
 
     for website in websites:
         if website.pk not in anayzed_websites:
-            pass
-        logger.info("Analyzing website %s", website.pk)
-        data = analyzer.run(website.url)
-        logger.debug("Website analyzed: %s", data)
-        analysis = models.Analysis.objects.create(
-            website=website, data=data)
-        analysis.save()
-        break
+            logger.info("Analyzing website %s", website.pk)
+            data = analyzer.run(website.url)
+            logger.debug("Website analyzed: %s", data)
+            analysis = models.Analysis.objects.create(
+                website=website, data=data)
+            analysis.save()
+            break
