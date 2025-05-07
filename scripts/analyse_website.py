@@ -1,5 +1,6 @@
 # website/tasks.py
 import logging
+from django.conf import settings
 from website.services.analyzer import WebsiteAnalyzer
 from website import models
 
@@ -8,6 +9,8 @@ logger.setLevel(logging.DEBUG)
 
 
 def run():
+    if not settings.configured:
+        settings.configure()
     print("Starting website analysis...")
     analyzer = WebsiteAnalyzer()
     websites = list(models.Website.objects.all())
