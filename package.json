@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "bootstrap": "^5.3.3"
+    "bootstrap": "^5.3.3",
+    "mjml": "^4.7.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.26.0",
@@ -17,8 +18,26 @@
   "jest": {
     "verbose": true,
     "testEnvironment": "jest-environment-jsdom",
-    "testMatch":[ "**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj(mj)]s?(x)"]
+    "testMatch": [
+      "**/__tests__/**/*.[jt]s?(x)",
+      "**/?(*.)+(spec|test).[tj(mj)]s?(x)"
+    ]
   },
   "transform": {},
-  "type": "module"
+  "type": "module",
+  "name": "portfolio-website",
+  "version": "1.0.0",
+  "description": "Dynamic portfolio website built with django",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/charliemarshall1996/portfolio-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/charliemarshall1996/portfolio-website/issues"
+  },
+  "homepage": "https://github.com/charliemarshall1996/portfolio-website#readme"
 }
