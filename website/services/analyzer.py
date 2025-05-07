@@ -1,11 +1,14 @@
 
+import logging
 from django.conf import settings
 
 import pandas as pd
 import requests
 import re
 
-from website import models
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
 
 ENDPOINT = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
 KEY = settings.GOOGLE_API_KEY
@@ -146,7 +149,9 @@ class WebsiteAnalyzer:
 
         self.data = {
             'scores': {},
-            'insights': {},
+            'insights': {
+                "passed": [],
+                "failed": []},
             'sections': []
         }
 
@@ -172,7 +177,7 @@ class WebsiteAnalyzer:
     def _parse_category_scores(self, categories):
         for k, v in categories.items():
 
-            self.data['scores'][k] = v
+            self.data['scores'][k] = v['score']
 
     def _parse_audit_refs(self, categories):
         audit_refs = []
@@ -180,7 +185,7 @@ class WebsiteAnalyzer:
             category_audit_refs = v['auditRefs']
             for category_audit_ref in category_audit_refs:
                 category_audit_ref['category'] = k
-                audit_refs.append(audit_refs)
+                audit_refs.append(category_audit_ref)
         return audit_refs
 
     def _parse_audits(self, lighthouse_result):
@@ -202,6 +207,7 @@ class WebsiteAnalyzer:
         self._parse_category_scores(categories)
         audit_refs = self._parse_audit_refs(categories)
         audits = self._parse_audits(lighthouse_result)
+        print(f"AUDIT REFS COLUMNS: {audit_refs}")
 
         df = self._merge_audits_and_audit_refs(audits, audit_refs)
         return df.mask(df['scoreDisplayMode'] == "manual")
@@ -218,6 +224,10 @@ class WebsiteAnalyzer:
         return df
 
     def _parse_df_to_dict(self, df):
+        df['passed'] = df['tier'].str.lower() == 'pass'
+        df['needs_work'] = df['tier'].isnull()
+        df['failed'] = df['tier'].str.lower() == 'fail'
+        df['impact'] = df['weight'].fillna(0).astype(float)
         for category, group in df.groupby('category'):
 
             descriptions = audit_descriptions[category]
