@@ -1,6 +1,5 @@
 # website/tasks.py
 import logging
-from celery import app
 from website.services.analyzer import WebsiteAnalyzer
 from . import models
 
