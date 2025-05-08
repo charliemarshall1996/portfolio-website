@@ -46,7 +46,9 @@
         data management or any of the other services I offer, 
         please don't hesitate to book your free consultation!
       </p>
-      <a type="button" class="btn btn-tertiary btn-lg" data-bs-toggle="modal" data-bs-target="#bookingModal">Book Consultation</a>
+      <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+      <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+      <a type="button" class="btn btn-tertiary btn-lg" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/charlie-charlie-marshall'});return false;">Book Consultation</a>
     </div>
   </div>
   {% include 'booking/modals/booking_modal.html' %}
