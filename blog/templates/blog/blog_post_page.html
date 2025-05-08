@@ -19,19 +19,19 @@
 {% block content %}
 <div class="container">
   <div class="row justify-content-center text-center py-3">
-    <div class="col-8">
+    <div class="col-10">
       <h1>{{ page.title }}</h1>
     </div>
   </div>
   <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-10">
       <p class="text-emphasis">{{ page.last_published_at|date:"d M Y" }}</p>
     </div>
   </div>
 
   <div class="stream-content">
     <div class="row justify-content-center">
-      <div class="col-8">
+      <div class="col-10">
         {% for block in page.body %}
           <div class="block-{{ block.block_type }}">{% include_block block %}</div>
         {% endfor %}
@@ -41,7 +41,7 @@
   </div>
   
   <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-10">
       <p>If you're looking for a full stack web app development, 
         data management or any of the other services I offer, 
         please don't hesitate to book your free consultation!
@@ -53,7 +53,7 @@
   </div>
 
   <div class="row justify-content-center py-4">
-    <div class="col-8 text-center">
+    <div class="col-10 text-center">
       <h3 class="mb-3">Share this post</h3>
       {% with url=request.build_absolute_uri|urlencode title=page.title|urlencode %}
       <div class="btn-group" role="group" aria-label="Social sharing buttons">
