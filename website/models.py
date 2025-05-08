@@ -26,3 +26,6 @@ class Analysis(models.Model):
 
     def __str__(self):
         return self.website.url
+
+    class Meta:
+        verbose_name_plural = "Analyses"
