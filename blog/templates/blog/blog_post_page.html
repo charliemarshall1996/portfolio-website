@@ -33,7 +33,7 @@
     <div class="row justify-content-center">
       <div class="col-10">
         {% for block in page.body %}
-          <div class="block-{{ block.block_type }}">{% include_block block %}</div>
+          <div class="block-{{ block.block_type }} py-3">{% include_block block %}</div>
         {% endfor %}
       </div>
     </div>
