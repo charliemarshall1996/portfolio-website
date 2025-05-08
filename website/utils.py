@@ -1,7 +1,6 @@
 
 from jinja2 import Template
 import os
-import re
 
 
 def get_plain_email_message(data, first_name, url, date):

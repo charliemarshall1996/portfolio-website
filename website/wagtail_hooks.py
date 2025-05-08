@@ -15,7 +15,8 @@ class WebsiteSnippet(SnippetViewSet):
 
 class AnalysisSnippet(SnippetViewSet):
     model = models.Analysis
-    list_display = ("created_at", "website__url")
+    list_display = ("created_at", "website__url",
+                    "report_url", "access_token")
     panels = [
         FieldPanel("data")
     ]

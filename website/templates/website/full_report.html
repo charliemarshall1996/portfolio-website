@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 {% extends 'core/base.html' %}
 
+{% load static %}
 
+{% block styles %}
+<link rel="stylesheet" href="{% static 'website/css/full_report.css' %}" />
+<script src="https://cdn.plot.ly/plotly-3.0.1.min.js" charset="utf-8"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-0">
 <section class="hero-section bg-primary text-white align-content-center py-5">
-    <div class="container">
+    <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-lg-8 text-center">
-                <h1 class="display-4 mb-4">Web Development Audit Report</h1>
+            <div class="col text-center">
+                <h1 class="display-4 mb-4">Web Development Audit Report for {{ contact_name }}</h1>
                 <p class="lead mb-4 text-tertiary">{{ url }}</p>
-                <p class="mb-4"><strong>Conducted On: </strong>{{ report_date }}</p>
-                <a type="button" class="btn btn-outline-light btn-lg" data-bs-toggle="modal" data-bs-target="#bookingModal">Turn Your Insights Into Action</a>
+                <p class="mb-4"><strong>Conducted On: </strong>{{ date }}</p>
+                <a type="button" class="btn btn-outline-light btn-lg" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/charlie-charlie-marshall'});return false;">Turn Your Insights Into Action</a>
             </div>
         </div>
     </div>
@@ -23,7 +31,7 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-10">
-            <p>Thank you for your interest in this free website audit report! As a freelance 
+            <p>Thank you {{ contact_name }} for your interest in this free website audit report! As a freelance 
                 Data & Web Developer, I specialize in building and managing high-performance, data-driven, 
                 SEO-friendly, and user-centric web applications and tools. This report provides a detailed 
                 analysis of your website's performance, accessibility, SEO, and best practices based 
@@ -43,12 +51,26 @@
     </div>
     <div class="row justify-content-center">
         <div class="col-10">
-            <a class="btn btn-primary">Book a free consultation</a>
+            <a class="btn btn-primary" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/charlie-charlie-marshall'});return false;">Book a free consultation</a>
+        </div>
+    </div>
+    <div class="row justify-content-center my-5">
+        <div class="col-10">
+            <strong>Jump to:</strong>
+        </div>
+    </div>
+    <div class="row justify-content-center my-2">
+        <div class="col-10">
+            <a class="mx-3 btn btn-outline-primary" href="#accessibility-section">Accessibility</a>
+            <a class="mx-3 btn btn-outline-primary" href="#best-practices-section">Best Practices</a>
+            <a class="mx-3 btn btn-outline-primary" href="#performance-section">Performance</a>
+            <a class="mx-3 btn btn-outline-primary" href="#seo-section">SEO</a>
+            <a class="mx-3 btn btn-outline-primary" href="#actionable-insights">Actionable Insights</a>
         </div>
     </div>
 </section>
 
-<section class="container-fluid my-5 bg-dark" id="core-scores">
+<section class="container-fluid bg-dark" id="core-scores">
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-10">
@@ -72,92 +94,211 @@
                     website, leading to more customers.</strong>
                 </p>
                 <div class="row justify-content-center">
-                    <div class="col-3">
+                    <div class="col py-3">
                         <div class="card">
-                            <h3>Accessibility</h3>
-                            <p class="lead">{{ acessibility_score }}%</p>
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col">
+                                        <h3>Accessibility</h3>
+                                    </div>
+                                </div>
+                                <div class="row text-center justify-content-center">
+                                    <div class="col justify-content-center px-2">
+                                        <div id="accessibilityGauge" class="score-gauge justify-content-center" data-score="{{ scores.accessibility | safe }}"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col py-3">
                         <div class="card">
-                            <h3>Best Practices</h3>
-                            <p class="lead">{{ best_practices_score }}%</p>
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col">
+                                        <h3>Best Practices</h3>
+                                    </div>
+                                </div>
+                                <div class="row text-center justify-content-center">
+                                    <div class="col justify-content-center px-2">
+                                        <div id="bestPracticesGauge" class="score-gauge justify-content-center" data-score="{{ scores.best_practices | safe }}"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col py-3">
                         <div class="card">
-                            <h3>Performance</h3>
-                            <p class="lead">{{ performance_score }}%</p>
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col">
+                                        <h3>Performance</h3>
+                                    </div>
+                                </div>
+                                <div class="row text-center justify-content-center">
+                                    <div class="col justify-content-center px-2">
+                                        <div id="performanceGauge" class="score-gauge justify-content-center" data-score="{{ scores.performance | safe }}"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col py-3">
                         <div class="card">
-                            <h3>Search Engine Optimization (SEO)</h3>
-                            <p class="lead">{{ seo_score }}%</p>
+                            <div class="card-body">
+                                <div class="row text-center">
+                                    <div class="col">
+                                        <h3>SEO</h3>
+                                    </div>
+                                </div>
+                                <div class="row text-center justify-content-center">
+                                    <div class="col justify-content-center px-2">
+                                        <div id="seoGauge" class="score-gauge justify-content-center" data-score="{{ scores.seo | safe }}"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <script src="{% static 'website/js/gaugeCharts.js' %}"></script>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-{% for section in audit_sections %}
-<section class="mb-5">
-    <h2>{{ section.name }}</h2>
-    <p class="text-muted">{{ section.intro }}</p>
-
-    <h5 class="mt-4">Overview</h5>
-    <ul class="list-group mb-4">
-        <li class="list-group-item"><strong>Passed:</strong> {{ section.overview.passed }}</li>
-        <li class="list-group-item"><strong>Failed:</strong> {{ section.overview.failed }}</li>
-        <li class="list-group-item"><strong>Needs Work:</strong> {{ section.overview.needs_work }}</li>
-    </ul>
-
-    <h5>Detailed Findings</h5>
-    <table class="table table-sm table-hover mt-3">
-        <thead class="table-light">
-            <tr>
-                <th>Audit</th>
-                <th>Status</th>
-                <th>Description</th>
-                <th>Impact</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for audit in section.audits %}
-            <tr>
-                <td>{{ audit.title }}</td>
-                <td class="audit-status {{ 'pass' if audit.passed else 'fail' }}">
-                    {{ 'Passed' if audit.passed else 'Failed' }}
-                </td>
-                <td>{{ audit.description }}</td>
-                <td>{{ audit.impact }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <div class="section-summary mt-4">
-        <strong>Summary:</strong> {{ section.summary }}
+{% for section in sections %}
+<section class="container-fluid {% if section.name.lower in dark_sections %}bg-dark{% endif %}" id="{{ section.formatted_name }}-section">
+    <div class="container my-5 py-5">
+        <div class="row">
+            <div class="col">
+                <h2 class="{% if section.name.lower in dark_sections %}text-tertiary{% else %}text-primary{% endif %}">{% if section.name.lower != 'seo' %}{{ section.name }}{% else %}SEO{% endif %}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <p class="{% if section.name.lower in dark_sections %}text-light{% else %}text-muted{% endif %}">{{ section.intro }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10">
+                <h5 class="my-4 {% if section.name.lower in dark_sections %}text-tertiary{% else %}text-primary{% endif %}">Overview</h5>
+                <ul class="list-group mb-4">
+                    <li class="list-group-item"><strong>Passed:</strong> {{ section.overview.passed }}</li>
+                    <li class="list-group-item"><strong>Failed:</strong> {{ section.overview.failed }}</li>
+                    <li class="list-group-item"><strong>Needs Work:</strong> {{ section.overview.needs_work }}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10">
+                <h5 class="{% if section.name.lower in dark_sections %}text-tertiary{% else %}text-primary{% endif %}">Detailed Findings</h5>
+                <table class="table table-sm table-hover mt-3">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Audit</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                            <th>Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for audit in section.audits %}
+                        <tr class="audit-status{% if audit.passed %}-pass table-success{% else %}-fail table-danger{% endif %}">
+                            <td>{{ audit.title }}</td>
+                            <td>
+                                {% if audit.passed %}Passed{% else %}Failed{% endif %}
+                            </td>
+                            <td>{{ audit.description }}</td>
+                            <td>{{ audit.impact }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </section>
 {% endfor %}
-
-<section class="mb-5">
-    <h2>Actionable Insights</h2>
-
-    <h3>What You're Doing Well:</h3>
-    {% for insight in insights.passed %}
-    <div class="insight">
-        <h5>{{ insight.title }}</h5>
-        <p>{{ insight.recommendation }}</p>
+<section class="container-fluid" id="actionable-insights">
+    <div class="container">
+        <div class="row">
+            <div class="col-10">
+                <h2 class="text-primary">Actionable Insights</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10">
+                <p class="text-muted">These actionable insights track the most important and easily fixable audits, 
+                    showing you what you should continue doing, and what you need to change.</p>
+            </div>
+        </div>
+        <div class="row py-5">
+            <div class="col-10"><h3>✅ What You're Doing Well:</h3></div>
+        </div>
+    
+        <div class="row py-3">
+            <div class="col-10">
+                <div class="insight">
+                    <ul class="list-group list-group-flush">
+                        {% for insight in insights.passed %}
+                        <li class="list-group-item">{{ insight }}</li>
+                        {% empty %}
+                        <li class="list-group-item">You have no passed insights.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row py-3">
+            <div class="col-10"><h3>❌ What Your Site Could Do Better:</h3></div>
+        </div>
+    
+        <div class="row py-3">
+            <div class="col-10">
+                <div class="insight">
+                    <ul class="list-group list-group-flush">
+                        {% for insight in insights.failed %}
+                        <li class="list-group-item">{{ insight }}</li>
+                        {% empty %}
+                        <li class="list-group-item">You have no passed insights.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-    {% endfor %}
 </section>
+<section class="container-fluid bg-primary">
+    <div class="container">
+        <div class="row bg-primary py-5">
+            <div class="col-10">
+                <p class="lead text-light">Your Lighthouse audit reveals concrete opportunities to boost site performance and conversions. 
+                    As an independent web specialist, I'll help you implement these insights through:</p>
+        
+                <ul class="mb-4 text-light">
+                    <li>Monthly performance audits & priority fixes</li>
+                    <li>Hands-on speed optimizations</li>
+                    <li>SEO and accessibility refinements</li>
+                    <li>Mobile experience enhancements</li>
+                    <li>Ongoing maintenance support</li>
+                </ul>
+        
+                <p class="display-5 mb-4 text-light">Don't let technical debt slow your growth</p>
+        
+                <div class="bg-light p-4 rounded-3 mb-4">
+                    <p>With my <strong>freelancer advantage</strong>, you get:</p>
+                    <ul class="list-unstyled">
+                        <li><i class="text-success bi bi-check"></i> Direct access to your developer (no account managers)</li>
+                        <li><i class="text-success bi bi-check"></i> Clear monthly reports in plain English</li>
+                        <li><i class="text-success bi bi-check"></i> Flexible engagement options</li>
+                    </ul>
+                </div>
+        
+                <a class="btn btn-outline-light btn-lg px-5" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/charlie-charlie-marshall'});return false;">
+                    Get Personalized Optimization Help →
+                </a>
+            </div>
+        </div>
+    </div>
 
-<section class="mb-5">
-    <h2>Conclusion</h2>
-    <p>{{ conclusion_text }}</p>
-    <p><strong>Next Steps:</strong> To address the findings in this report, we recommend prioritizing high-impact fixes. Reach out if you'd like assistance implementing the improvements.</p>
 </section>
+{% endblock %}

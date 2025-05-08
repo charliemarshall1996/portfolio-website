@@ -22,7 +22,7 @@ class BlogPostPage(Page):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     thumbnail = models.ForeignKey(
-        "wagtailimages.Image", on_delete=models.CASCADE, related_name="+"
+        "wagtailimages.Image", on_delete=models.PROTECT, related_name="+"
     )
     summary = models.CharField(max_length=250)
     body = StreamField(
