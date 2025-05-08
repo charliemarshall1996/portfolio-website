@@ -4,14 +4,6 @@ from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
 
 from . import models
 
-from django_celery_beat.models import (
-    IntervalSchedule,
-    PeriodicTask,
-    CrontabSchedule,
-    ClockedSchedule,
-    SolarSchedule
-)
-
 
 class WebsiteSnippet(SnippetViewSet):
     model = models.Website

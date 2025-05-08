@@ -18,7 +18,6 @@ class BlogPageTag(TaggedItemBase):
 
 
 class BlogPostPage(Page):
-    date_published = models.DateTimeField()
     tags = ClusterTaggableManager(through=BlogPageTag, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -67,7 +66,6 @@ class BlogPostPage(Page):
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel("date_published"),
         FieldPanel("thumbnail"),
         FieldPanel("summary"),
         FieldPanel("tags"),
@@ -85,7 +83,7 @@ class BlogIndexPage(Page):
 
         # Get live, child pages of this index page, ordered by reverse date
         blog_pages = (
-            BlogPostPage.objects.live().child_of(self).order_by("-date_published")
+            BlogPostPage.objects.live().child_of(self).order_by("-last_published_at")
         )
 
         # Optional: Add pagination

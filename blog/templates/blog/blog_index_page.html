@@ -13,6 +13,7 @@
     <div class="col">
       <ul class="list-group list-group-flush">
         {% for post in blog_posts %}
+        {% if post.live %}
         <a class="list-group-item list-group-item-action" href="{% pageurl post.specific fallback='coming_soon' %}">
           <div class="row">
             <div class="col">
@@ -33,10 +34,11 @@
                 </div>
             </div>
             <div class="col">
-              <p>{{ post.specific.date_published|date:"D d M Y" }}</p>
+              <p>{{ post.last_published_at|date:"D d M Y" }}</p>
             </div>
           </div>
         </a>
+        {% endif %}
         {% endfor %}
       </ul>
     </div>
