@@ -35,7 +35,7 @@ class Analysis(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('private_view', args=[self.access_token])
+        return reverse('website:audit_view', args=[self.access_token])
 
     def full_url(self):
         from django.contrib.sites.models import Site
