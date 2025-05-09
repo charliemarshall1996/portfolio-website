@@ -6,6 +6,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import (
     NoSuchElementException, ElementNotInteractableException)
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from sys import stdout
 import logging
 from random import uniform
@@ -96,29 +98,38 @@ class FreeindexScraper:
         self.visited_domains = {self.base_domain}
         self.data = []
 
-    def _load_all(self):
+    def _handle_consent_dialog(self):
+        dialog = self.driver.find_element(
+            By.CLASS_NAME, "fc-dialog-overlay")
+        if dialog:
+            # Wait for the consent button to be clickable
+            consent_button = WebDriverWait(self.driver, 10).until(
+                EC.element_to_be_clickable(
+                    (By.CSS_SELECTOR, ".fc-button.fc-cta-consent"))
+            )
+
+            # Scroll and click via JavaScript to avoid overlays
+            self.driver.execute_script(
+                "arguments[0].scrollIntoView({block: 'center'});", consent_button)
+            self.driver.execute_script(
+                "arguments[0].click();", consent_button)
+
+    def _load_more(self):
         logger.info("Loading full page...")
         load_more_btn = None
+        wait = WebDriverWait(self.driver, 5)
         try:
+
             load_more_btn = self.driver.find_element(By.ID, "load-more-btn")
             self.driver.execute_script(
-                "arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", load_more_btn)
+                "arguments[0].scrollIntoView({behavior: 'auto', block: 'center'});", load_more_btn)
+            load_more_btn = wait.until(
+                EC.element_to_be_clickable(load_more_btn))
             load_more_btn.click()
+            return True
         except (NoSuchElementException, ElementNotInteractableException):
             logger.info("No results beyond initial results.")
-            pass
-
-        n_loads = 0
-        while load_more_btn:
-            try:
-                self.driver.execute_script(
-                    "arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", load_more_btn)
-                load_more_btn.click()
-                n_loads += 1
-            except (NoSuchElementException, ElementNotInteractableException):
-                break
-            finally:
-                logger.info("%s Loads beyond initial results.", n_loads)
+            return False
 
     def _extract_redirect_url(self, page_source):
         match = re.search(
@@ -185,13 +196,19 @@ class FreeindexScraper:
 
     def scrape(self, url):
         logger.info("Starting freeindex scrape for URL: %s...", url)
+        profile_links = set()
         self.driver.get(url)
         self.driver.implicitly_wait(5)
+        self._handle_consent_dialog()
         if url == self.driver.current_url:
             logger.debug("Requested URL matches driver URL.")
         logger.info("Retrieved search url")
-        self._load_all()
-        profile_links = self._retrieve_profile_links()
+
+        more_links = True
+        while more_links:
+
+            profile_links = profile_links.union(self._retrieve_profile_links())
+            more_links = self._load_more()
         self._scrape_profiles(profile_links)
         logger.info("Retrieved data: %s", self.data)
         if self.driver:
@@ -433,6 +450,6 @@ def run():
         parameters = SearchParameter.objects.filter(
             live=True).order_by("last_run_freeindex").first()
 
-        scrape_and_parse(parameters.location.name, parameters.term.term)
+        scrape_and_parse("london", "tutor")
         parameters.last_run_freeindex = timezone.now()
         parameters.save()
