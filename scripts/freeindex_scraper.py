@@ -99,13 +99,14 @@ class FreeindexScraper:
         self.data = []
 
     def _handle_consent_dialog(self):
+
         dialog = self.driver.find_element(
             By.CLASS_NAME, "fc-dialog-overlay")
         if dialog:
             # Wait for the consent button to be clickable
             consent_button = WebDriverWait(self.driver, 10).until(
                 EC.element_to_be_clickable(
-                    (By.CSS_SELECTOR, ".fc-button.fc-cta-consent"))
+                    (By.CLASS_NAME, "fc-button"))
             )
 
             # Scroll and click via JavaScript to avoid overlays
