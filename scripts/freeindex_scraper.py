@@ -3,6 +3,7 @@ from scrapers.models import SearchParameter
 import re
 import json
 import undetected_chromedriver as uc
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import (
     NoSuchElementException, ElementNotInteractableException)
@@ -46,12 +47,13 @@ def random_sleep(min_time=2.5, max_time=15):
 
 
 class FreeindexScraper:
-    options = uc.ChromeOptions()
+
+    options = webdriver.ChromeOptions()
     options.add_argument('--headless')  # Optional: headless
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-gpu')
 
-    driver = uc.Chrome(options=options)
+    driver = webdriver.Chrome(options=options)
 
     def __init__(self):
         self.base_domain = "freeindex.co.uk"
@@ -386,7 +388,7 @@ def test():
         first_name = contact.first_name
 
         website = Website.objects.filter(contact=contact).first()
-        result_first_name, _, result_email = parse_url([website.url])
+        result_first_name, _, result_email = parse_url(website.url)
 
         if result_first_name == first_name.lower() and result_email == email.lower():
             n_correct += 1
