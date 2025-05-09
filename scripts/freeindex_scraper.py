@@ -100,20 +100,23 @@ class FreeindexScraper:
 
     def _handle_consent_dialog(self):
 
-        dialog = self.driver.find_element(
-            By.CLASS_NAME, "fc-dialog-overlay")
-        if dialog:
-            # Wait for the consent button to be clickable
-            consent_button = WebDriverWait(self.driver, 10).until(
-                EC.element_to_be_clickable(
-                    (By.CLASS_NAME, "fc-button"))
-            )
+        try:
+            dialog = self.driver.find_element(
+                By.CLASS_NAME, "fc-dialog-overlay")
+            if dialog:
+                # Wait for the consent button to be clickable
+                consent_button = WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable(
+                        (By.CLASS_NAME, "fc-button"))
+                )
 
-            # Scroll and click via JavaScript to avoid overlays
-            self.driver.execute_script(
-                "arguments[0].scrollIntoView({block: 'center'});", consent_button)
-            self.driver.execute_script(
-                "arguments[0].click();", consent_button)
+                # Scroll and click via JavaScript to avoid overlays
+                self.driver.execute_script(
+                    "arguments[0].scrollIntoView({block: 'center'});", consent_button)
+                self.driver.execute_script(
+                    "arguments[0].click();", consent_button)
+        except NoSuchElementException:
+            logger.info("No dialog box found.")
 
     def _load_more(self):
         logger.info("Loading full page...")
