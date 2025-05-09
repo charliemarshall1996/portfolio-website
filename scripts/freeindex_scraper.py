@@ -2,7 +2,6 @@
 from scrapers.models import SearchParameter
 import re
 import json
-import undetected_chromedriver as uc
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import (
@@ -17,8 +16,25 @@ from fake_useragent import UserAgent
 import nltk
 import spacy
 from urllib.parse import urlparse, urljoin
-
+from django.utils import timezone
 from crm.models import Contact, Website
+
+
+EXCLUDED_HREFS = [
+    "https://twitter.com",
+    "https://www.instagram.com",
+    "https://www.youtube.com",
+    "https://www.facebook.com",
+    "/private/",
+    "/",
+    "/sitemap",
+    "#",
+    "/login",
+    "/signup",
+    "/categories",
+    "/getquotes",
+    "javascript"
+]
 
 # Load spaCy's English model for NER
 nlp = spacy.load("en_core_web_sm")
@@ -46,6 +62,26 @@ def random_sleep(min_time=2.5, max_time=15):
     time.sleep(uniform(min_time, max_time))
 
 
+def request_user_agent(url, ua):
+    try:
+        user_agent = ua.chrome
+        headers = {'User-Agent': user_agent,
+                   "Accept-Language": "en-GB,en;q=0.9",
+                   "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+                   "Referer": "https://www.google.com/",
+                   "Connection": "keep-alive"}
+        logger.info("Using UA: %s...", user_agent[:60])
+        response = requests.get(url, headers=headers, timeout=30)
+
+        if response.status_code == 200:
+            logger.info("was successful.")
+            return response
+        else:
+            logger.info("Got status %s", response.status_code)
+    except requests.exceptions.RequestException as e:
+        logger.warning("Request error: %s", e)
+
+
 class FreeindexScraper:
 
     options = webdriver.ChromeOptions()
@@ -65,16 +101,24 @@ class FreeindexScraper:
         load_more_btn = None
         try:
             load_more_btn = self.driver.find_element(By.ID, "load-more-btn")
+            self.driver.execute_script(
+                "arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", load_more_btn)
+            load_more_btn.click()
         except (NoSuchElementException, ElementNotInteractableException):
+            logger.info("No results beyond initial results.")
             pass
 
+        n_loads = 0
         while load_more_btn:
             try:
+                self.driver.execute_script(
+                    "arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", load_more_btn)
                 load_more_btn.click()
-                load_more_btn = self.driver.find_element(
-                    By.ID, "load-more-btn")
+                n_loads += 1
             except (NoSuchElementException, ElementNotInteractableException):
                 break
+            finally:
+                logger.info("%s Loads beyond initial results.", n_loads)
 
     def _extract_redirect_url(self, page_source):
         match = re.search(
@@ -99,103 +143,61 @@ class FreeindexScraper:
             logger.debug(
                 "Could not extract JSON from body tag.")
 
-    def _retrieve_websites(self):
+    def _retrieve_profile_links(self):
         logger.info("Retrieving websites from freeindex...")
 
-        links = self.driver.find_elements(By.TAG_NAME, "a")
-        logger.debug("FOUND %s LINKS.", len(links))
+        profile_links = set()
+        listing_names = self.driver.find_elements(
+            By.CLASS_NAME, "listing_name")
+        logger.debug("FOUND %s LISTING NAMES.", len(listing_names))
+        for listing_name in listing_names:
+            profile_link = listing_name.find_element(By.TAG_NAME, "a")
+            profile_link = profile_link.get_attribute("href")
+            profile_links.add(profile_link)
+            logger.debug("PROFILE LINK: %s",
+                         profile_link)
+        return profile_links
 
-        clickable_links = []
-        for l in links:
-            if l.text:
-                logger.debug("CHECKING LINK: %s", l.text)
-                if pattern.search(l.text):
-                    logger.debug("PATTERN MATCH: %s", l.text)
-                    clickable_links.append(l)
-                elif l.text.strip().lower() == "link website":
-                    logger.debug("EXACT MATCH: %s", l.text)
-                    clickable_links.append(l)
-                else:
-                    logger.debug("NO PATTERN MATCH: %s", l.text)
+    def _parse_profile_html(self, html):
+        soup = BeautifulSoup(html)
+        profile_links = soup.find_all("a")
+        for link in profile_links:
+            href = link.get("href")
+            if href:
+                logger.debug("HREF: %s", href)
+                if not any([href.startswith(e) for e in EXCLUDED_HREFS]):
+                    return href
 
-        logger.info("Found %s clickable links", len(clickable_links))
+    def _scrape_profiles(self, profile_links):
+        websites = set()
+        ua = UserAgent()
+        for link in profile_links:
+            response = request_user_agent(link, ua)
 
-        for link in clickable_links:
-            try:
-                # Get the 'onclick' attribute
-                onclick = link.get_attribute("onclick")
+            if response.status_code == 200:
+                website = self._parse_profile_html(response.text)
+                if website:
+                    websites.add(website)
+            else:
+                logger.warning("RESPONSE INVALID: %s", response.status_code)
 
-                if onclick:
-                    # Extract the business ID and type using regex
-                    match = re.search(
-                        r"RecordClick\('(\d+)',\s*'(\w+)'\)", onclick)
-
-                    if match:
-                        business_id = match.group(1)
-                        ctype = match.group(2)
-
-                        # Construct the URL
-                        url = f"https://www.freeindex.co.uk/record_click.asp?id={business_id}&ctype={ctype}"
-                        logger.debug(f"Found URL: {url}")
-                        random_sleep()
-                        self.driver.get(url)
-                        time.sleep(5)  # Allow the page to load
-
-                        page_source = self.driver.page_source
-                        logger.debug("PAGE SOURCE: %s", page_source)
-
-                        self._extract_redirect_url(page_source)
-
-                    else:
-                        logger.debug("No match found in onclick attribute.")
-                else:
-                    logger.debug("No onclick attribute found.")
-
-                random_sleep()
-                # Switch back to the original window
-                self.driver.back()
-
-                try:
-                    current = self.driver.current_url
-                    domain = current.split("/")[2]
-                    assert domain == self.base_domain
-                except AssertionError:
-                    logger.error("Domain: %s is not base domain.", domain)
-
-            except Exception as e:
-                logger.debug(f"Error processing link: {e}")
+        self.data = websites
 
     def scrape(self, url):
-        logger.info("Starting freeindex scrape...")
+        logger.info("Starting freeindex scrape for URL: %s...", url)
         self.driver.get(url)
         self.driver.implicitly_wait(5)
+        if url == self.driver.current_url:
+            logger.debug("Requested URL matches driver URL.")
         logger.info("Retrieved search url")
         self._load_all()
-        self._retrieve_websites()
+        profile_links = self._retrieve_profile_links()
+        self._scrape_profiles(profile_links)
         logger.info("Retrieved data: %s", self.data)
         if self.driver:
             self.driver.quit()
         return self.data
 
-
-def request_user_agent(url, ua):
-    try:
-        user_agent = ua.random
-        headers = {'User-Agent': user_agent,
-                   "Accept-Language": "en-GB,en;q=0.9",
-                   "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-                   "Referer": "https://www.google.com/",
-                   "Connection": "keep-alive"}
-        logger.info("Using UA: %s...", user_agent[:60])
-        response = requests.get(url, headers=headers, timeout=30)
-
-        if response.status_code == 200:
-            logger.info("was successful.")
-            return response
-        else:
-            logger.info("Got status %s", response.status_code)
-    except requests.exceptions.RequestException as e:
-        logger.warning("Request error: %s", e)
 
 # Extract email addresses from a page
 
@@ -370,35 +372,61 @@ def parse_urls(urls):
 
 
 def scrape_and_parse(location, term):
+    logger.debug("SEARCHING FOR %s IN %s", term, location)
     scraper = FreeindexScraper()
     url = f"https://www.freeindex.co.uk/searchresults.htm?k={term}&l={location}"
+    logger.debug("SEARCHING URL: %s", url)
     found_urls = scraper.scrape(url)
     parse_urls(found_urls)
     logger.info("Scrape complete!")
 
 
 def test():
+    false_positives = []
     contacts = list(Contact.objects.all())
     n_contacts = 0
     n_correct = 0
+    result_first_name = None
+    result_last_name = None
+    result_email = None
+    _ = None
     for contact in contacts:
         print(f"TESTING: {contact.first_name}")
-        n_contacts += 1
         email = contact.email
         first_name = contact.first_name
 
         website = Website.objects.filter(contact=contact).first()
-        result_first_name, _, result_email = parse_url(website.url)
+        if website:
+            if website.url != "https://www.syob.net/":
+                result_first_name, result_last_name, result_email = parse_url(
+                    website.url)
 
-        if result_first_name == first_name.lower() and result_email == email.lower():
-            n_correct += 1
+            if result_first_name and result_email:
+                n_contacts += 1
+            if result_first_name == first_name.lower() and result_email == email.lower():
+                n_correct += 1
+            else:
+                false_positives.append({'first_name': result_first_name, 'last_name': result_last_name, 'email': result_email,
+                                       'url': website.url, 'test_first_name': first_name, 'test_last_name': contact.last_name, 'test_email': email})
+
+    if false_positives:
+        n = 0
+        for fp in false_positives:
+            n += 1
+            print(f"FALSE POSITIVE {n} RESULT FIRST NAME: {fp.get('first_name')} ACTUAL: {fp.get('test_first_name')}\
+            \nLAST NAME: {fp.get('last_name')} ACTUAL: {fp.get('test_last_name')}\
+            \nRESULT EMAIL: {fp.get('email')} ACTUAL: {fp.get('test_email')}\
+            \nURL: {fp.get('url')}")
+        print(f"TOTAL FALSE POSITIVES: {n}")
+    else:
+        print("NO FALSE POSITIVES")
 
     print(f"TEST ACCURACY: {n_correct / n_contacts}")
 
 
 def run():
-    is_test = input("Is this a test run? [Y/n]") or "Y"
-
+    # is_test = input("Is this a test run? [Y/n]") or "Y"
+    is_test = "n"
     if is_test.lower() == "y":
         test()
     else:
@@ -406,3 +434,5 @@ def run():
             live=True).order_by("last_run_freeindex").first()
 
         scrape_and_parse(parameters.location.name, parameters.term.term)
+        parameters.last_run_freeindex = timezone.now()
+        parameters.save()
