@@ -86,7 +86,7 @@ class Contact(ClusterableModel):
     salutation = models.CharField(
         max_length=10, choices=SALUTATION_CHOICES, blank=True)
     first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255, blank=True, null=True)
     company = models.ForeignKey(
         Company, on_delete=models.SET_NULL, null=True, blank=True
     )
