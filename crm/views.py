@@ -5,7 +5,7 @@ from django.utils import timezone
 from .models import Contact, Website  # your model
 import json
 
-from scrapers.models import SearchParameter
+from scrapers.models import SearchParameter, Location, SearchTerm
 
 
 @csrf_exempt
@@ -34,7 +34,8 @@ def add_contacts(request):
         finally:
             term = data.get("term")
             location = data.get("location")
-
+            term = SearchTerm.objects.get(term=term)
+            location = Location.objects.get(name=location)
             params = SearchParameter.objects.filter(
                 term=term, location=location).first()
 
