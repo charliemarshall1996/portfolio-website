@@ -36,6 +36,8 @@ urlpatterns = [
     re_path(r'website/', include('website.urls')),
     re_path(r'blog/', include('blog.urls')),
     re_path(r'', include('home.urls')),
+    re_path(r'crm/', include('crm.urls')),
+    re_path(r'scrapers/', include('scrapers.urls')),
 
     path("", include(wagtail_urls)),
 ]

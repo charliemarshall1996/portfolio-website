@@ -375,21 +375,20 @@ def parse_url(url):
 
 
 def parse_urls(urls):
+    contacts = []
     for url in urls:
         first_name, last_name, email = parse_url(url)
         if first_name and email:
-            contact, created = Contact.objects.get_or_create(first_name=first_name,
-                                                             last_name=last_name, email=email)
-            if created:
-                logger.info("New Contact Created: %s",
-                            f"{contact.first_name} {contact.last_name}")
-                contact.save()
+            contacts.append(
+                {
+                    "first_name": first_name,
+                    "last_name": last_name,
+                    "email": email,
+                    "url": url
+                }
+            )
 
-            website, created = Website.objects.get_or_create(
-                url=url, contact=contact)
-            if created:
-                logger.info("New website created: %s", website.url)
-                website.save()
+    return contacts
 
 
 def scrape_and_parse(location, term):
@@ -398,8 +397,7 @@ def scrape_and_parse(location, term):
     url = f"https://www.freeindex.co.uk/searchresults.htm?k={term}&l={location}"
     logger.debug("SEARCHING URL: %s", url)
     found_urls = scraper.scrape(url)
-    parse_urls(found_urls)
-    logger.info("Scrape complete!")
+    return parse_urls(found_urls)
 
 
 def test():
@@ -451,9 +449,19 @@ def run():
     if is_test.lower() == "y":
         test()
     else:
-        parameters = SearchParameter.objects.filter(
-            live=True).order_by("last_run_freeindex").first()
 
-        scrape_and_parse("london", "tutor")
-        parameters.last_run_freeindex = timezone.now()
-        parameters.save()
+        while True:
+            data = requests.get(
+                "https://www.charlie-marshall.dev/scrapers/api/get-oldest-searchparameter/")
+            data = data.json()
+            contacts = scrape_and_parse(data['term'], data['location'])
+
+            data['contacts'] = contacts
+
+            response = requests.post(
+                "https://www.charlie-marshall.dev/crm/api/add-contacts/",
+                json=data
+            )
+
+            logger.info("POST REQUEST STATUS: %s", response.status_code)
+            random_sleep()
