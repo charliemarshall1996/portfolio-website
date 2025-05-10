@@ -11,8 +11,9 @@ from scrapers.models import SearchParameter
 @csrf_exempt
 def add_contacts(request):
     if request.method == "POST":
+        data = json.loads(request.body)
         try:
-            data = json.loads(request.body)
+
             contacts = data.get("contacts", [])
             for contact in contacts:
 
@@ -27,6 +28,10 @@ def add_contacts(request):
                     url=url, contact=contact)
                 website.save()
 
+            return JsonResponse({"status": "success"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+        finally:
             term = data.get("term")
             location = data.get("location")
 
@@ -35,7 +40,3 @@ def add_contacts(request):
 
             params.last_run_freeindex = timezone.now()
             params.save()
-
-            return JsonResponse({"status": "success"})
-        except Exception as e:
-            return JsonResponse({"status": "error", "message": str(e)}, status=400)

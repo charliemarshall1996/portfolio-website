@@ -1,5 +1,4 @@
 
-from scrapers.models import SearchParameter
 import re
 import json
 from selenium import webdriver
@@ -18,8 +17,6 @@ from fake_useragent import UserAgent
 import nltk
 import spacy
 from urllib.parse import urlparse, urljoin
-from django.utils import timezone
-from crm.models import Contact, Website
 
 
 EXCLUDED_HREFS = [
@@ -400,68 +397,20 @@ def scrape_and_parse(location, term):
     return parse_urls(found_urls)
 
 
-def test():
-    false_positives = []
-    contacts = list(Contact.objects.all())
-    n_contacts = 0
-    n_correct = 0
-    result_first_name = None
-    result_last_name = None
-    result_email = None
-    _ = None
-    for contact in contacts:
-        print(f"TESTING: {contact.first_name}")
-        email = contact.email
-        first_name = contact.first_name
-
-        website = Website.objects.filter(contact=contact).first()
-        if website:
-            if website.url != "https://www.syob.net/":
-                result_first_name, result_last_name, result_email = parse_url(
-                    website.url)
-
-            if result_first_name and result_email:
-                n_contacts += 1
-            if result_first_name == first_name.lower() and result_email == email.lower():
-                n_correct += 1
-            else:
-                false_positives.append({'first_name': result_first_name, 'last_name': result_last_name, 'email': result_email,
-                                       'url': website.url, 'test_first_name': first_name, 'test_last_name': contact.last_name, 'test_email': email})
-
-    if false_positives:
-        n = 0
-        for fp in false_positives:
-            n += 1
-            print(f"FALSE POSITIVE {n} RESULT FIRST NAME: {fp.get('first_name')} ACTUAL: {fp.get('test_first_name')}\
-            \nLAST NAME: {fp.get('last_name')} ACTUAL: {fp.get('test_last_name')}\
-            \nRESULT EMAIL: {fp.get('email')} ACTUAL: {fp.get('test_email')}\
-            \nURL: {fp.get('url')}")
-        print(f"TOTAL FALSE POSITIVES: {n}")
-    else:
-        print("NO FALSE POSITIVES")
-
-    print(f"TEST ACCURACY: {n_correct / n_contacts}")
-
-
 def run():
-    # is_test = input("Is this a test run? [Y/n]") or "Y"
-    is_test = "n"
-    if is_test.lower() == "y":
-        test()
-    else:
 
-        while True:
-            data = requests.get(
-                "https://www.charlie-marshall.dev/scrapers/api/get-oldest-searchparameter/")
-            data = data.json()
-            contacts = scrape_and_parse(data['term'], data['location'])
+    while True:
+        data = requests.get(
+            "https://www.charlie-marshall.dev/scrapers/api/get-oldest-searchparameter/")
+        data = data.json()
+        contacts = scrape_and_parse(data['term'], data['location'])
 
-            data['contacts'] = contacts
+        data['contacts'] = contacts
 
-            response = requests.post(
-                "https://www.charlie-marshall.dev/crm/api/add-contacts/",
-                json=data
-            )
+        response = requests.post(
+            "https://www.charlie-marshall.dev/crm/api/add-contacts/",
+            json=data
+        )
 
-            logger.info("POST REQUEST STATUS: %s", response.status_code)
-            random_sleep()
+        logger.info("POST REQUEST STATUS: %s", response.status_code)
+        random_sleep()
