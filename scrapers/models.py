@@ -27,6 +27,7 @@ class SearchParameter(models.Model):
     location = models.ForeignKey(Location, models.CASCADE)
     live = models.BooleanField(default=True)
     last_run_freeindex = models.DateTimeField(null=True, blank=True)
+    last_run_thomson = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.term.term} | {self.location.name}"

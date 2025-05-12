@@ -34,10 +34,14 @@ def add_contacts(request):
         finally:
             term = data.get("term")
             location = data.get("location")
+            directory = data.get("directory")
             term = SearchTerm.objects.get(term=term)
             location = Location.objects.get(name=location)
             params = SearchParameter.objects.filter(
                 term=term, location=location).first()
 
-            params.last_run_freeindex = timezone.now()
+            if directory == "freeindex":
+                params.last_run_freeindex = timezone.now()
+            elif directory == "thomson":
+                params.last_run_thomson = timezone.now()
             params.save()
