@@ -1,47 +1,16 @@
 # views.py
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
-from django.utils import timezone
-from .models import Contact, Website  # your model
-import json
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
-from scrapers.models import SearchParameter, Location, SearchTerm
+from .serializers import ContactSerializer
 
 
-@csrf_exempt
-def add_contacts(request):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        try:
-
-            contacts = data.get("contacts", [])
-            for contact in contacts:
-
-                first_name = contact.get("first_name")
-                last_name = contact.get("last_name")
-                email = contact.get("email")
-                url = contact.get("url")
-                contact, created = Contact.objects.get_or_create(
-                    first_name=first_name, last_name=last_name, email=email)
-                contact.save()
-                website, created = Website.objects.get_or_create(
-                    url=url, contact=contact)
-                website.save()
-
-            return JsonResponse({"status": "success"})
-        except Exception as e:
-            return JsonResponse({"status": "error", "message": str(e)}, status=400)
-        finally:
-            term = data.get("term")
-            location = data.get("location")
-            directory = data.get("directory")
-            term = SearchTerm.objects.get(term=term)
-            location = Location.objects.get(name=location)
-            params = SearchParameter.objects.filter(
-                term=term, location=location).first()
-
-            if directory == "freeindex":
-                params.last_run_freeindex = timezone.now()
-            elif directory == "thomson":
-                params.last_run_thomson = timezone.now()
-            params.save()
+@api_view(["POST"])
+def add_contact(request):
+    serializer = ContactSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
