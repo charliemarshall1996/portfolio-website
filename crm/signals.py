@@ -6,7 +6,7 @@ from crm.models import Contact, Website
 
 AnalysisWebsite = apps.get_model('website', 'Website')
 
-Email = apps.get_model("crm", "Email")
+Email = apps.get_model("website", "Email")
 
 
 @receiver(post_save, sender=Website)
