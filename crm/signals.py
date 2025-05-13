@@ -6,6 +6,8 @@ from crm.models import Contact, Website
 
 AnalysisWebsite = apps.get_model('website', 'Website')
 
+Email = apps.get_model("crm", "Email")
+
 
 @receiver(post_save, sender=Website)
 def create_website_for_contact(sender, instance, created, **kwargs):
@@ -16,6 +18,19 @@ def create_website_for_contact(sender, instance, created, **kwargs):
         website = AnalysisWebsite.objects.get(website_id=instance.id)
         website.url = instance.url
         website.contact_id = instance.contact.id
+
+
+@receiver(post_save, sender=Contact)
+def create_email_for_contact(sender, instance, created, **kwargs):
+    if created and instance.email:
+        Email.objects.create(contact_id=instance.id, email=instance.email)
+    else:
+        email = Email.objects.get(contact_id=instance.id)
+        if not email and instance.email:
+            email, _ = Email.objects.get_or_create(email=instance.email)
+        else:
+            email.email = instance.email
+        email.save()
 
 
 @receiver(post_delete, sender=Website)
