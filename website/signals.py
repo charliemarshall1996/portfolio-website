@@ -7,7 +7,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
 from website.models import Analysis, Email
-from website.utils import get_plain_email_message
+from website.utils import get_email_message
 
 Contact = apps.get_model('crm', 'Contact')
 
@@ -31,8 +31,8 @@ def create_website_for_contact(sender, instance, created, **kwargs):
             now = timezone.now()
             one_month_ago = now - timedelta(days=30)
 
-            plain_message, html_message = get_plain_email_message(
-                data, first_name, instance.website.url, date)
+            plain_message, html_message = get_email_message(
+                data, first_name, instance.website.url, date, contact.search_term)
 
             email_obj, created = Email.objects.get_or_create(email=email)
             email_obj.contact_id = contact.pk

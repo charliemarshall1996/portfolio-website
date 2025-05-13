@@ -13,11 +13,14 @@ Email = apps.get_model("website", "Email")
 def create_website_for_contact(sender, instance, created, **kwargs):
     if created:
         AnalysisWebsite.objects.create(
-            contact_id=instance.contact.id, url=instance.url, website_id=instance.id)
+            contact_id=instance.contact.id, url=instance.url, website_id=instance.id,
+            search_term=instance.search_term)
     else:
         website = AnalysisWebsite.objects.get(website_id=instance.id)
         website.url = instance.url
         website.contact_id = instance.contact.id
+        website.search_term = instance.search_term
+        website.save()
 
 
 @receiver(post_save, sender=Contact)

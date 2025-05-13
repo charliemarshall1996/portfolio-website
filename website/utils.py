@@ -2,8 +2,33 @@
 from jinja2 import Template
 import os
 
+VERTICAL_KEYWORDS = {
+    "local_services": [
+        "plumber", "electrician", "builder", "handyman", "landscaper", "roofer",
+        "locksmith", "painter", "cleaner", "boiler repair", "carpenter", "gutter cleaning",
+        "drainage", "heating engineer"
+    ],
+    "therapist": [
+        "counsellor", "therapist", "psychotherapist", "coach", "life coach", "cbt",
+        "mental health", "trauma therapy", "relationship counsellor", "grief support",
+        "hypnotherapy", "wellness coach"
+    ],
+    "agency": [
+        "marketing agency", "web design", "seo agency", "creative studio", "branding agency",
+        "ppc", "content marketing", "social media agency", "digital agency", "design consultancy"
+    ]
+}
 
-def get_plain_email_message(data, first_name, url, date):
+
+def get_vertical_from_term(search_term):
+    search_term = search_term.lower()
+    for vertical, keywords in VERTICAL_KEYWORDS.items():
+        if any(keyword in search_term for keyword in keywords):
+            return vertical
+    return "other"
+
+
+def get_email_message(data, first_name, url, date, search_term):
     scores = data['scores']
 
     accessibility_score = scores['accessibility'] * 100
@@ -67,13 +92,26 @@ def get_plain_email_message(data, first_name, url, date):
                 quality and security.
                 """
 
+    vertical = get_vertical_from_term(search_term)
+    if vertical == "local_services":
+        context_line = (
+            "For local businesses like yours, a fast, accessible website can directly increase the number of enquiries you receive."
+        )
+    elif vertical == "therapist":
+        context_line = (
+            "For therapy and wellness professionals, a trustworthy, fast-loading website helps build confidence with potential clients."
+        )
+    elif vertical == "agency":
+        context_line = (
+            "For marketing/design agencies, having your own site reflect modern best practices boosts credibility with your clients."
+        )
+    else:
+        context_line = ""
     body_plain = f"""
             Hey {first_name},
             
             I took 10-15 minutes to run a free health check on your website. 
-            Ensuring your website is up-to-scratch is incredibly important for 
-            attracting, keeping and ultimately converting visitors to your site into 
-            paying customers.
+            {context_line}
             
             📋 Website Health Check: {url}\n
             
@@ -110,6 +148,7 @@ def get_plain_email_message(data, first_name, url, date):
             best_practices=best_practices_score,
             best_practices_text=best_practices_text_string,
             seo=seo_score,
-            seo_text=seo_text_string
+            seo_text=seo_text_string,
+            context_line=context_line
         )
     return body_plain, html_body
