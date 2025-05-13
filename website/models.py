@@ -53,7 +53,7 @@ class Analysis(models.Model):
 
 class Email(models.Model):
     contact_id = models.PositiveIntegerField(null=True, blank=True)
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     last_emailed = models.DateTimeField(null=True, blank=True)
     bounced = models.BooleanField(default=False)
     opt_out = models.BooleanField(default=False)

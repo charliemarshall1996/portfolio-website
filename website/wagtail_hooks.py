@@ -28,7 +28,8 @@ class EmailSnippet(SnippetViewSet):
     panels = [
         FieldPanel("email"),
         FieldPanel("opt_out"),
-        FieldPanel("bounced")
+        FieldPanel("bounced"),
+        FieldPanel("last_emailed")
     ]
 
 
