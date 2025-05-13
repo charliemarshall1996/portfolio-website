@@ -18,7 +18,7 @@ def run():
     path = os.path.join(path, file_name)
     email_records = {}
 
-    with open(file_name, 'r') as file:
+    with open(path, 'r') as file:
         next(file)  # Skip the media pointer line
         reader = csv.DictReader(file, delimiter='\t')
 
