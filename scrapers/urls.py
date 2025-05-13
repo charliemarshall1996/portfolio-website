@@ -2,7 +2,7 @@ from django.urls import path
 
 from . import views
 
-app_name = "home"
+app_name = "scrapers"
 
 urlpatterns = [
     path("api/get-oldest-searchparameter/",
