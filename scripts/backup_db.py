@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 # Settings
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname("../")
 DB_NAME = "db.sqlite3"
 BACKUP_DIR = os.path.join(BASE_DIR, "db_backups")
 

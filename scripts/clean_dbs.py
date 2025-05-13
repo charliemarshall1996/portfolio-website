@@ -2,8 +2,7 @@ import os
 import time
 
 # Settings
-BACKUP_DIR = os.path.join(os.path.dirname(
-    os.path.abspath(__file__)), "db_backups")
+BACKUP_DIR = os.path.join(os.path.dirname("../"), "db_backups")
 DAYS_TO_KEEP = 7
 
 # Time threshold
