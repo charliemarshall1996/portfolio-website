@@ -22,6 +22,16 @@ class AnalysisSnippet(SnippetViewSet):
     ]
 
 
+class EmailSnippet(SnippetViewSet):
+    model = models.Email
+    list_display = ("email", "last_emailed", "opt_out", "bounced")
+    panels = [
+        FieldPanel("email"),
+        FieldPanel("opt_out"),
+        FieldPanel("bounced")
+    ]
+
+
 class WebsiteSnippetGroup(SnippetViewSetGroup):
     items = (WebsiteSnippet, AnalysisSnippet)
     menu_icon = "globe"
