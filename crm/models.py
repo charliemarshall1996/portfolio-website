@@ -91,9 +91,10 @@ class Contact(ClusterableModel):
         Company, on_delete=models.SET_NULL, null=True, blank=True
     )
     position = models.CharField(max_length=255, blank=True)
-    email = models.EmailField(blank=True)
-    phone = models.CharField(max_length=20, blank=True)
-    mobile = models.CharField(max_length=20, blank=True)
+    email = models.EmailField(blank=True, null=True, unique=True)
+    phone = models.CharField(max_length=20, blank=True, null=True, unique=True)
+    mobile = models.CharField(
+        max_length=20, blank=True, null=True, unique=True)
     linkedin = models.URLField(blank=True)
     status = models.CharField(
         max_length=2, choices=STATUS_CHOICES, default=STATUS_CHOICES[0]

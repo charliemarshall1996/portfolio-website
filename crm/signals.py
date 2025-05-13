@@ -23,8 +23,8 @@ def create_website_for_contact(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Contact)
 def create_email_for_contact(sender, instance, created, **kwargs):
     if created and instance.email:
-        email, created = Email.objects.get_or_create(
-            contact_id=instance.id, email=instance.email)
+        email, created = Email.objects.get_or_create(email=instance.email)
+        email.contact_id = instance.id
         email.email = instance.email
         email.save()
 
