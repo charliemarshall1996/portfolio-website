@@ -44,6 +44,7 @@ def get_oldest_searchparameter(request):
         return JsonResponse({"error": "No SearchParameters found."}, status=404)
 
     return JsonResponse({
+        "pk": param.pk,
         "location": param.location.name,
         "term": param.term.term
     })
