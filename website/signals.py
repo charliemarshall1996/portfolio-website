@@ -24,7 +24,7 @@ def create_website_for_contact(sender, instance, created, **kwargs):
         if email:
             print("New analysis created. Sending email to %s...", email)
             date = instance.created_at.date()
-            first_name = contact.first_name
+            first_name = contact.first_name.title()
 
             data = instance.data
 
