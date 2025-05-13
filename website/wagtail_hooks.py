@@ -33,7 +33,7 @@ class EmailSnippet(SnippetViewSet):
 
 
 class WebsiteSnippetGroup(SnippetViewSetGroup):
-    items = (WebsiteSnippet, AnalysisSnippet)
+    items = (WebsiteSnippet, AnalysisSnippet, EmailSnippet)
     menu_icon = "globe"
     menu_label = "Website Analysis"
     menu_name = "website-analysis"
