@@ -41,4 +41,4 @@ class SearchParameterView(APIView):
         if not search_param:
             return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
 
-        return Response(SearchParameterSerializer(search_param).data)
+        return Response(data=SearchParameterSerializer(search_param).data)
