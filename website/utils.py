@@ -20,7 +20,7 @@ VERTICAL_KEYWORDS = {
 }
 
 
-def get_vertical_from_term(search_term):
+def get_vertical_from_term(search_term: str):
     search_term = search_term.lower()
     for vertical, keywords in VERTICAL_KEYWORDS.items():
         if any(keyword in search_term for keyword in keywords):
@@ -29,6 +29,8 @@ def get_vertical_from_term(search_term):
 
 
 def get_email_message(data, first_name, url, date, search_term):
+    if not search_term:
+        search_term = "plumber"
     scores = data['scores']
 
     accessibility_score = scores['accessibility'] * 100
