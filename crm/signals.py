@@ -13,13 +13,11 @@ Email = apps.get_model("website", "Email")
 def create_website_for_contact(sender, instance, created, **kwargs):
     if created:
         AnalysisWebsite.objects.create(
-            contact_id=instance.contact.id, url=instance.url, website_id=instance.id,
-            search_term=instance.search_term)
+            contact_id=instance.contact.id, url=instance.url, website_id=instance.id)
     else:
         website = AnalysisWebsite.objects.get(website_id=instance.id)
         website.url = instance.url
         website.contact_id = instance.contact.id
-        website.search_term = instance.search_term
         website.save()
 
 
@@ -34,10 +32,16 @@ def create_email_for_contact(sender, instance, created, **kwargs):
 
 @receiver(post_delete, sender=Website)
 def delete_website_for_contact(sender, instance, **kwargs):
-    AnalysisWebsite.objects.delete(
-        contact_id=instance.contact.id, url=instance.url, website_id=instance.id)
+    websites = list(AnalysisWebsite.objects.filter(
+        contact_id=instance.contact.id, url=instance.url, website_id=instance.id))
+
+    for website in websites:
+        website.delete()
 
 
 @receiver(post_delete, sender=Contact)
 def delete_website_for_contact(sender, instance, **kwargs):
-    AnalysisWebsite.objects.delete(contact_id=instance.contact.id)
+    websites = list(AnalysisWebsite.objects.filter(
+        contact_id=instance.contact.id))
+    for website in websites:
+        website.delete()
