@@ -92,9 +92,9 @@ class Contact(ClusterableModel):
     )
     position = models.CharField(max_length=255, blank=True)
     email = models.EmailField(blank=True, null=True, unique=True)
-    phone = models.CharField(max_length=20, blank=True, null=True, unique=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
     mobile = models.CharField(
-        max_length=20, blank=True, null=True, unique=True)
+        max_length=20, blank=True, null=True)
     linkedin = models.URLField(blank=True)
     status = models.CharField(
         max_length=2, choices=STATUS_CHOICES, default=STATUS_CHOICES[0]
