@@ -159,10 +159,11 @@ class WebsiteAnalyzer:
         params = self._build_params(site)
         url = self._build_url(params)
         response = self._request_api(url)
-        df = self._parse_lighthouse_data(response)
-        df = self._transform(df)
-        self._parse_df_to_dict(df)
-        return self.data
+        if response:
+            df = self._parse_lighthouse_data(response)
+            df = self._transform(df)
+            self._parse_df_to_dict(df)
+            return self.data
 
     def _build_params(self, site):
         return f"?url={site}&key={self.key}&category=1&category=2&category=3&category=4&category=5"
@@ -172,7 +173,11 @@ class WebsiteAnalyzer:
 
     def _request_api(self, url):
         response = requests.get(url)
-        return response.json()
+        try:
+            return response.json()
+        except requests.exceptions.JSONDecodeError:
+            logger.error("Failed to decode JSON response")
+            return None
 
     def _parse_category_scores(self, categories):
         for k, v in categories.items():
