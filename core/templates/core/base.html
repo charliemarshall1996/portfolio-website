@@ -19,10 +19,7 @@
     <meta name="twitter:image" content="media/images/home/data.jpg">
     <link rel="canonical" href="https://www.charlie-marshall.dev">
     <title>Web &amp; Data Services for Small Businesses &amp; Agencies</title>
-    {% csrf_token %}
-    <script>
-      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    </script>
+
     <link
       rel="icon"
       type="image/x-icon"
@@ -53,7 +50,10 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'core/css/normalize.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'core/css/core.css' %}" />
-
+        {% csrf_token %}
+    <script>
+      const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    </script>
     {% block styles %}{% endblock %}
     
   </head>
