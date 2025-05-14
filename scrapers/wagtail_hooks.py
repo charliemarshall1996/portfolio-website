@@ -8,26 +8,19 @@ from . import models
 class SearchTermSnippet(SnippetViewSet):
     model = models.SearchTerm
     list_display = ("term",)
-    panels = [
-        FieldPanel("term")
-    ]
+    panels = [FieldPanel("term")]
 
 
 class LocationSnippet(SnippetViewSet):
     model = models.Location
     list_display = ("name", "type")
-    panels = [
-        FieldPanel("name"),
-        FieldPanel("type")
-    ]
+    panels = [FieldPanel("name"), FieldPanel("type")]
 
 
 class SearchParameters(SnippetViewSet):
     model = models.SearchParameter
     list_display = ("term__term", "location__name", "last_run_freeindex")
-    panels = [
-        FieldPanel("live")
-    ]
+    panels = [FieldPanel("live")]
 
 
 class ScraperSnippetGroup(SnippetViewSetGroup):

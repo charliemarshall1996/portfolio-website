@@ -1,10 +1,10 @@
-
 from django.apps import apps
 from django.shortcuts import render, get_object_or_404
 
 from . import models
+
 # Create your views here.
-Contact = apps.get_model('crm', 'Contact')
+Contact = apps.get_model("crm", "Contact")
 
 accessibility_intro = """
 Accessibility evaluates how easily people with disabilities can use your site, 
@@ -43,35 +43,36 @@ def audit_view(request, token):
     print("Getting audit...")
     analysis = get_object_or_404(models.Analysis, access_token=token)
     context = dict(analysis.data)
-    context['url'] = analysis.website.url
-    context['contact_name'] = Contact.objects.get(
-        pk=analysis.website.contact_id).first_name
-    context['date'] = analysis.updated_at
+    context["url"] = analysis.website.url
+    context["contact_name"] = Contact.objects.get(
+        pk=analysis.website.contact_id
+    ).first_name
+    context["date"] = analysis.updated_at
 
-    scores = {k: v * 100 for k, v in context['scores'].items()}
-    scores['best_practices'] = scores['best-practices']
-    context['scores'] = scores
-    sections = context['sections']
+    scores = {k: v * 100 for k, v in context["scores"].items()}
+    scores["best_practices"] = scores["best-practices"]
+    context["scores"] = scores
+    sections = context["sections"]
     for s in sections:
-        if s['name'] == 'Accessibility':
-            s['formatted_name'] = 'accessibility'
-            s['intro'] = accessibility_intro
-        elif s['name'] == "Best-practices":
-            s['intro'] = best_practices_intro
-            s['name'] = "Best Practices"
-            s['formatted_name'] = 'best-practices'
-        elif s['name'] == "Performance":
-            s['intro'] = performance_intro
-            s['formatted_name'] = 'performance'
+        if s["name"] == "Accessibility":
+            s["formatted_name"] = "accessibility"
+            s["intro"] = accessibility_intro
+        elif s["name"] == "Best-practices":
+            s["intro"] = best_practices_intro
+            s["name"] = "Best Practices"
+            s["formatted_name"] = "best-practices"
+        elif s["name"] == "Performance":
+            s["intro"] = performance_intro
+            s["formatted_name"] = "performance"
         else:
-            s['intro'] = seo_intro
-            s['formatted_name'] = 'seo'
+            s["intro"] = seo_intro
+            s["formatted_name"] = "seo"
 
-    context['sections'] = sections
-    context['dark_sections'] = ["best practices", "seo"]
+    context["sections"] = sections
+    context["dark_sections"] = ["best practices", "seo"]
     print(context)
-    for s in context['sections']:
-        audits = s['audits']
+    for s in context["sections"]:
+        audits = s["audits"]
         for a in audits:
             print(a.keys())
     return render(request, "website/full_report.html", context=context)

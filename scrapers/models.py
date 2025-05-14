@@ -11,10 +11,7 @@ class SearchTerm(models.Model):
 
 
 class Location(models.Model):
-    LOCATION_TYPES = [
-        ("pc", "Post Code"),
-        ("to", "Town")
-    ]
+    LOCATION_TYPES = [("pc", "Post Code"), ("to", "Town")]
     type = models.CharField(max_length=2, choices=LOCATION_TYPES)
     name = models.CharField(max_length=255)
 

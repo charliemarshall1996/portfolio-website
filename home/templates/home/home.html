@@ -20,24 +20,35 @@
 <link rel="canonical" href="https://www.charlie-marshall.dev">
 {% endblock %}
 
+{% block hero %}
+<section class="hero text-white align-content-center py-5">
+    <div class="container hero-content">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <h1 class="display-1 mb-4">Hi, I'm Charlie</h1>
+                <p class="lead mb-5">I build & manage websites and automate your data headaches.</p>
+                <p class="display-3 mb-5">&lt;/&gt;<i class="bi bi-database-fill mx-3"></i><i class="bi bi-bar-chart-fill"></i></p>
+                <a href="#" class="btn btn-primary cta-button" 
+                   onclick="Calendly.initPopupWidget({url: 'https://calendly.com/charlie-charlie-marshall'});return false;">
+                    Start Your Project
+                </a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="bi bi-arrow-down-short text-white h3"></i>
+        </div>
+
+    </div>
+</section>
+{% endblock %}
+
+
 {% block content %}
 
 <div class="container-fluid container-content px-0"> <!-- Remove horizontal padding for full-width sections -->
 
     <!-- Hero Section -->
-    <section class="hero-section bg-primary text-white align-content-center py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8 text-center">
-                    <h1 class="display-1 mb-4">Hi, I'm Charlie</h1>
-                    <p class="lead mb-4">I Build Dynamic, Data-Driven Web Applications with Django</p>
-                    <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-                    <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
-                    <a href="" class="btn btn-outline-light btn-lg" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/charlie-charlie-marshall'});return false;">Start Your Project</a>
-                </div>
-            </div>
-        </div>
-    </section>
+    
 
     <!-- Portfolio Section
     <section class="py-5">

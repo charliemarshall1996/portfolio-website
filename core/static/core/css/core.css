@@ -1,6 +1,176 @@
 
-.hero-section {
+
+
+.hero {
     min-height: 100vh;
+    background: linear-gradient(315deg, #FF6B6B 0%, #03045E 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 2rem 0;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: 
+        radial-gradient(circle at 10% 20%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(3, 4, 94, 0.1) 0%, transparent 50%);
+    animation: float 15s infinite linear;
+}
+
+@keyframes float {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(-15%, 15%); }
+    50% { transform: translate(-10%, 0); }
+    75% { transform: translate(-15%, -15%); }
+    100% { transform: translate(0, 0); }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+:root {
+  --gradient-x: 0%;
+  --gradient-y: 0%;
+}
+
+.display-1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    background: linear-gradient(
+        45deg,
+        #F8F9FA 100%,
+        #FF6B6B calc(40% - var(--gradient-x)),
+        rgba(3, 4, 94, 0.8) calc(100% - var(--gradient-y))
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 5px 6px rgba(0,0,0,0.1);
+    letter-spacing: -0.05em;
+    margin-bottom: 1.5rem !important;
+    animation: text-gradient 15s infinite linear;
+    position: relative;
+    mix-blend-mode: multiply;
+}
+
+@keyframes text-gradient {
+    0% {
+        --gradient-x: 0%;
+        --gradient-y: 0%;
+    }
+    25% {
+        --gradient-x: 15%;
+        --gradient-y: -15%;
+    }
+    50% {
+        --gradient-x: 10%;
+        --gradient-y: 0%;
+    }
+    75% {
+        --gradient-x: -15%;
+        --gradient-y: 15%;
+    }
+    100% {
+        --gradient-x: 0%;
+        --gradient-y: 0%;
+    }
+}
+
+/* Enable CSS variable animations */
+@property --gradient-x {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+
+@property --gradient-y {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 0%;
+}
+
+.hero .lead {
+    font-size: 1.5rem;
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+    color: #e2e8f0;
+    line-height: 1.6;
+}
+
+.cta-button {
+    position: relative;
+    padding: 1rem 2.5rem;
+    font-size: 1.25rem;
+    border: 2px solid #FF6B6B;
+    background: rgba(255, 107, 107, 0.15);
+    backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
+    transform-style: preserve-3d;
+    /* Add these to fix the border issue */
+    overflow: hidden;
+    z-index: 1;
+}
+
+.cta-button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% + 8px);
+    height: calc(100% + 8px);
+    border: 2px solid #FF6B6B;
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: -1; /* Push behind the button content */
+    border-radius: inherit; /* Match button's border radius */
+}
+
+.cta-button:hover::after {
+    opacity: 1;
+    width: calc(100% + 12px);
+    height: calc(100% + 12px);
+}
+
+/* Optional: Add a subtle background expansion */
+.cta-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 107, 107, 0.3);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+    z-index: -1;
+}
+
+.cta-button:hover::before {
+    transform: scaleX(1);
+}
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounce 2s infinite;
+    z-index: 1;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
+    40% { transform: translateY(-20px) translateX(-50%); }
+    60% { transform: translateY(-10px) translateX(-50%); }
 }
 
 h1, h2, h3, h4, h5, h6 {

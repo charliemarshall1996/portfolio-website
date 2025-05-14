@@ -1,4 +1,3 @@
-
 import os
 import sys
 import logging
@@ -18,15 +17,15 @@ def run():
     path = os.path.join(path, file_name)
     email_records = {}
 
-    with open(path, 'r') as file:
+    with open(path, "r") as file:
         next(file)  # Skip the media pointer line
-        reader = csv.DictReader(file, delimiter='\t')
+        reader = csv.DictReader(file, delimiter="\t")
 
         for row in reader:
             # Extract email from [email](mailto:...) format
-            email_link = row['email']
-            start = email_link.find('[') + 1
-            end = email_link.find(']', start)
+            email_link = row["email"]
+            start = email_link.find("[") + 1
+            end = email_link.find("]", start)
 
             if start < 1 or end < 0:
                 sys.stderr.write(f"Invalid email format: {email_link}")
@@ -35,7 +34,7 @@ def run():
 
             # Parse timestamp
             try:
-                naive_time = datetime.strptime(row['ts'], "%d-%m-%Y %H:%M:%S")
+                naive_time = datetime.strptime(row["ts"], "%d-%m-%Y %H:%M:%S")
                 aware_time = timezone.make_aware(naive_time)
             except ValueError as e:
                 sys.stderr.write(f"Invalid date {row['ts']}: {e}")
@@ -47,8 +46,5 @@ def run():
 
     # Update/Create records
     for email, latest in email_records.items():
-        Email.objects.update_or_create(
-            email=email,
-            defaults={'last_emailed': latest}
-        )
+        Email.objects.update_or_create(email=email, defaults={"last_emailed": latest})
         sys.stdout.write(f"Processed {email}")

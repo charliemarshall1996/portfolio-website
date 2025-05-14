@@ -65,9 +65,7 @@ class Website(Orderable, ClusterableModel):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    panels = [
-        FieldPanel("url")
-    ]
+    panels = [FieldPanel("url")]
 
 
 class Contact(ClusterableModel):
@@ -83,8 +81,7 @@ class Contact(ClusterableModel):
         ("cl", "Client"),
         ("fc", "Former Client"),
     ]
-    salutation = models.CharField(
-        max_length=10, choices=SALUTATION_CHOICES, blank=True)
+    salutation = models.CharField(max_length=10, choices=SALUTATION_CHOICES, blank=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255, blank=True, null=True)
     company = models.ForeignKey(
@@ -93,8 +90,7 @@ class Contact(ClusterableModel):
     position = models.CharField(max_length=255, blank=True)
     email = models.EmailField(blank=True, null=True, unique=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
-    mobile = models.CharField(
-        max_length=20, blank=True, null=True)
+    mobile = models.CharField(max_length=20, blank=True, null=True)
     linkedin = models.URLField(blank=True)
     status = models.CharField(
         max_length=2, choices=STATUS_CHOICES, default=STATUS_CHOICES[0]
@@ -148,8 +144,7 @@ class Deal(models.Model):
         Contact, on_delete=models.SET_NULL, null=True, blank=True
     )
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    stage = models.CharField(
-        max_length=20, choices=STAGE_CHOICES, default="prospect")
+    stage = models.CharField(max_length=20, choices=STAGE_CHOICES, default="prospect")
     expected_close_date = models.DateField()
     probability = models.IntegerField(default=0)
     description = models.TextField(blank=True)
@@ -285,13 +280,11 @@ class Interaction(ClusterableModel):
 
     time = models.TimeField(default=timezone.now, verbose_name="Time")
 
-    duration = models.DurationField(
-        blank=True, null=True, verbose_name="Duration")
+    duration = models.DurationField(blank=True, null=True, verbose_name="Duration")
 
     detail = models.TextField(blank=True, null=True, verbose_name="Details")
 
-    follow_up = models.DateField(
-        blank=True, null=True, verbose_name="Follow-up Date")
+    follow_up = models.DateField(blank=True, null=True, verbose_name="Follow-up Date")
 
     follow_up_completed = models.BooleanField(
         default=False, verbose_name="Follow-up Completed?"
@@ -380,8 +373,7 @@ class InteractionAttachment(models.Model):
         max_length=255, blank=True, null=True, verbose_name="Description"
     )
 
-    uploaded_at = models.DateTimeField(
-        auto_now_add=True, verbose_name="Uploaded At")
+    uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name="Uploaded At")
 
     panels = [
         FieldPanel("file"),
@@ -493,8 +485,7 @@ class Service(ClusterableModel):
     package_tier = models.ForeignKey(
         PackageTier, on_delete=models.SET_NULL, null=True, blank=True
     )
-    status = models.CharField(
-        max_length=20, choices=STATUS_CHOICES, default="proposed")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="proposed")
     start_date = models.DateField(null=True, blank=True)
     target_date = models.DateField(null=True, blank=True)
     completion_date = models.DateField(null=True, blank=True)
@@ -549,8 +540,7 @@ class Service(ClusterableModel):
     def create_invoice(self):
         """Create a draft invoice for this service"""
         if not self.company:
-            raise ValueError(
-                "Service must have a company to create an invoice")
+            raise ValueError("Service must have a company to create an invoice")
 
         # Get the default invoice template
         template = InvoiceTemplate.objects.filter(is_active=True).first()
@@ -583,8 +573,7 @@ class Service(ClusterableModel):
             )
         elif self.pricing_option.pricing_model == "record":
             total_records = (
-                self.deliverables.aggregate(
-                    total=models.Sum("record_count"))["total"]
+                self.deliverables.aggregate(total=models.Sum("record_count"))["total"]
                 or 0
             )
             InvoiceLineItem.objects.create(
@@ -604,8 +593,7 @@ class Service(ClusterableModel):
 
                 # Add overage if applicable
                 total_hours = self.get_total_hours()
-                overage = max(0, total_hours -
-                              self.package_tier.included_hours)
+                overage = max(0, total_hours - self.package_tier.included_hours)
                 if overage > 0 and self.package_tier.overage_rate:
                     InvoiceLineItem.objects.create(
                         invoice=invoice,
@@ -716,8 +704,7 @@ class Contract(ClusterableModel):
     contact = models.ForeignKey(
         Contact, on_delete=models.PROTECT, null=True, blank=True
     )
-    status = models.CharField(
-        max_length=20, choices=STATUS_CHOICES, default="draft")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="draft")
     generated_date = models.DateField(null=True, blank=True)
     sent_date = models.DateField(null=True, blank=True)
     approved_date = models.DateField(null=True, blank=True)
@@ -809,8 +796,7 @@ class Invoice(ClusterableModel):
     contact = models.ForeignKey(
         Contact, on_delete=models.PROTECT, null=True, blank=True
     )
-    status = models.CharField(
-        max_length=20, choices=STATUS_CHOICES, default="draft")
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="draft")
     issue_date = models.DateField(null=True, blank=True)
     due_date = models.DateField()
     sent_date = models.DateField(null=True, blank=True)
@@ -940,13 +926,11 @@ class Invoice(ClusterableModel):
 class InvoiceLineItem(models.Model):
     """Line items for an invoice."""
 
-    invoice = ParentalKey(Invoice, on_delete=models.CASCADE,
-                          related_name="line_items")
+    invoice = ParentalKey(Invoice, on_delete=models.CASCADE, related_name="line_items")
     description = models.CharField(max_length=255)
     quantity = models.DecimalField(max_digits=10, decimal_places=2, default=1)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
-    amount = models.DecimalField(
-        max_digits=10, decimal_places=2, editable=False)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
 
     panels = [
         FieldPanel("description"),

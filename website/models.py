@@ -19,26 +19,26 @@ class Website(models.Model):
 
 class Analysis(models.Model):
     website = models.ForeignKey(
-        Website, on_delete=models.CASCADE, related_name="analyses")
+        Website, on_delete=models.CASCADE, related_name="analyses"
+    )
     data = models.JSONField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    access_token = models.UUIDField(
-        default=uuid.uuid4, unique=True, editable=False)
+    access_token = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
 
     report_url = models.URLField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
-
         if not self.report_url:
             self.report_url = self.full_url()
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('website:audit_view', args=[self.access_token])
+        return reverse("website:audit_view", args=[self.access_token])
 
     def full_url(self):
         from django.contrib.sites.models import Site
+
         domain = Site.objects.get_current().domain
         return f"https://{domain}{self.get_absolute_url()}"
 

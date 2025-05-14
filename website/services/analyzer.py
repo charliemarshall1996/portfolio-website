@@ -1,4 +1,3 @@
-
 import logging
 from django.conf import settings
 
@@ -28,7 +27,7 @@ audit_descriptions = {
             "reduced-javascript-execution-time": "Minimize and defer unused JavaScript to improve performance.",
             "lazy-loading-images": "Lazy load images to avoid unnecessary resource loading during the initial page load.",
             "server-response-time": "Optimize server response time by using caching, CDNs, or server-side optimizations.",
-            "minimize-main-thread-work": "Break up large tasks into smaller, non-blocking chunks to improve responsiveness."
+            "minimize-main-thread-work": "Break up large tasks into smaller, non-blocking chunks to improve responsiveness.",
         },
         "Passed": {
             "first-contentful-paint": "First contentful paint happens in under 1.8s, optimized CSS and render-blocking resources are minimized.",
@@ -40,8 +39,8 @@ audit_descriptions = {
             "reduced-javascript-execution-time": "JavaScript execution time is minimized by deferring non-essential scripts.",
             "lazy-loading-images": "Images are lazy-loaded to avoid unnecessary initial load.",
             "server-response-time": "Server response time is optimized with caching, CDNs, or server-side improvements.",
-            "minimize-main-thread-work": "Main thread work is minimized by breaking tasks into smaller, non-blocking chunks."
-        }
+            "minimize-main-thread-work": "Main thread work is minimized by breaking tasks into smaller, non-blocking chunks.",
+        },
     },
     "accessibility": {
         "Failed": {
@@ -54,7 +53,7 @@ audit_descriptions = {
             "semantic-html": "Use proper semantic HTML elements (like `<header>`, `<footer>`, `<nav>`, `<article>`) for better screen reader interpretation.",
             "error-identification": "Provide clear error messages for form validation to assist users with disabilities.",
             "landmark-roles": "Use landmark roles to define page structure, making it easier for screen reader users to navigate.",
-            "accessible-names-for-interactive-elements": "Ensure buttons and links have clear, descriptive accessible names."
+            "accessible-names-for-interactive-elements": "Ensure buttons and links have clear, descriptive accessible names.",
         },
         "Passed": {
             "color-contrast": "Sufficient color contrast is maintained between text and background for readability.",
@@ -66,8 +65,8 @@ audit_descriptions = {
             "semantic-html": "Proper semantic HTML elements are used for better screen reader support.",
             "error-identification": "Clear and accessible error messages are provided for form validation.",
             "landmark-roles": "Landmark roles are used to define the page structure for better screen reader navigation.",
-            "accessible-names-for-interactive-elements": "Buttons and links have clear, descriptive accessible names."
-        }
+            "accessible-names-for-interactive-elements": "Buttons and links have clear, descriptive accessible names.",
+        },
     },
     "best-practices": {
         "Failed": {
@@ -80,7 +79,7 @@ audit_descriptions = {
             "preload-key-requests": "Preload critical resources to speed up page rendering.",
             "avoid-large-javascript-bundles": "Use smaller JavaScript bundles to improve performance and reduce load times.",
             "avoid-memory-leaks": "Make sure to clean up event listeners, intervals, and other references that can cause memory leaks.",
-            "service-worker-setup": "Implement a service worker for offline capabilities and better caching."
+            "service-worker-setup": "Implement a service worker for offline capabilities and better caching.",
         },
         "Passed": {
             "https-usage": "The website is fully served over HTTPS, ensuring secure connections.",
@@ -92,8 +91,8 @@ audit_descriptions = {
             "preload-key-requests": "Critical resources are preloaded to speed up page rendering.",
             "avoid-large-javascript-bundles": "JavaScript bundles are kept small for faster loading times.",
             "avoid-memory-leaks": "Event listeners, intervals, and other references are cleaned up to avoid memory leaks.",
-            "service-worker-setup": "Service workers are properly implemented for offline capabilities and caching."
-        }
+            "service-worker-setup": "Service workers are properly implemented for offline capabilities and caching.",
+        },
     },
     "seo": {
         "Failed": {
@@ -106,7 +105,7 @@ audit_descriptions = {
             "text-to-html-ratio": "Aim for a reasonable amount of content (text) compared to HTML to ensure quality SEO.",
             "avoid-broken-links": "Fix any broken links (404 errors) that might impact user experience and SEO.",
             "mobile-friendly-design": "Ensure your website is mobile-friendly to improve SEO rankings and user experience.",
-            "xml-sitemap": "Make sure you have an XML sitemap that is properly configured for search engines to crawl."
+            "xml-sitemap": "Make sure you have an XML sitemap that is properly configured for search engines to crawl.",
         },
         "Passed": {
             "meta-description": "Each page has a clear, descriptive meta description.",
@@ -118,17 +117,17 @@ audit_descriptions = {
             "text-to-html-ratio": "The site maintains a healthy text-to-HTML ratio for quality SEO.",
             "avoid-broken-links": "No broken links or 404 errors are present.",
             "mobile-friendly-design": "The site is mobile-friendly and optimized for mobile devices.",
-            "xml-sitemap": "An XML sitemap is present and properly configured for search engine crawling."
-        }
-    }
+            "xml-sitemap": "An XML sitemap is present and properly configured for search engine crawling.",
+        },
+    },
 }
 
 
 def clean_description_regex(description):
     if isinstance(description, str):
-        description = re.sub(r'\[([^\]]+)\]\([^\)]+\)', r'\1', description)
-        description = re.sub(r'\[Learn more[^\]]*\]', '', description)
-        description = re.sub(r'\bLearn[^.]*\.', '', description)
+        description = re.sub(r"\[([^\]]+)\]\([^\)]+\)", r"\1", description)
+        description = re.sub(r"\[Learn more[^\]]*\]", "", description)
+        description = re.sub(r"\bLearn[^.]*\.", "", description)
         return description.strip()
 
 
@@ -142,17 +141,14 @@ def get_tier(score):
 
 
 class WebsiteAnalyzer:
-
     def __init__(self):
         self.endpoint = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
         self.key = "AIzaSyCQxitw9nIpckdHFTzOS17ECa8u9VHz2LM"
 
         self.data = {
-            'scores': {},
-            'insights': {
-                "passed": [],
-                "failed": []},
-            'sections': []
+            "scores": {},
+            "insights": {"passed": [], "failed": []},
+            "sections": [],
         }
 
     def run(self, site):
@@ -181,33 +177,32 @@ class WebsiteAnalyzer:
 
     def _parse_category_scores(self, categories):
         for k, v in categories.items():
-
-            self.data['scores'][k] = v['score']
+            self.data["scores"][k] = v["score"]
 
     def _parse_audit_refs(self, categories):
         audit_refs = []
         for k, v in categories.items():
-            category_audit_refs = v['auditRefs']
+            category_audit_refs = v["auditRefs"]
             for category_audit_ref in category_audit_refs:
-                category_audit_ref['category'] = k
+                category_audit_ref["category"] = k
                 audit_refs.append(category_audit_ref)
         return audit_refs
 
     def _parse_audits(self, lighthouse_result):
         audits = []
-        for k, v in lighthouse_result['audits'].items():
-            v['name'] = k
+        for k, v in lighthouse_result["audits"].items():
+            v["name"] = k
             audits.append(v)
         return audits
 
     def _merge_audits_and_audit_refs(self, audits, audit_refs):
         audits_df = pd.DataFrame(audits)
         audit_refs_df = pd.DataFrame(audit_refs)
-        return audits_df.merge(audit_refs_df, on=['id'], how="outer")
+        return audits_df.merge(audit_refs_df, on=["id"], how="outer")
 
     def _parse_lighthouse_data(self, response):
-        lighthouse_result = response['lighthouseResult']
-        categories = lighthouse_result['categories']
+        lighthouse_result = response["lighthouseResult"]
+        categories = lighthouse_result["categories"]
 
         self._parse_category_scores(categories)
         audit_refs = self._parse_audit_refs(categories)
@@ -215,63 +210,64 @@ class WebsiteAnalyzer:
         print(f"AUDIT REFS COLUMNS: {audit_refs}")
 
         df = self._merge_audits_and_audit_refs(audits, audit_refs)
-        return df.mask(df['scoreDisplayMode'] == "manual")
+        return df.mask(df["scoreDisplayMode"] == "manual")
 
     def _transform(self, df):
-        df = df.mask(df['scoreDisplayMode'] == "notApplicable")
-        df.dropna(axis=0, subset=['scoreDisplayMode'], inplace=True)
+        df = df.mask(df["scoreDisplayMode"] == "notApplicable")
+        df.dropna(axis=0, subset=["scoreDisplayMode"], inplace=True)
 
-        df['description'] = df.description.apply(clean_description_regex)
+        df["description"] = df.description.apply(clean_description_regex)
         df.dropna(subset=["description", "score"], inplace=True)
 
-        df['tier'] = df.score.apply(get_tier)
-        df['impact'] = df['weight'].fillna(0).astype(float)
+        df["tier"] = df.score.apply(get_tier)
+        df["impact"] = df["weight"].fillna(0).astype(float)
         return df
 
     def _parse_df_to_dict(self, df):
-        df['passed'] = df['tier'].str.lower() == 'pass'
-        df['needs_work'] = df['tier'].isnull()
-        df['failed'] = df['tier'].str.lower() == 'fail'
-        df['impact'] = df['weight'].fillna(0).astype(float)
-        for category, group in df.groupby('category'):
-
+        df["passed"] = df["tier"].str.lower() == "pass"
+        df["needs_work"] = df["tier"].isnull()
+        df["failed"] = df["tier"].str.lower() == "fail"
+        df["impact"] = df["weight"].fillna(0).astype(float)
+        for category, group in df.groupby("category"):
             descriptions = audit_descriptions[category]
             audits = []
 
             passed = failed = needs_work = 0
             for _, row in group.iterrows():
                 audit = {
-                    'title': row['title'],
-                    'description': row['description'],
-                    'passed': bool(row['passed']),
-                    'impact': f"{row['impact']:.1f}" if pd.notnull(row['impact']) else '0.0',
+                    "title": row["title"],
+                    "description": row["description"],
+                    "passed": bool(row["passed"]),
+                    "impact": f"{row['impact']:.1f}"
+                    if pd.notnull(row["impact"])
+                    else "0.0",
                 }
                 audits.append(audit)
 
-                print(row['id'], row['tier'])
-                if row['tier'] == "Pass":
-                    print(row['id'], "PASSED. CHECKING DESC....")
-                    passed_descriptions = descriptions.get('Passed')
+                print(row["id"], row["tier"])
+                if row["tier"] == "Pass":
+                    print(row["id"], "PASSED. CHECKING DESC....")
+                    passed_descriptions = descriptions.get("Passed")
                     if passed_descriptions:
-                        insight = passed_descriptions.get(row['id'])
+                        insight = passed_descriptions.get(row["id"])
                         if insight:
-                            self.data['insights']['passed'].append(insight)
+                            self.data["insights"]["passed"].append(insight)
                     passed += 1
-                elif row['tier'] == "Fail":
-                    print(row['id'], "FAILED. CHECKING DESC....")
-                    failed_descriptions = descriptions.get('Failed')
+                elif row["tier"] == "Fail":
+                    print(row["id"], "FAILED. CHECKING DESC....")
+                    failed_descriptions = descriptions.get("Failed")
                     if failed_descriptions:
-                        insight = failed_descriptions.get(row['id'])
+                        insight = failed_descriptions.get(row["id"])
                         if insight:
-                            self.data['insights']['failed'].append(insight)
+                            self.data["insights"]["failed"].append(insight)
                     failed += 1
-                elif row['tier'] == "Needs Work":
-                    print(row['id'], "NEEDS WORK. CHECKING DESC....")
-                    failed_descriptions = descriptions.get('Failed')
+                elif row["tier"] == "Needs Work":
+                    print(row["id"], "NEEDS WORK. CHECKING DESC....")
+                    failed_descriptions = descriptions.get("Failed")
                     if failed_descriptions:
-                        insight = failed_descriptions.get(row['id'])
+                        insight = failed_descriptions.get(row["id"])
                         if insight:
-                            self.data['insights']['failed'].append(insight)
+                            self.data["insights"]["failed"].append(insight)
                     needs_work += 1
 
             # Build dynamic summary
@@ -286,15 +282,15 @@ class WebsiteAnalyzer:
                 summary = f"{', '.join(parts)} in this section."
 
             section = {
-                'name': category.capitalize(),
-                'intro': f"This section covers {category.lower()} audits.",
-                'overview': {
-                    'passed': passed,
-                    'failed': failed,
-                    'needs_work': needs_work,
+                "name": category.capitalize(),
+                "intro": f"This section covers {category.lower()} audits.",
+                "overview": {
+                    "passed": passed,
+                    "failed": failed,
+                    "needs_work": needs_work,
                 },
-                'audits': audits,
-                'summary': summary
+                "audits": audits,
+                "summary": summary,
             }
 
-            self.data['sections'].append(section)
+            self.data["sections"].append(section)

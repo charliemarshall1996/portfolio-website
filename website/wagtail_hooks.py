@@ -9,18 +9,13 @@ from . import models
 class WebsiteSnippet(SnippetViewSet):
     model = models.Website
     list_display = ("contact_id", "url")
-    panels = [
-        FieldPanel("url")
-    ]
+    panels = [FieldPanel("url")]
 
 
 class AnalysisSnippet(SnippetViewSet):
     model = models.Analysis
-    list_display = ("created_at", "website__url",
-                    "report_url", "access_token")
-    panels = [
-        FieldPanel("data")
-    ]
+    list_display = ("created_at", "website__url", "report_url", "access_token")
+    panels = [FieldPanel("data")]
 
 
 class EmailSnippet(SnippetViewSet):
@@ -30,8 +25,10 @@ class EmailSnippet(SnippetViewSet):
         FieldPanel("email"),
         FieldPanel("opt_out"),
         FieldPanel("bounced"),
-        FieldPanel("last_emailed", widget=widgets.DateTimeInput(
-            attrs={'type': 'datetime-local'}))
+        FieldPanel(
+            "last_emailed",
+            widget=widgets.DateTimeInput(attrs={"type": "datetime-local"}),
+        ),
     ]
 
 

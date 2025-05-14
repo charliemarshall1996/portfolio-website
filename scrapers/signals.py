@@ -7,7 +7,6 @@ from . import models
 @receiver(post_save, sender=models.SearchTerm)
 def create_new_parameters_on_search_term_creation(sender, instance, created, **kwargs):
     if created:
-
         try:
             locations = list(models.Location.objects.all())
             for l in locations:
@@ -20,7 +19,6 @@ def create_new_parameters_on_search_term_creation(sender, instance, created, **k
 @receiver(post_save, sender=models.Location)
 def create_new_parameters_on_search_term_creation(sender, instance, created, **kwargs):
     if created:
-
         try:
             terms = list(models.SearchTerm.objects.all())
             for t in terms:

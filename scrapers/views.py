@@ -23,19 +23,21 @@ class SearchParameterView(APIView):
         elif update_target == "freeindex":
             search_param.last_run_freeindex = now()
         else:
-            return Response({"detail": "Invalid directory value."},
-                            status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"detail": "Invalid directory value."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         search_param.save()
         return Response(SearchParameterSerializer(search_param).data)
 
     def get(self, request, directory):
-
         if directory == "thomson":
             order = "last_run_thomson"
         else:
-            return Response({"detail": "Invalid directory"},
-                            status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"detail": "Invalid directory"}, status=status.HTTP_400_BAD_REQUEST
+            )
         search_param = SearchParameter.objects.all().order_by(order).first()
 
         if not search_param:

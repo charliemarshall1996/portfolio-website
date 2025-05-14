@@ -26,8 +26,7 @@ def run():
             logger.info("Website analyzed: %s", data)
 
             if data:
-                analysis = models.Analysis.objects.create(
-                    website=website, data=data)
+                analysis = models.Analysis.objects.create(website=website, data=data)
                 analysis.save()
                 if n_analysed >= 10:
                     break
