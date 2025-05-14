@@ -11,6 +11,13 @@
     padding: 2rem 0;
 }
 
+.narbar-brand {
+    font-family: 'Space Grotesk', sans-serif !important;
+    font-weight: 300 !important;
+    font-size: 2rem !important;
+
+}
+
 .hero::before {
     content: '';
     position: absolute;
@@ -181,10 +188,37 @@ p {
     font-family: "Roboto", sans-serif;
 }
 
-main {
-    min-height: 100vh;
-}
-
 .modal.fade .modal-dialog {
     transform: none !important;
+}
+
+/* Add to your existing CSS */
+.card {
+    transition: transform 0.3s ease;
+    border-radius: 1rem;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.btn-tertiary {
+    background: #FF6B6B;
+    color: white;
+    border: 2px solid #FF6B6B;
+}
+
+.btn-tertiary:hover {
+    background: #e55a5a;
+    border-color: #e55a5a;
+    color: white;
+}
+
+.text-tertiary {
+    color: #FF6B6B !important;
+}
+
+.alert-tertiary {
+    background: rgba(255, 107, 107, 0.15);
+    border: 2px solid #FF6B6B;
 }

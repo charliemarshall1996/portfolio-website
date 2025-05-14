@@ -45,7 +45,7 @@
 
 {% block content %}
 
-<div class="container-fluid container-content px-0"> <!-- Remove horizontal padding for full-width sections -->
+<div class="container-fluid container-content p-0"> <!-- Remove horizontal padding for full-width sections -->
 
     <!-- Hero Section -->
     
@@ -62,7 +62,7 @@
     </section>
     -->
 
-    <!-- About Me Section -->
+    <!-- About Me Section 
     <section class="py-5 bg-light">
         <div class="container">
             <div class="row justify-content-center">
@@ -94,120 +94,111 @@
             </div>
         </div>
     </section>
+    -->
 
-    <!-- Journey Section -->
-    <section class="py-5 bg-dark">
-        <div class="container">
-            <h2 class="text-center text-white mb-5">The Web Development Journey</h2>
-
-            {% include 'home/process_steps.html' %}
-        </div>
-    </section>
-
-    <section class="py-5 bg-light">
-        <div class="container">
-            <h2 class="text-center mb-5 display-5 fw-bold">Transform Your Digital Presence</h2>
-            
-            <div class="row g-4">
-                <!-- Web Development Card -->
-                <div class="col-6 col-lg-3">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body d-flex flex-column">
-                            <div class="text-center mb-3">
-                                <i class="bi bi-code-slash display-4 text-primary"></i>
-                                <span class="badge bg-primary-subtle text-primary mb-2">Custom Solutions</span>
-                            </div>
-                            <h3 class="text-center">Web Development</h3>
-                            <p class="flex-grow-1">Custom Django solutions tailored to your business needs.</p>
-                            <div class="text-center mt-auto pt-3">
-                                <a href="/services#web-dev" class="btn btn-outline-primary">Learn More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- Web Management -->
-                <div class="col-6 col-lg-3">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body d-flex flex-column">
-                            <div class="text-center mb-3">
-                                <i class="bi bi-gear-wide-connected display-4 text-primary"></i>
-                                <span class="badge bg-primary-subtle text-primary mb-2">Ongoing Support</span>
-                            </div>
-                            <h3 class="text-center">Web Management</h3>
-                            <p class="flex-grow-1">Pay-monthly packages to keep your site in tip-top shape.</p>
-                            <div class="text-center mt-auto pt-3">
-                                <a href="/services#web-management" class="btn btn-outline-primary">Learn More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- Data Solutions Card -->
-                <div class="col-6 col-lg-3">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body d-flex flex-column">
-                            <div class="text-center mb-3">
-                                <i class="bi bi-graph-up-arrow display-4 text-primary"></i>
-                                <span class="badge bg-primary-subtle text-primary mb-2">Analytics</span>
-                            </div>
-                            <h3 class="text-center">Data Solutions</h3>
-                            <p class="flex-grow-1">Transform your data into actionable insights.</p>
-                            <div class="text-center mt-auto pt-3">
-                                <a href="/services#data-solutions" class="btn btn-outline-primary">Learn More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- Data Management Card -->
-                <div class="col-6 col-lg-3">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body d-flex flex-column">
-                            <div class="text-center mb-3">
-                                <i class="bi bi-database-gear display-4 text-primary"></i>
-                                <span class="badge bg-primary-subtle text-primary mb-2">Optimization</span>
-                            </div>
-                            <h3 class="text-center">Data Management</h3>
-                            <p class="flex-grow-1">Get your data uniform and tidy.</p>
-                            <div class="text-center mt-auto pt-3">
-                                <a href="/services#data-management" class="btn btn-outline-primary">Learn More</a>
-                            </div>
+<!-- Services Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5 display-5 fw-bold text-dark">Services That Fix What's Broken</h2>
+        
+        <div class="row g-4">
+            <!-- Website Management Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 shadow-lg border-0">
+                    <div class="card-body">
+                        <h3 class="h4">🛠️ Website Management</h3>
+                        <p class="text-muted mb-4">Monthly care for professional websites</p>
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-3">✅ Speed & mobile optimization</li>
+                            <li class="mb-3">✅ Ongoing updates & changes</li>
+                            <li class="mb-3">✅ Lead form fixes</li>
+                            <li class="mb-3">✅ Google ranking boost</li>
+                        </ul>
+                        <div class="mt-auto">
+                            <p class="h5 text-tertiary mb-2">From £99/mo</p>
+                            <p class="small text-muted mb-3">📞 Direct line support - no helpdesk</p>
+                            <a href="#" class="btn btn-tertiary w-100" 
+                               onclick="Calendly.initPopupWidget({url: 'https://calendly.com/charlie-charlie-marshall'});return false;">
+                                Stop Website Headaches
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-    
-            <!-- Enhanced Pricing Banner -->
-            <div class="alert alert-primary mt-5 text-center border-start border-end border-5 border-primary">
-                <h4 class="alert-heading fw-bold">🚀 Flexible Pricing Options</h4>
-                <div class="d-flex justify-content-center gap-4 flex-wrap mt-3">
-                    <div>
-                        <h5 class="mb-0">£35/hr</h5>
-                        <small>Hourly Rate</small>
-                    </div>
-                    <div class="vr"></div>
-                    <div>
-                        <h5 class="mb-0">from £70/mo</h5>
-                        <small>Maintenance Plans</small>
+
+            <!-- Data Solutions Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 shadow-lg border-0">
+                    <div class="card-body">
+                        <h3 class="h4">📊 Data Services</h3>
+                        <p class="text-muted mb-4">For agencies buried in spreadsheets</p>
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-3">✅ Data cleaning and wrangling</li>
+                            <li class="mb-3">✅ Analytics</li>
+                            <li class="mb-3">✅ Web scraping</li>
+                            <li class="mb-3">✅ ETL pipelines</li>
+                        </ul>
+                        <div class="mt-auto">
+                            <p class="h5 text-tertiary mb-2">Fixed or monthly</p>
+                            <p class="small text-muted mb-3">📈 You send data, I sort mess</p>
+                            <a href="#" class="btn btn-tertiary w-100" 
+                               onclick="Calendly.initPopupWidget({url: 'https://calendly.com/charlie-charlie-marshall'});return false;">
+                                Automate Your Data
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <hr>
-                <p class="mb-0">Includes free initial consultation and project scoping</p>
+            </div>
+
+            <!-- Full-Stack Development Card -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 shadow-lg border-0">
+                    <div class="card-body">
+                        <h3 class="h4">⚙️ Full-Stack Dev</h3>
+                        <p class="text-muted mb-4">Custom tools for agencies</p>
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-3">✅ Django/Python apps</li>
+                            <li class="mb-3">✅ Client portals</li>
+                            <li class="mb-3">✅ API integrations</li>
+                            <li class="mb-3">✅ White-label solutions</li>
+                        </ul>
+                        <div class="mt-auto">
+                            <p class="h5 text-tertiary mb-2">Project-based</p>
+                            <p class="small text-muted mb-3">💬 No ghosting - just delivery</p>
+                            <a href="#" class="btn btn-tertiary w-100" 
+                               onclick="Calendly.initPopupWidget({url: 'https://calendly.com/charlie-charlie-marshall'});return false;">
+                                Build Your Tool
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
 
-    <!-- CTA Section -->
-    <section class="py-5 bg-secondary text-white">
-        <div class="container text-center">
-            <h2 class="mb-4 text-dark">Ready to Start Your Project?</h2>
-            <p class="lead mb-4 text-dark">Let's discuss how I can help bring your vision to life</p>
-            <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-            <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
-            <a href="" class="btn btn-tertiary btn-lg" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/charlie-charlie-marshall'});return false;">Get in Touch!</a>
+        <!-- Pricing Banner -->
+        <div class="alert alert-tertiary mt-5 text-center border-0">
+            <div class="d-flex flex-wrap justify-content-center gap-4 align-items-center">
+                <div>
+                    <p class="mb-0"><strong>No surprises:</strong> Fixed pricing or monthly retainers</p>
+                </div>
+                <div class="vr"></div>
+                <div>
+                    <p class="mb-0"><strong>Rolling monthly web management plans with a 3-month cancellation period:</strong> no long-term contracts</p>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
+</section>
+  <!-- CTA Section -->
+  <section class="py-5 bg-secondary text-white">
+      <div class="container text-center">
+          <h2 class="mb-4 text-dark">Ready to Start Your Project?</h2>
+          <p class="lead mb-4 text-dark">Let's discuss how I can help bring your vision to life</p>
+          <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+          <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+          <a href="" class="btn btn-tertiary btn-lg" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/charlie-charlie-marshall'});return false;">Get in Touch!</a>
+      </div>
+  </section>
 </div>
 
 <script>
