@@ -51,4 +51,5 @@ class SearchParameterView(APIView):
         elif directory == "freeindex":
             search_param.last_run_freeindex = now()
 
+        search_param.save()
         return Response(data=SearchParameterSerializer(search_param).data)
