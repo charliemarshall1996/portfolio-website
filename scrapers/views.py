@@ -33,13 +33,14 @@ class SearchParameterView(APIView):
 
     def get(self, request, directory):
         if directory == "thomson":
-            order = ['-last_run_thomson__isnull', 'last_run_thomson']
+            search_param = SearchParameter.objects.filter(
+                last_run_thomson__isnull=True).first()
+            if not search_param:
+                search_param = SearchParameter.objects.all().order_by("last_run_thomson").first()
         else:
             return Response(
                 {"detail": "Invalid directory"}, status=status.HTTP_400_BAD_REQUEST
             )
-
-        search_param = SearchParameter.objects.all().order_by(*order).first()
 
         if not search_param:
             return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
