@@ -8,7 +8,13 @@ class SearchParameterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.SearchParameter
-        fields = ["id", "term", "location", "last_run_thomson", "last_run_freeindex"]
+        fields = ["id", "term", "location",
+                  "last_run_thomson", "last_run_freeindex"]
+
+    def save(self, **kwargs):
+        instance = super().save(**kwargs)
+        instance.save()
+        return instance
 
     def get_term(self, obj):
         return obj.term.term if obj.term else None

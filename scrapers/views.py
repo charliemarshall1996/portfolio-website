@@ -37,6 +37,7 @@ class SearchParameterView(APIView):
                 last_run_thomson__isnull=True).first()
             if not search_param:
                 search_param = SearchParameter.objects.all().order_by("last_run_thomson").first()
+
         else:
             return Response(
                 {"detail": "Invalid directory"}, status=status.HTTP_400_BAD_REQUEST
@@ -44,5 +45,10 @@ class SearchParameterView(APIView):
 
         if not search_param:
             return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        if directory == "thomson":
+            search_param.last_run_thomson = now()
+        elif directory == "freeindex":
+            search_param.last_run_freeindex = now()
 
         return Response(data=SearchParameterSerializer(search_param).data)

@@ -19,7 +19,8 @@ class LocationSnippet(SnippetViewSet):
 
 class SearchParameters(SnippetViewSet):
     model = models.SearchParameter
-    list_display = ("term__term", "location__name", "last_run_freeindex")
+    list_display = ("term__term", "location__name",
+                    "last_run_thomson", "last_run_freeindex")
     panels = [FieldPanel("live")]
 
 
