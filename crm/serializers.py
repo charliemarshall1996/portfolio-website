@@ -12,12 +12,13 @@ class ContactSerializer(serializers.ModelSerializer):
     websites = WebsiteSerializer(many=True)
 
     class Meta:
-        model = models.Contact
+        model = models.Client
         fields = "__all__"
 
     def create(self, validated_data):
         websites_data = validated_data.pop("websites", [])
-        contact, created = models.Contact.objects.get_or_create(**validated_data)
+        contact, created = models.Client.objects.get_or_create(
+            **validated_data)
         contact.save()
         for website_data in websites_data:
             # Remove 'contact' if present in the incoming data

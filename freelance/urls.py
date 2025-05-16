@@ -32,10 +32,8 @@ urlpatterns = [
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     re_path(r"visitors/", include("visitors.urls")),
-    re_path(r"website/", include("website.urls")),
     re_path(r"", include("home.urls")),
-    re_path(r"crm/", include("crm.urls")),
-    re_path(r"scrapers/", include("scrapers.urls")),
+    re_path(r"", include("crm.urls")),
     path("", include(wagtail_urls)),
 ]
 
@@ -51,6 +49,7 @@ if settings.DEBUG:
     urlpatterns += [
         path(
             "favicon.ico",
-            RedirectView.as_view(url=settings.STATIC_URL + "core/favicon/favicon.ico"),
+            RedirectView.as_view(url=settings.STATIC_URL +
+                                 "core/favicon/favicon.ico"),
         )
     ]

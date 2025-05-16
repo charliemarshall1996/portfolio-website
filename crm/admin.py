@@ -1,8 +1,6 @@
 from django.contrib import admin
-from .models import Contact, Company, Interaction
+from .models import Client
 
 # Register your models here.
 
-admin.site.register(Contact)
-admin.site.register(Company)
-admin.site.register(Interaction)
+admin.site.register(Client)
