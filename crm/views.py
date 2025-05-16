@@ -1,8 +1,6 @@
 # views.py
 from . import models
 from django.shortcuts import render, get_object_or_404
-from django.apps import apps
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 from rest_framework.decorators import (
     api_view,
