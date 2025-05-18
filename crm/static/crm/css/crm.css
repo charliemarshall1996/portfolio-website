@@ -11,3 +11,13 @@ canvas {
     max-height: 400px;
     min-height: 300px;
 }
+
+.offcanvas-toggle-btn {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    transform-origin: left center;
+    z-index: 1045; /* Higher than offcanvas */
+    border-radius: 0 0 0.5rem 0.5rem;
+  }

@@ -17,16 +17,23 @@ Including another URLconf
 
 import os.path
 
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.conf.urls.static import static
+from django.views.generic.base import RedirectView
 from django.contrib import admin
 from django.conf import settings
 
+from wagtail.admin import urls as wagtailadmin_urls
+from wagtail import urls as wagtail_urls
+from wagtail.documents import urls as wagtaildocs_urls
+
 urlpatterns = [
     path("django-admin/", admin.site.urls),
-    path(r"visitors/", include("visitors.urls")),
-    path(r"", include("home.urls")),
-    path(r"", include("crm.urls")),
+    path("admin/", include(wagtailadmin_urls)),
+    path("documents/", include(wagtaildocs_urls)),
+    re_path(r"", include("home.urls")),
+    re_path(r"", include("crm.urls")),
+    path("", include(wagtail_urls)),
 ]
 
 if settings.DEBUG:
@@ -38,3 +45,10 @@ if settings.DEBUG:
         settings.MEDIA_URL + "images/",
         document_root=os.path.join(settings.MEDIA_ROOT, "images"),
     )
+    urlpatterns += [
+        path(
+            "favicon.ico",
+            RedirectView.as_view(url=settings.STATIC_URL +
+                                 "core/favicon/favicon.ico"),
+        )
+    ]

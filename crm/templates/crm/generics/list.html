@@ -1,0 +1,101 @@
+{% comment %} 
+Required context variables:
+- title: str
+- create_url: str (optional)
+- table_headers: list[str]
+- table_fields: list[str]
+- object_list: iterable
+- detail_url_name: str (optional)
+- detail_url_pk_field: str (default: 'pk')
+- page_obj: optional, for pagination
+- request: needed for url_replace
+{% endcomment %}
+
+{% load static %}
+{% load custom_tags %}
+{% load url_replace %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row justify-content-center text-center py-3">
+    <div class="col-10">
+      <h1>{{ title }}</h1>
+    </div>
+  </div>
+
+  {% if create_url %}
+  <div class="row justify-content-center py-3">
+    <div class="col-10">
+      <a href="{{ create_url }}" class="btn btn-primary">Create {{ title|slice:":-1" }}</a>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="row justify-content-center">
+    <div class="col-10">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            {% for header in table_headers %}
+              <th scope="col">{{ header }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for obj in object_list %}
+            <tr class="{% if detail_url_name %}position-relative{% endif %}">
+              {% for field in table_fields %}
+                <td>{{ obj|attr:field }}</td>
+              {% endfor %}
+              {% if detail_url_name %}
+              <td>
+                <a href="{% url detail_url_name obj|attr:detail_url_pk_field|default:'pk' %}" class="stretched-link"></a>
+              </td>
+              {% endif %}
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="{{ table_headers|length }}">No data found.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {% if page_obj %}
+  <div class="row text-center justify-content-center py-3">
+    <div class="col-10">
+      <nav class="page-navigation">
+        <ul class="pagination pagination-sm justify-content-center align-content-center">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?{% url_replace request 'page' 1 %}" aria-label="First">&laquo;</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?{% url_replace request 'page' page_obj.previous_page_number %}" aria-label="Previous">&lsaquo;</a>
+            </li>
+          {% endif %}
+          {% for page in page_obj.paginator.page_range %}
+            {% if page == page_obj.number %}
+              <li class="page-item active"><span class="page-link">{{ page }}</span></li>
+            {% elif page <= page_obj.number|add:9 and page >= page_obj.number|add:-9 %}
+              <li class="page-item"><a class="page-link" href="?{% url_replace request 'page' page %}">{{ page }}</a></li>
+            {% endif %}
+          {% endfor %}
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?{% url_replace request 'page' page_obj.next_page_number %}" aria-label="Next">&rsaquo;</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="?{% url_replace request 'page' page_obj.paginator.num_pages %}" aria-label="Last">&raquo;</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

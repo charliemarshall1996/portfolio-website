@@ -20,33 +20,27 @@
     
 	<link rel="stylesheet" href="{% static 'core/css/normalize.css' %}">
 	<link rel="stylesheet" href="{% static 'core/css/core.css' %}">
-	
-    {% block styles %}{% endblock %}
+  <link rel="stylesheet" href="{% static 'crm/css/crm.css' %}">
 </head>
 <body class="body-light">
     <header>
-        <nav class="navbar navbar-expand-lg bg-primary navbar-dark px-5">
-			<a class="navbar-brand" href="{% url 'crm:dashboard' %}">CM</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-				<span><i class="bi bi-list"></i></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav w-100">
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'crm:company-list' %}">Companies</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'crm:contact-list' %}">Contacts</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'crm:interaction-list' %}">Interactions</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="{% url 'blog:create-post' %}">Blog</a>
-					</li>
-				</ul>
-			</div>
-        </nav>
+      <button class="btn btn-primary offcanvas-toggle-btn" type="button"
+              data-bs-toggle="offcanvas" data-bs-target="#menu"
+              aria-controls="menu">
+        ☰ Menu
+      </button>
+
+      <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#menu" aria-controls="menu">Enable both scrolling & backdrop</button>
+
+      <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="menu" aria-labelledby="menuLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="menuLabel">Backdrop with scrolling</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+          <p>Try scrolling the rest of the page to see this option in action.</p>
+        </div>
+      </div>
     </header>
     
     <main>
