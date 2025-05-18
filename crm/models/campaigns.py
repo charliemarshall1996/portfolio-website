@@ -1,6 +1,4 @@
 
-from django.urls import reverse
-import uuid
 from django.db import models
 
 

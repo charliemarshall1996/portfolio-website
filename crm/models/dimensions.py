@@ -41,7 +41,7 @@ class PhoneNumber(models.Model):
 
 class SearchLocation(models.Model):
     campaign = models.ForeignKey(
-        "crm.Campaign", on_delete=models.CASCADE)
+        "crm.Campaign", on_delete=models.CASCADE, related_name='search_locations')
     name = models.CharField(max_length=100)
 
     class Meta:

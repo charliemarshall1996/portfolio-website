@@ -20,6 +20,15 @@ class Entity(models.Model):
     )
     name = models.CharField(max_length=255)
     is_company = models.BooleanField(default=False)
+    emails = models.ManyToManyField('crm.Email', through='crm.EntityEmail')
+    phone_numbers = models.ManyToManyField(
+        'crm.PhoneNumber', through='crm.EntityPhoneNumber')
+    websites = models.ManyToManyField(
+        'crm.Website', through='crm.EntityWebsite')
+    addresses = models.ManyToManyField('crm.Address', through='EntityAddress')
+    leads = models.ManyToManyField('crm.Lead', through='crm.LeadEntity')
+    contacts = models.ManyToManyField(
+        'crm.Contact', through='crm.ContactEntity')
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

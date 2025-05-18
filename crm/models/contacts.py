@@ -15,6 +15,9 @@ class Contact(models.Model):
     last_name = models.CharField(max_length=255, blank=True, null=True)
     job_title = models.CharField(max_length=255, blank=True)
     linkedin = models.URLField(blank=True)
+    emails = models.ManyToManyField('crm.Email', through='crm.ContactEmail')
+    phone_numbers = models.ManyToManyField(
+        'crm.PhoneNumber', through='crm.ContactPhoneNumber')
     notes = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -34,5 +37,8 @@ class Lead(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     job_title = models.CharField(max_length=100)
+    emails = models.ManyToManyField('crm.Email', through='crm.LeadEmail')
+    phone_numbers = models.ManyToManyField('crm.PhoneNumber',
+                                           through='crm.LeadPhoneNumber')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

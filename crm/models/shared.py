@@ -2,7 +2,7 @@
 from django.db import models
 
 
-class ContactEmails(models.Model):
+class ContactEmail(models.Model):
     contact = models.ForeignKey(
         "crm.Contact", on_delete=models.CASCADE)
     email = models.ForeignKey(
