@@ -1,34 +1,20 @@
 
 from uuid import uuid4
+from modelcluster.models import ClusterableModel
 from django.db import models
 
 
-class Entity(models.Model):
+class Entity(ClusterableModel):
     # Can be "Jane Smith", or "Acme Ltd"
     uuid = models.UUIDField(default=uuid4)
     vertical = models.ForeignKey(
-        'crm.Vertical', on_delete=models.SET_NULL, null=True
+        'crm.Vertical', on_delete=models.SET_NULL, null=True, blank=True
     )
-    location = models.ForeignKey(
-        'crm.SearchLocation', on_delete=models.SET_NULL, null=True
-    )
-    search_term = models.ForeignKey(
-        'crm.SearchTerm', on_delete=models.SET_NULL, null=True
-    )
-    campaign = models.ForeignKey(
-        'crm.Campaign', on_delete=models.SET_NULL, null=True
+    campaign_search_parameter = models.ForeignKey(
+        'crm.CampaignSearchParemeter', on_delete=models.SET_NULL, null=True, blank=True
     )
     name = models.CharField(max_length=255)
     is_company = models.BooleanField(default=False)
-    emails = models.ManyToManyField('crm.Email', through='crm.EntityEmail')
-    phone_numbers = models.ManyToManyField(
-        'crm.PhoneNumber', through='crm.EntityPhoneNumber')
-    websites = models.ManyToManyField(
-        'crm.Website', through='crm.EntityWebsite')
-    addresses = models.ManyToManyField('crm.Address', through='EntityAddress')
-    leads = models.ManyToManyField('crm.Lead', through='crm.LeadEntity')
-    contacts = models.ManyToManyField(
-        'crm.Contact', through='crm.ContactEntity')
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

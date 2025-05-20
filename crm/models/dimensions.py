@@ -1,4 +1,6 @@
 
+from modelcluster.models import ClusterableModel
+from modelcluster.fields import ParentalKey
 from django.db import models
 
 
@@ -16,6 +18,8 @@ class Address(models.Model):
 
 class Email(models.Model):
     email = models.EmailField(unique=True)
+    opted_out = models.BooleanField(default=False)
+    bounced = models.BooleanField(default=False)
     last_emailed = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
@@ -40,19 +44,19 @@ class PhoneNumber(models.Model):
 
 
 class SearchLocation(models.Model):
-    campaign = models.ForeignKey(
-        "crm.Campaign", on_delete=models.CASCADE, related_name='search_locations')
-    name = models.CharField(max_length=100)
-
-    class Meta:
-        unique_together = ("name", "campaign")
+    TYPE_CHOICES = [
+        ("to", "Town"),
+        ("pc", "Post Code")
+    ]
+    type = models.CharField(max_length=2, default="to")
+    name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
 
 
 class SearchTerm(models.Model):
-    vertical = models.ForeignKey(
+    vertical = ParentalKey(
         "Vertical", on_delete=models.SET_NULL, null=True, blank=True,
         related_name="search_terms")
     term = models.CharField(max_length=255)
@@ -61,7 +65,7 @@ class SearchTerm(models.Model):
         return self.term
 
 
-class Vertical(models.Model):
+class Vertical(ClusterableModel):
     name = models.CharField(max_length=255)
     pain_points = models.TextField(blank=True)
     description = models.TextField(blank=True)

@@ -1,8 +1,9 @@
 
+from modelcluster.models import ClusterableModel
 from django.db import models
 
 
-class Campaign(models.Model):
+class Campaign(ClusterableModel):
     TYPE_CHOICES = [
         ('site_audit', 'Website Audit'),
         ('client_analysis', 'Client Analysis'),

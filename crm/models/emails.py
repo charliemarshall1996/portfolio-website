@@ -32,7 +32,8 @@ class SentCampaignEmail(models.Model):
 class OptedOutEmail(models.Model):
     sent_campaign_email = models.ForeignKey(
         SentCampaignEmail, models.SET_NULL, null=True)
-    reason = models.TextField(blank=True)
+    email = models.OneToOneField("crm.Email", on_delete=models.CASCADE)
+    reason = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -45,8 +46,9 @@ class BouncedEmail(models.Model):
         ("soft", "Soft")
     ]
     sent_campaign_email = models.ForeignKey(
-        SentCampaignEmail, models.SET_NULL, null=True)
-    type = models.CharField(max_length=4, choices=TYPE_CHOICES)
+        SentCampaignEmail, models.SET_NULL, null=True, blank=True)
+    email = models.OneToOneField("crm.Email", on_delete=models.CASCADE)
+    type = models.CharField(max_length=4, choices=TYPE_CHOICES, default="hard")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
