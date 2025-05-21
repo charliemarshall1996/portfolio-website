@@ -54,7 +54,8 @@ class CampaignEmailContent(models.Model):
         (90, "mid"),
         (100, "high")
     ]
-    campaign = ParentalKey('crm.Campaign', on_delete=models.CASCADE)
+    campaign = ParentalKey(
+        Campaign, on_delete=models.CASCADE, related_name="email_content")
     part = models.CharField(max_length=50, choices=PART_CHOICES)
     metric = models.CharField(
         max_length=3, choices=METRIC_CHOICES, blank=True, null=True)
@@ -65,6 +66,7 @@ class CampaignEmailContent(models.Model):
 
 
 class CampaignSearchLocation(models.Model):
-    campaign = ParentalKey(Campaign, on_delete=models.CASCADE)
+    campaign = ParentalKey(Campaign, on_delete=models.CASCADE,
+                           related_name="search_locations")
     location = models.ForeignKey(
         "crm.SearchLocation", on_delete=models.CASCADE)

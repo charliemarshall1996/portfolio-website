@@ -12,7 +12,7 @@ class Entity(ClusterableModel):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class Company(models.Model):
+class Company(ClusterableModel):
     name = models.CharField(max_length=200, blank=True, null=True)
     registration_number = models.CharField(
         max_length=200, blank=True, null=True)
@@ -38,6 +38,7 @@ class Contact(models.Model):
     notes = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    entity = models.OneToOneField(Entity, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -121,9 +122,9 @@ class EntityVertical(models.Model):
         unique_together = ["entity", "vertical"]
 
 
-class EntityContact(models.Model):
-    entity = ParentalKey(Entity, on_delete=models.CASCADE)
+class CompanyContact(models.Model):
+    company = ParentalKey(Entity, on_delete=models.CASCADE)
     contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ["entity", "contact"]
+        unique_together = ["company", "contact"]
