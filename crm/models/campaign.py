@@ -1,6 +1,7 @@
 
-from modelcluster.models import ClusterableModel
 from django.db import models
+from modelcluster.fields import ParentalKey
+from modelcluster.models import ClusterableModel
 
 
 class Campaign(ClusterableModel):
@@ -16,7 +17,6 @@ class Campaign(ClusterableModel):
     ]
     vertical = models.ForeignKey(
         'crm.Vertical', on_delete=models.SET_NULL, null=True, related_name='campaigns')
-    name = models.CharField(max_length=200)
     type = models.CharField(max_length=50, choices=TYPE_CHOICES)
     medium = models.CharField(max_length=50, choices=MEDIUM_CHOICES)
     description = models.TextField(blank=True)
@@ -27,13 +27,11 @@ class Campaign(ClusterableModel):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class CampaignSearchParemeter(models.Model):
+class CampaignSearchParameter(models.Model):
     campaign = models.ForeignKey(
         Campaign, on_delete=models.CASCADE, related_name='search_parameters')
-    search_term = models.ForeignKey(
-        'crm.SearchTerm', on_delete=models.SET_NULL, null=True, blank=True)
-    location = models.ForeignKey(
-        'crm.SearchLocation', on_delete=models.SET_NULL, null=True, blank=True)
+    location = models.CharField(max_length=200)
+    search_term = models.CharField(max_length=200)
     last_run = models.DateTimeField(null=True, blank=True)
 
 
@@ -56,8 +54,7 @@ class CampaignEmailContent(models.Model):
         (90, "mid"),
         (100, "high")
     ]
-    campaign = models.ForeignKey(
-        Campaign, on_delete=models.CASCADE, related_name='messages')
+    campaign = ParentalKey('crm.Campaign', on_delete=models.CASCADE)
     part = models.CharField(max_length=50, choices=PART_CHOICES)
     metric = models.CharField(
         max_length=3, choices=METRIC_CHOICES, blank=True, null=True)
@@ -66,5 +63,8 @@ class CampaignEmailContent(models.Model):
     active = models.BooleanField(default=True)
     message = models.TextField()
 
-    def __str__(self):
-        return f"{self.metric} - {self.get_core_score_band_display()}"
+
+class CampaignSearchLocation(models.Model):
+    campaign = ParentalKey(Campaign, on_delete=models.CASCADE)
+    location = models.ForeignKey(
+        "crm.SearchLocation", on_delete=models.CASCADE)

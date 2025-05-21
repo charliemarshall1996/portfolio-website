@@ -1,7 +1,8 @@
-
+import uuid
 from modelcluster.models import ClusterableModel
 from modelcluster.fields import ParentalKey
 from django.db import models
+from django.urls import reverse
 
 
 class Address(models.Model):
@@ -24,6 +25,13 @@ class Email(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class Painpoint(models.Model):
+    vertical = ParentalKey(
+        "Vertical", on_delete=models.CASCADE, related_name="paintpoints")
+    name = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
 
 
 class PhoneNumber(models.Model):
@@ -67,7 +75,6 @@ class SearchTerm(models.Model):
 
 class Vertical(ClusterableModel):
     name = models.CharField(max_length=255)
-    pain_points = models.TextField(blank=True)
     description = models.TextField(blank=True)
 
     def __str__(self):
@@ -79,3 +86,37 @@ class Website(models.Model):
 
     def __str__(self):
         return self.url
+
+
+class LighthouseAnalysis(models.Model):
+    website = models.ForeignKey(
+        Website, on_delete=models.CASCADE, related_name="lighthouse_analyses"
+    )
+    data = models.JSONField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    access_token = models.UUIDField(
+        default=uuid.uuid4, unique=True, editable=False)
+
+    report_url = models.URLField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.report_url:
+            self.report_url = self.full_url()
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("website:audit_view", args=[self.access_token])
+
+    def full_url(self):
+        from django.contrib.sites.models import Site
+
+        domain = Site.objects.get_current().domain
+        return f"https://{domain}{self.get_absolute_url()}"
+
+    full_url.short_description = "Access URL"
+
+    def __str__(self):
+        return self.website.url
+
+    class Meta:
+        verbose_name_plural = "Lighthouse Analyses"
