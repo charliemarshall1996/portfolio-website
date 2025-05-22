@@ -1,0 +1,6 @@
+[run]
+omit =
+    *conftest.py
+    freelance/*
+    */__init__.py
+    */migrations/*
