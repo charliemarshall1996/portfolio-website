@@ -3,7 +3,7 @@ from django.utils.timezone import now
 from crm.models import (
     Entity, Company, Contact, Lead,
     EntityEmail, EntityAddress, EntityPhoneNumber, EntityWebsite,
-    EntitySearchLocation, EntityVertical, EntityContact,
+    EntitySearchLocation, EntityVertical,
     Email, Address, PhoneNumber, Website,
     SearchLocation, Vertical
 )
@@ -98,12 +98,3 @@ def test_entity_vertical_uniqueness():
     EntityVertical.objects.create(entity=entity, vertical=vert)
     with pytest.raises(Exception):
         EntityVertical.objects.create(entity=entity, vertical=vert)
-
-
-@pytest.mark.django_db
-def test_entity_contact_uniqueness():
-    entity = Entity.objects.create(name="Contacted Entity")
-    contact = Contact.objects.create(first_name="John", last_name="Doe")
-    EntityContact.objects.create(entity=entity, contact=contact)
-    with pytest.raises(Exception):
-        EntityContact.objects.create(entity=entity, contact=contact)

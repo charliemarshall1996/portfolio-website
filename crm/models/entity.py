@@ -16,7 +16,8 @@ class Company(ClusterableModel):
     name = models.CharField(max_length=200, blank=True, null=True)
     registration_number = models.CharField(
         max_length=200, blank=True, null=True)
-    entity = models.OneToOneField(Entity, on_delete=models.CASCADE)
+    entity = models.OneToOneField(
+        Entity, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -38,7 +39,8 @@ class Contact(models.Model):
     notes = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    entity = models.OneToOneField(Entity, on_delete=models.CASCADE)
+    entity = models.OneToOneField(
+        Entity, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -69,7 +71,8 @@ class Lead(models.Model):
     notes = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    entity = models.OneToOneField(Entity, on_delete=models.CASCADE)
+    entity = models.OneToOneField(
+        Entity, on_delete=models.CASCADE, null=True, blank=True)
 
 
 class EntityEmail(models.Model):
