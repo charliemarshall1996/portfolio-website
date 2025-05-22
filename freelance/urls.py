@@ -48,7 +48,6 @@ if settings.DEBUG:
     urlpatterns += [
         path(
             "favicon.ico",
-            RedirectView.as_view(url=settings.STATIC_URL +
-                                 "core/favicon/favicon.ico"),
+            RedirectView.as_view(url=settings.STATIC_URL + "core/favicon/favicon.ico"),
         )
     ]

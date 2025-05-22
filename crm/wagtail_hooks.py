@@ -3,11 +3,20 @@ from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail import hooks
 
 from crm.models import (
-    Entity, Contact, Company, Lead,
-    Email, PhoneNumber, Address, Website,
-    SearchLocation, Vertical, Outreach,
-    OutreachEmail, OutreachWebsite,
-    CompanyContact
+    Entity,
+    Contact,
+    Company,
+    Lead,
+    Email,
+    PhoneNumber,
+    Address,
+    Website,
+    SearchLocation,
+    Vertical,
+    Outreach,
+    OutreachEmail,
+    OutreachWebsite,
+    CompanyContact,
 )
 
 

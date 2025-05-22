@@ -1,4 +1,3 @@
-
 from django.db import models
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
@@ -9,13 +8,13 @@ class Outreach(ClusterableModel):
         ("p", "Phone"),
         ("e", "Email"),
         ("a", "Address"),
-        ("w", "Website")
+        ("w", "Website"),
     ]
     campaign_search_parameter = models.ForeignKey(
-        "crm.CampaignSearchParameter", on_delete=models.CASCADE)
+        "crm.CampaignSearchParameter", on_delete=models.CASCADE
+    )
     date = models.DateTimeField()
-    medium = models.CharField(
-        max_length=1, choices=MEDIUM_CHOICES, default="e")
+    medium = models.CharField(max_length=1, choices=MEDIUM_CHOICES, default="e")
 
 
 class OutreachEmail(models.Model):

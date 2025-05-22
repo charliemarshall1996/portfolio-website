@@ -16,22 +16,26 @@ class CampaignViewSet(SnippetViewSet):
         MultiFieldPanel(
             (
                 FieldPanel("vertical"),
-                InlinePanel("search_locations", label="locations")
-
-            ), heading="Search Parameters"
+                InlinePanel("search_locations", label="locations"),
+            ),
+            heading="Search Parameters",
         ),
         MultiFieldPanel(
             (
-                InlinePanel("email_content", label="Email Content",
-                            max_num=5, min_num=5),
-            ), heading="Conent"
-        )
+                InlinePanel(
+                    "email_content", label="Email Content", max_num=5, min_num=5
+                ),
+            ),
+            heading="Conent",
+        ),
     ]
     list_display = ["start_date", "end_date", "type", "medium", "is_active"]
 
 
 class CampaignViewSetGroup(SnippetViewSetGroup):
-    items = [CampaignViewSet,]
+    items = [
+        CampaignViewSet,
+    ]
     menu_icon = "calendar-alt"
     menu_name = "campaign"
     menu_label = "Campaign"

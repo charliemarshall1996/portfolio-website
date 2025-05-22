@@ -11,7 +11,7 @@ class Address(models.Model):
     town = models.CharField(max_length=100)
     region = models.CharField(max_length=100, blank=True)
     postcode = models.CharField(max_length=20)
-    country = models.CharField(max_length=100, default='UK')
+    country = models.CharField(max_length=100, default="UK")
 
     def __str__(self):
         return f"{self.line1}, {self.town}, {self.postcode}"
@@ -29,33 +29,30 @@ class Email(models.Model):
 
 class Painpoint(models.Model):
     vertical = ParentalKey(
-        "Vertical", on_delete=models.CASCADE, related_name="paintpoints")
+        "Vertical", on_delete=models.CASCADE, related_name="paintpoints"
+    )
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
 
 
 class PhoneNumber(models.Model):
     PHONE_TYPES = (
-        ('mobile', 'Mobile'),
-        ('landline', 'Landline'),
-        ('work', 'Work'),
-        ('fax', 'Fax'),
-        ('other', 'Other'),
+        ("mobile", "Mobile"),
+        ("landline", "Landline"),
+        ("work", "Work"),
+        ("fax", "Fax"),
+        ("other", "Other"),
     )
 
     phone_number = models.CharField(max_length=50)
-    type = models.CharField(
-        max_length=20, choices=PHONE_TYPES, null=True, blank=True)
+    type = models.CharField(max_length=20, choices=PHONE_TYPES, null=True, blank=True)
 
     def __str__(self):
         return f"{self.phone_number} ({self.type})"
 
 
 class SearchLocation(models.Model):
-    TYPE_CHOICES = [
-        ("to", "Town"),
-        ("pc", "Post Code")
-    ]
+    TYPE_CHOICES = [("to", "Town"), ("pc", "Post Code")]
     type = models.CharField(max_length=2, default="to")
     name = models.CharField(max_length=100, unique=True)
 
@@ -65,8 +62,12 @@ class SearchLocation(models.Model):
 
 class SearchTerm(models.Model):
     vertical = ParentalKey(
-        "Vertical", on_delete=models.SET_NULL, null=True, blank=True,
-        related_name="search_terms")
+        "Vertical",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="search_terms",
+    )
     term = models.CharField(max_length=255)
 
     def __str__(self):
@@ -94,8 +95,7 @@ class LighthouseAnalysis(models.Model):
     )
     data = models.JSONField()
     created_at = models.DateTimeField(auto_now_add=True)
-    access_token = models.UUIDField(
-        default=uuid.uuid4, unique=True, editable=False)
+    access_token = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
 
     report_url = models.URLField(null=True, blank=True)
 

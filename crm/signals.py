@@ -1,14 +1,31 @@
-
-from django.db.models import signals
+from django.db.models.signals import post_save
 from django.dispatch import receiver
+from .models import Contact, Company, Lead, Entity
 
-from models import SearchTerm, Campaign, CampaignSearchParemeter
+
+@receiver(post_save, sender=Contact)
+def create_entity_for_contact(sender, instance, created, **kwargs):
+    if not instance.entity:
+        entity = Entity.objects.create(
+            name=f"{instance.first_name} {instance.last_name}"
+        )
+        instance.entity = entity
+        instance.save()
 
 
-@receiver(signals.post_save, Campaign)
-def create_search_parameters_on_campaign_save(sender, instance, **kwargs):
-    for term in list(instance.vertical.search_terms):
-        for loc in list(instance.locations):
-            search_param, created = CampaignSearchParemeter.objects.get_or_create(campaign=instance,
-                                                                                  location=loc, search_term=term)
-            search_param.save()
+@receiver(post_save, sender=Company)
+def create_entity_for_company(sender, instance, created, **kwargs):
+    if not instance.entity:
+        entity = Entity.objects.create(name=instance.name, is_company=True)
+        instance.entity = entity
+        instance.save()
+
+
+@receiver(post_save, sender=Lead)
+def create_entity_for_lead(sender, instance, created, **kwargs):
+    if not instance.entity:
+        entity = Entity.objects.create(
+            name=f"{instance.first_name} {instance.last_name}"
+        )
+        instance.entity = entity
+        instance.save()
