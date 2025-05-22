@@ -1,4 +1,5 @@
 from django.db import models, transaction
+from django.utils import timezone
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 
@@ -33,6 +34,12 @@ def sync_campaign_search_parameters(campaign):
             param.save(update_fields=["is_active"])
 
 
+def sync_campaign_is_active_end_date(campaign):
+    if timezone.now() > timezone.timedelta(campaign.end_date) and campaign.is_active:
+        campaign.is_active = False
+        campaign.save(update_fields=["is_active"])
+
+
 class Campaign(ClusterableModel):
     TYPE_CHOICES = [
         ("site_audit", "Website Audit"),
@@ -60,6 +67,9 @@ class Campaign(ClusterableModel):
         super().save(*args, **kwargs)
         transaction.on_commit(
             lambda: sync_campaign_search_parameters(self))
+        transaction.on_commit(
+            lambda: sync_campaign_is_active_end_date(self)
+        )
 
 
 class CampaignSearchParameter(models.Model):
