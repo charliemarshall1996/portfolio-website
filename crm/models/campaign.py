@@ -36,7 +36,7 @@ class CampaignSearchParameter(models.Model):
     )
     location = models.CharField(max_length=200)
     search_term = models.CharField(max_length=200)
-    last_run = models.DateTimeField(null=True, blank=True)
+    last_run = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 
 

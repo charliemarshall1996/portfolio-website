@@ -71,3 +71,11 @@ def sync_campaign_is_active_end_date(campaign: models.Campaign):
         if timezone.now() > campaign.end_date and campaign.is_active:
             campaign.is_active = False
             campaign.save(update_fields=["is_active"])
+
+
+def normalize_email(email: str):
+    return email.strip().lower()
+
+
+def normalize_url(url: str):
+    return url.strip().lower().replace("https://", "").replace("http://", "").rstrip('/')
