@@ -31,13 +31,12 @@ class EntityViewSet(SnippetViewSet):
         FieldPanel("name"),
         FieldPanel("is_company"),
         FieldPanel("notes"),
-        InlinePanel("entityemail_set", label="Emails"),
-        InlinePanel("entityphonenumber_set", label="Phone Numbers"),
-        InlinePanel("entityaddress_set", label="Addresses"),
-        InlinePanel("entitywebsite_set", label="Websites"),
-        InlinePanel("entitysearchlocation_set", label="Search Locations"),
-        InlinePanel("entityvertical_set", label="Verticals"),
-        InlinePanel("entitycontact_set", label="Contacts"),
+        InlinePanel("emails", label="Emails"),
+        InlinePanel("phone_numbers", label="Phone Numbers"),
+        InlinePanel("addresses", label="Addresses"),
+        InlinePanel("websites", label="Websites"),
+        InlinePanel("locations", label="Search Locations"),
+        InlinePanel("verticals", label="Verticals")
     ]
 
 

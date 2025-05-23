@@ -57,11 +57,11 @@ class Lead(models.Model):
     ]
 
     STATUS_CHOICES = [
-        ("aware", "Aware"),
-        ("interested", "Interested"),
-        ("engaged", "Engaged"),
-        ("converted", "Converted"),
-        ("cold", "Cold"),
+        ("a", "Aware"),
+        ("i", "Interested"),
+        ("e", "Engaged"),
+        ("c", "Converted"),
+        ("x", "Cold"),
     ]
     salutation = models.CharField(
         max_length=10, choices=SALUTATION_CHOICES, blank=True, null=True
@@ -70,7 +70,8 @@ class Lead(models.Model):
     last_name = models.CharField(max_length=200, blank=True, null=True)
     job_title = models.CharField(max_length=100, blank=True, null=True)
     linkedin = models.URLField(blank=True, null=True)
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES)
+    status = models.CharField(
+        max_length=1, choices=STATUS_CHOICES, default="a")
     notes = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -128,7 +129,7 @@ class EntitySearchLocation(models.Model):
 
 class EntityVertical(models.Model):
     entity = ParentalKey(Entity, on_delete=models.CASCADE,
-                         related_name="vertical")
+                         related_name="verticals")
     vertical = models.ForeignKey("crm.Vertical", on_delete=models.CASCADE)
 
     class Meta:

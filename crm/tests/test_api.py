@@ -3,7 +3,41 @@ from django.utils import timezone
 from rest_framework.test import APIClient
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
+from faker import Faker
 from crm import models
+
+fake = Faker(locale="en_GB")
+
+
+@pytest.fixture
+def email_endpoint_required_data_factory():
+    vertical = models.Vertical.objects.create(name="Fintech")
+    term = "bank"
+    location = models.SearchLocation.objects.create(
+        type="to", name=fake.city())
+    search_term = models.SearchTerm.objects.create(
+        vertical=vertical, term=term)
+    campaign_type = "site_audit"
+    campaign_medium = "email"
+    campaign_start_date = timezone.now()
+    campaign_end_date = campaign_start_date + timezone.timedelta(weeks=12)
+    campaign = models.Campaign.objects.create(
+        type=campaign_type, medium=campaign_medium, vertical=vertical, start_date=campaign_start_date, end_date=campaign_end_date)
+    param = models.CampaignSearchParameter.objects.create(
+        campaign=campaign, location=location.name, search_term=search_term.term)
+    lead = models.Lead.objects.create(
+        first_name=fake.file_name(), last_name=fake.last_name())
+    email = models.Email.objects.create(
+        email=fake.email()
+    )
+    outreach = models.Outreach.objects.create(
+        campaign_search_parameter=param, date=timezone.now())
+    email_outreach = models.OutreachEmail.objects.create(
+        outreach=outreach, email=email)
+    models.EntityEmail.objects.create(
+        entity=lead.entity, email=email)
+    content = models.EmailContent.objects.create(campaign=campaign)
+    return param, lead, email, content, campaign
 
 
 @pytest.fixture
@@ -142,3 +176,79 @@ def test_receive_lead_with_existing_url_but_new_email(api_client):
     assert models.Website.objects.count() == 1
     assert models.Entity.objects.count() == 1
     assert models.Lead.objects.count() == 1
+
+
+@pytest.mark.django_db
+def test_email_link_click(api_client, email_endpoint_required_data_factory):
+    param, lead, email, content, campaign = email_endpoint_required_data_factory
+    data = {
+        "email": email.email,
+        "event": "click",
+        "tag": f"{param.pk},{content.pk}",
+        "link": fake.url()
+    }
+    response = api_client.post("/api/email/", data)
+    assert response.status_code == 200
+
+    email_content_metric = models.EmailContentMetric.objects.get(
+        email_content=content, action="l")
+    param_metric = models.CampaignSearchParameterMetric.objects.get(
+        campaign_search_parameter=param, action="l"
+    )
+    campaign_metric = models.CampaignMetric.objects.get(
+        campaign=campaign, action="l")
+    assert email_content_metric.value == 1
+    assert param_metric.value == 1
+    assert campaign_metric.value == 1
+
+
+@pytest.mark.django_db
+def test_email_opt_out(api_client, email_endpoint_required_data_factory):
+    param, lead, email, content, campaign = email_endpoint_required_data_factory
+    data = {
+        "email": email.email,
+        "event": "spam",
+        "tag": f"{param.pk},{content.pk}"
+    }
+    response = api_client.post("/api/email/", data)
+    assert response.status_code == 200
+
+    email_content_metric = models.EmailContentMetric.objects.get(
+        email_content=content, action="x")
+    param_metric = models.CampaignSearchParameterMetric.objects.get(
+        campaign_search_parameter=param, action="x"
+    )
+    campaign_metric = models.CampaignMetric.objects.get(
+        campaign=campaign, action="x")
+    email = email.email
+    email_obj = models.Email.objects.get(email=email)
+    assert email_content_metric.value == 1
+    assert param_metric.value == 1
+    assert campaign_metric.value == 1
+    assert email_obj.opted_out
+
+
+@pytest.mark.django_db
+def test_email_bounce(api_client, email_endpoint_required_data_factory):
+    param, lead, email, content, campaign = email_endpoint_required_data_factory
+    data = {
+        "email": email.email,
+        "event": "hard_bounce",
+        "tag": f"{param.pk},{content.pk}"
+    }
+    response = api_client.post("/api/email/", data)
+    assert response.status_code == 200
+
+    email_content_metric = models.EmailContentMetric.objects.get(
+        email_content=content, action="b")
+    param_metric = models.CampaignSearchParameterMetric.objects.get(
+        campaign_search_parameter=param, action="b"
+    )
+    campaign_metric = models.CampaignMetric.objects.get(
+        campaign=campaign, action="b")
+    email = email.email
+    email_obj = models.Email.objects.get(email=email)
+    assert email_content_metric.value == 1
+    assert param_metric.value == 1
+    assert campaign_metric.value == 1
+    assert email_obj.bounced

@@ -3,7 +3,7 @@ import logging
 
 from django.utils import timezone
 
-from rest_framework import views, response, authentication, permissions
+from rest_framework import response, authentication, permissions, status
 from rest_framework.decorators import (
     api_view,
     authentication_classes,
@@ -13,6 +13,13 @@ from . import serializers, models, utils, queries
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
+
+EMAIL_OPENS = ["unique_opened", "opened", "proxy_opened"]
+EMAIL_BOUNCES = ["hard_bounce", "soft_bounce", "invalid_email"]
+EMAIL_OPT_OUTS = ["spam", "unsubscribed", "blocked"]
+EMAIL_LINK_CLICKS = ["click"]
+EMAIL_SENT = ["request"]
+EMAIL_DELIVERED = ["delivered"]
 
 
 @api_view(["GET"])
@@ -105,5 +112,68 @@ def add_lead_view(request):
     return response.Response({"status": "ok"})
 
 
-class EmailAPIView(views.APIView):
-    pass
+@api_view(["POST"])
+@authentication_classes([])  # Disable all authentication
+@permission_classes([])      # Disable all permissions
+def brevo_webhook_view(request):
+    # Example: You could validate expected fields here
+    event_type = request.data.get("event")
+    email = request.data.get("email")
+    tag = request.data.get("tag")
+    content_pk, param_pk = tuple(tag.split(
+        ","))
+
+    if not event_type or not email:
+        logger.warning(
+            "Brevo webhook missing expected fields: %s", request.data)
+        return response.Response({"detail": "Invalid payload"},
+                                 status=status.HTTP_400_BAD_REQUEST)
+
+    # Log or handle the event
+    logger.info("Brevo event received: %s for %s", event_type, email)
+
+    email_obj = models.Email.objects.filter(email=email).first()
+    if email_obj:
+        logger.debug("Email exists for %s", email)
+        outreach_email = models.OutreachEmail.objects.filter(
+            email=email_obj).first()
+        if outreach_email:
+            outreach = outreach_email.outreach
+            engagement = models.Engagement.objects.create(outreach=outreach)
+            if event_type in EMAIL_LINK_CLICKS:
+                url = request.data.get("link")
+                utils.create_web_engagement(engagement, url, "l")
+                utils.update_lead_status_from_email_obj(email_obj, "i")
+                utils.increment_all_campaign_action_metrics(
+                    content_pk, param_pk, "l")
+            elif event_type in EMAIL_OPENS:
+                utils.create_email_engagement(engagement, email_obj, "o")
+                if event_type == "unique_opened":
+                    utils.increment_all_campaign_action_metrics(
+                        content_pk, param_pk, "1")
+                utils.increment_all_campaign_action_metrics(
+                    content_pk, param_pk, "o")
+            elif event_type in EMAIL_OPT_OUTS:
+                logger.debug("Email opted out %s", email)
+                utils.create_email_engagement(engagement, email_obj, "x")
+                utils.opt_out_email_obj(email_obj)
+                logger.debug("Email opted out: %s", email_obj.opted_out)
+                utils.update_lead_status_from_email_obj(email_obj, "x")
+                utils.increment_all_campaign_action_metrics(
+                    content_pk, param_pk, "x")
+            elif event_type in EMAIL_BOUNCES:
+                utils.create_email_engagement(engagement, email_obj, "b")
+                utils.bounce_email_obj(email_obj)
+                utils.update_lead_status_from_email_obj(email_obj, "x")
+                utils.increment_all_campaign_action_metrics(
+                    content_pk, param_pk, "b")
+            elif event_type in EMAIL_SENT:
+                utils.increment_all_campaign_action_metrics(
+                    content_pk, param_pk, "s"
+                )
+            elif event_type in EMAIL_DELIVERED:
+                utils.increment_all_campaign_action_metrics(
+                    content_pk, param_pk, "d"
+                )
+
+    return response.Response({"status": "received"}, status=status.HTTP_200_OK)

@@ -3,6 +3,7 @@ from crm.models import (
     Address, Email, Painpoint, PhoneNumber,
     SearchLocation, SearchTerm, Vertical, Website
 )
+from crm.utils import normalize_url
 
 
 @pytest.mark.django_db
@@ -64,4 +65,4 @@ def test_vertical_str():
 @pytest.mark.django_db
 def test_website_str():
     site = Website.objects.create(url="https://example.com")
-    assert str(site) == "https://example.com"
+    assert str(site) == normalize_url("https://example.com")

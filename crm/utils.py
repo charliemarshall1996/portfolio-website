@@ -79,3 +79,71 @@ def normalize_email(email: str):
 
 def normalize_url(url: str):
     return url.strip().lower().replace("https://", "").replace("http://", "").rstrip('/')
+
+
+def get_lead_from_email_obj(email_obj: models.Email) -> models.Lead:
+    entity_email = models.EntityEmail.objects.filter(
+        email=email_obj).first()
+    entity = models.Entity.objects.get(pk=entity_email.entity.pk)
+    return models.Lead.objects.get(entity=entity)
+
+
+def update_lead_status_from_email_obj(email_obj: models.Email, status: str):
+    lead = get_lead_from_email_obj(email_obj)
+    lead.status = status
+    lead.save(update_fields=["status"])
+
+
+def create_email_engagement(engagement: models.Engagement, email: str, engagement_type: str):
+    models.EmailEngagement.objects.create(
+        engagement=engagement, email=email, type=engagement_type
+    )
+
+
+def create_web_engagement(engagement: models.Engagement, url: str, engagement_type: str):
+    models.WebEngagement.objects.create(
+        engagement=engagement, url=url, type=engagement_type
+    )
+
+
+def opt_out_email_obj(email_obj: models.Email):
+    email_obj.opted_out = True
+    email_obj.save(update_fields=["opted_out"])
+
+
+def bounce_email_obj(email_obj: models.Email):
+    email_obj.bounced = True
+    email_obj.save(update_fields=["bounced"])
+
+
+def increment_campaign_search_parameter_metric(param: models.CampaignSearchParameter, metric: str):
+    param_metric, created = models.CampaignSearchParameterMetric.objects.get_or_create(
+        campaign_search_parameter=param, metric=metric)
+    param_metric.value = param_metric.value + 1
+    param_metric.save(update_fields=["value"])
+
+
+def increment_metric(obj, action: str, owner):
+    if owner == "p":
+        metric, _ = models.CampaignSearchParameterMetric.objects.get_or_create(
+            campaign_search_parameter=obj, action=action)
+    elif owner == "e":
+        metric, _ = models.EmailContentMetric.objects.get_or_create(
+            email_content=obj, action=action)
+    elif owner == "c":
+        metric, _ = models.CampaignMetric.objects.get_or_create(
+            campaign=obj, action=action
+        )
+
+    if metric:
+        metric.value = metric.value + 1
+        metric.save(update_fields=["value"])
+
+
+def increment_all_campaign_action_metrics(email_content_pk, param_pk, action):
+    params = models.CampaignSearchParameter.objects.get(pk=param_pk)
+    content = models.EmailContent.objects.get(pk=email_content_pk)
+    campaign = params.campaign
+    increment_metric(campaign, action, owner="c")
+    increment_metric(params, action, owner="p")
+    increment_metric(content, action, owner="e")
