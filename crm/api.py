@@ -54,6 +54,11 @@ def add_lead_view(request):
     data = request.data
     email_raw = data.get("email", "")
     url = data.get("url", "")
+    location_pk = data.get("location_pk")
+    campaign_pk = data.get("campaign_pk")
+    search_term_pk = data.get("search_term_pk")
+    vertical_pk = data.get("vertical_pk")
+    search_param_pk = data.get("id")
 
     email = utils.normalize_email(email_raw)
     url = utils.normalize_url(url)
@@ -107,9 +112,15 @@ def add_lead_view(request):
     if not lead:
         logger.debug("No lead exists for %s %s",
                      data["first_name"], data["last_name"])
-        models.Lead.objects.create(
+        lead = models.Lead.objects.create(
             entity=entity, first_name=data["first_name"], last_name=data["last_name"]
         )
+        utils.increment_all_campaign_action_metrics(
+            None, search_param_pk, "+", incl_email_content=False)
+    models.EntitySearchLocation.objects.get_or_create(entity, location_pk)
+    models.EntityVertical.objects.get_or_create(entity, vertical_pk)
+    models.EntitySearchTerm.objects.get_or_create(entity, search_term_pk)
+    models.EntityCampaign.objects.get_or_create(entity, campaign_pk)
 
     return response.Response({"status": "ok"})
 

@@ -10,7 +10,8 @@ logger.setLevel(logging.DEBUG)
 
 def sync_campaign_search_parameters(campaign: models.Campaign):
     """Updates CampaignSearchParameters.is_active value campaign values."""
-    existing_search_terms = models.SearchTerm.objects.filter(vertical=campaign.vertical)
+    existing_search_terms = models.SearchTerm.objects.filter(
+        vertical=campaign.vertical)
     existing_search_terms = [st.term for st in existing_search_terms]
     logger.debug("Existing search terms %s", existing_search_terms)
     existing_locations = set(
@@ -21,7 +22,8 @@ def sync_campaign_search_parameters(campaign: models.Campaign):
         models.SearchLocation.objects.filter(pk=pk).first() for pk in existing_locations
     ]
     existing_locations = [l.name for l in existing_locations]
-    existing_params = models.CampaignSearchParameter.objects.filter(campaign=campaign)
+    existing_params = models.CampaignSearchParameter.objects.filter(
+        campaign=campaign)
     params_location_map = {p.location: p for p in existing_params}
     params_search_term_map = {p.search_term: p for p in existing_params}
     logger.debug("Params location map: %s", params_location_map)
@@ -148,10 +150,11 @@ def increment_metric(obj, action: str, owner):
         metric.save(update_fields=["value"])
 
 
-def increment_all_campaign_action_metrics(email_content_pk, param_pk, action):
+def increment_all_campaign_action_metrics(email_content_pk, param_pk, action, incl_email_content=True):
     params = models.CampaignSearchParameter.objects.get(pk=param_pk)
-    content = models.EmailContent.objects.get(pk=email_content_pk)
     campaign = params.campaign
     increment_metric(campaign, action, owner="c")
     increment_metric(params, action, owner="p")
-    increment_metric(content, action, owner="e")
+    if incl_email_content:
+        content = models.EmailContent.objects.get(pk=email_content_pk)
+        increment_metric(content, action, owner="e")

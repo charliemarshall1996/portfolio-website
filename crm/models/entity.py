@@ -13,7 +13,8 @@ class Entity(ClusterableModel):
 
 class Company(ClusterableModel):
     name = models.CharField(max_length=200, blank=True, null=True)
-    registration_number = models.CharField(max_length=200, blank=True, null=True)
+    registration_number = models.CharField(
+        max_length=200, blank=True, null=True)
     entity = models.OneToOneField(
         Entity, on_delete=models.CASCADE, null=True, blank=True
     )
@@ -82,7 +83,8 @@ class Lead(models.Model):
 
 
 class EntityEmail(models.Model):
-    entity = ParentalKey(Entity, on_delete=models.CASCADE, related_name="emails")
+    entity = ParentalKey(Entity, on_delete=models.CASCADE,
+                         related_name="emails")
     email = models.ForeignKey("crm.Email", on_delete=models.CASCADE)
 
     class Meta:
@@ -90,7 +92,8 @@ class EntityEmail(models.Model):
 
 
 class EntityAddress(models.Model):
-    entity = ParentalKey(Entity, on_delete=models.CASCADE, related_name="addresses")
+    entity = ParentalKey(Entity, on_delete=models.CASCADE,
+                         related_name="addresses")
     address = models.ForeignKey("crm.Address", on_delete=models.CASCADE)
 
     class Meta:
@@ -98,15 +101,18 @@ class EntityAddress(models.Model):
 
 
 class EntityPhoneNumber(models.Model):
-    entity = ParentalKey(Entity, on_delete=models.CASCADE, related_name="phone_numbers")
-    phone_number = models.ForeignKey("crm.PhoneNumber", on_delete=models.CASCADE)
+    entity = ParentalKey(Entity, on_delete=models.CASCADE,
+                         related_name="phone_numbers")
+    phone_number = models.ForeignKey(
+        "crm.PhoneNumber", on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ["entity", "phone_number"]
 
 
 class EntityWebsite(models.Model):
-    entity = ParentalKey(Entity, on_delete=models.CASCADE, related_name="websites")
+    entity = ParentalKey(Entity, on_delete=models.CASCADE,
+                         related_name="websites")
     website = models.ForeignKey("crm.Website", on_delete=models.CASCADE)
 
     class Meta:
@@ -117,22 +123,43 @@ class EntitySearchLocation(models.Model):
     entity = ParentalKey(
         Entity, on_delete=models.CASCADE, related_name="search_locations"
     )
-    location = models.ForeignKey("crm.SearchLocation", on_delete=models.CASCADE)
+    location = models.ForeignKey(
+        "crm.SearchLocation", on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ["entity", "location"]
 
 
 class EntityVertical(models.Model):
-    entity = ParentalKey(Entity, on_delete=models.CASCADE, related_name="verticals")
+    entity = ParentalKey(Entity, on_delete=models.CASCADE,
+                         related_name="verticals")
     vertical = models.ForeignKey("crm.Vertical", on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ["entity", "vertical"]
 
 
+class EntitySearchTerm(models.Model):
+    entity = ParentalKey(Entity, on_delete=models.CASCADE,
+                         related_name="search_terms")
+    search_term = models.ForeignKey("crm.SearchTerm", on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ["entity", "search_term"]
+
+
+class EntityCampaign(models.Model):
+    entity = ParentalKey(Entity, on_delete=models.CASCADE,
+                         related_name="campaigns")
+    campaign = models.ForeignKey("crm.Campaign", on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ["entity", "campaign"]
+
+
 class CompanyContact(models.Model):
-    company = ParentalKey(Entity, on_delete=models.CASCADE, related_name="contacts")
+    company = ParentalKey(Entity, on_delete=models.CASCADE,
+                          related_name="contacts")
     contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
 
     class Meta:
