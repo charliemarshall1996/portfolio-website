@@ -158,7 +158,7 @@ class EntityCampaign(models.Model):
 
 
 class CompanyContact(models.Model):
-    company = ParentalKey(Entity, on_delete=models.CASCADE,
+    company = ParentalKey(Company, on_delete=models.CASCADE,
                           related_name="contacts")
     contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
 

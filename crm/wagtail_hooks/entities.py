@@ -1,8 +1,7 @@
 from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
-from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
-from wagtail import hooks
+from wagtail.admin.panels import FieldPanel, InlinePanel
 
-from . import models
+from crm import models
 
 
 class EntityViewSet(SnippetViewSet):
@@ -30,6 +29,14 @@ class ContactViewSet(SnippetViewSet):
     menu_label = "Contacts"
     menu_icon = "user"
     list_display = ("first_name", "last_name", "job_title", "linkedin")
+    panels = [
+        FieldPanel("salutation"),
+        FieldPanel("first_name"),
+        FieldPanel("last_name"),
+        FieldPanel("job_title"),
+        FieldPanel("linkedin"),
+        FieldPanel("notes"),
+    ]
 
 
 class CompanyContactInlinePanel(InlinePanel):
@@ -40,13 +47,13 @@ class CompanyContactInlinePanel(InlinePanel):
 class CompanyViewSet(SnippetViewSet):
     model = models.Company
     menu_label = "Companies"
-    menu_icon = "group"
+    menu_icon = "building"
     list_display = ("name", "registration_number")
     panels = [
         FieldPanel("name"),
         FieldPanel("registration_number"),
-        FieldPanel("entity"),
-        InlinePanel("companycontact_set", label="Contacts"),
+        FieldPanel("entity", read_only=True),
+        InlinePanel("contacts", label="Contacts"),
     ]
 
 
@@ -54,4 +61,22 @@ class LeadViewSet(SnippetViewSet):
     model = models.Lead
     menu_label = "Leads"
     menu_icon = "user"
-    list_display = ("first_name", "last_name", "status")
+    list_display = ("first_name", "last_name",
+                    "job_title", "status", "linkedin")
+    panels = [
+        FieldPanel("salutation"),
+        FieldPanel("first_name"),
+        FieldPanel("last_name"),
+        FieldPanel("job_title"),
+        FieldPanel("linkedin"),
+        FieldPanel("status"),
+        FieldPanel("campaign"),
+        FieldPanel("notes"),
+    ]
+
+
+class EntityViewSetGroup(SnippetViewSetGroup):
+    items = [EntityViewSet, ContactViewSet, CompanyViewSet, LeadViewSet]
+    menu_icon = "group"
+    menu_name = "entities"
+    menu_label = "Entities"

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views, api
+from . import api
 
 app_name = "crm"
 
