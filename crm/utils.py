@@ -91,7 +91,7 @@ def get_lead_from_email_obj(email_obj: models.Email) -> models.Lead:
 def update_lead_status_from_email_obj(email_obj: models.Email, status: str):
     lead = get_lead_from_email_obj(email_obj)
     lead.status = status
-    lead.save(update_fields=["status"])
+    lead.save()
 
 
 def create_email_engagement(engagement: models.Engagement, email: str, engagement_type: str):

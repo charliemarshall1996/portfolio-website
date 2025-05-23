@@ -181,6 +181,7 @@ def test_receive_lead_with_existing_url_but_new_email(api_client):
 @pytest.mark.django_db
 def test_email_link_click(api_client, email_endpoint_required_data_factory):
     param, lead, email, content, campaign = email_endpoint_required_data_factory
+
     data = {
         "email": email.email,
         "event": "click",
@@ -189,7 +190,7 @@ def test_email_link_click(api_client, email_endpoint_required_data_factory):
     }
     response = api_client.post("/api/email/", data)
     assert response.status_code == 200
-
+    lead = models.Lead.objects.get(pk=lead.pk)
     email_content_metric = models.EmailContentMetric.objects.get(
         email_content=content, action="l")
     param_metric = models.CampaignSearchParameterMetric.objects.get(
@@ -200,6 +201,7 @@ def test_email_link_click(api_client, email_endpoint_required_data_factory):
     assert email_content_metric.value == 1
     assert param_metric.value == 1
     assert campaign_metric.value == 1
+    assert lead.status == "i"
 
 
 @pytest.mark.django_db
@@ -212,7 +214,7 @@ def test_email_opt_out(api_client, email_endpoint_required_data_factory):
     }
     response = api_client.post("/api/email/", data)
     assert response.status_code == 200
-
+    lead = models.Lead.objects.get(pk=lead.pk)
     email_content_metric = models.EmailContentMetric.objects.get(
         email_content=content, action="x")
     param_metric = models.CampaignSearchParameterMetric.objects.get(
@@ -226,6 +228,7 @@ def test_email_opt_out(api_client, email_endpoint_required_data_factory):
     assert param_metric.value == 1
     assert campaign_metric.value == 1
     assert email_obj.opted_out
+    assert lead.status == "x"
 
 
 @pytest.mark.django_db
@@ -238,7 +241,7 @@ def test_email_bounce(api_client, email_endpoint_required_data_factory):
     }
     response = api_client.post("/api/email/", data)
     assert response.status_code == 200
-
+    lead = models.Lead.objects.get(pk=lead.pk)
     email_content_metric = models.EmailContentMetric.objects.get(
         email_content=content, action="b")
     param_metric = models.CampaignSearchParameterMetric.objects.get(
@@ -252,3 +255,4 @@ def test_email_bounce(api_client, email_endpoint_required_data_factory):
     assert param_metric.value == 1
     assert campaign_metric.value == 1
     assert email_obj.bounced
+    assert lead.status == "x"
