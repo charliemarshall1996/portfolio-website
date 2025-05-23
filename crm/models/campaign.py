@@ -20,8 +20,10 @@ class Campaign(ClusterableModel):
     vertical = models.ForeignKey(
         "crm.Vertical", on_delete=models.SET_NULL, null=True, related_name="campaigns"
     )
-    type = models.CharField(max_length=50, choices=TYPE_CHOICES, default="site_audit")
-    medium = models.CharField(max_length=50, choices=MEDIUM_CHOICES, default="email")
+    type = models.CharField(
+        max_length=50, choices=TYPE_CHOICES, default="site_audit")
+    medium = models.CharField(
+        max_length=50, choices=MEDIUM_CHOICES, default="email")
     description = models.TextField(blank=True)
     start_date = models.DateTimeField(null=True, blank=True)
     end_date = models.DateTimeField(null=True, blank=True)
@@ -39,9 +41,11 @@ class CampaignMetric(Orderable):
         ("l", "Link Clicks"),
         ("b", "Bounces"),
         ("x", "Opt-Outs"),
+        ("+", "Leads Added")
     ]
 
-    campaign = ParentalKey(Campaign, on_delete=models.CASCADE, related_name="metrics")
+    campaign = ParentalKey(
+        Campaign, on_delete=models.CASCADE, related_name="metrics")
     action = models.CharField(max_length=1, choices=ACTION_CHOICES)
     value = models.IntegerField(default=0)
     updated_at = models.DateTimeField(auto_now=True)
@@ -69,6 +73,7 @@ class CampaignSearchParameterMetric(Orderable):
         ("l", "Link Clicks"),
         ("b", "Bounces"),
         ("x", "Opt-Outs"),
+        ("+", "Leads Added")
     ]
 
     campaign_search_parameter = ParentalKey(
@@ -143,7 +148,8 @@ class CampaignSearchLocation(models.Model):
     campaign = ParentalKey(
         Campaign, on_delete=models.CASCADE, related_name="search_locations"
     )
-    location = models.ForeignKey("crm.SearchLocation", on_delete=models.CASCADE)
+    location = models.ForeignKey(
+        "crm.SearchLocation", on_delete=models.CASCADE)
 
 
 class EmailContentMetric(Orderable):
