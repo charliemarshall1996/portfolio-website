@@ -54,7 +54,7 @@ class PhoneNumber(models.Model):
 
 class SearchLocation(models.Model):
     TYPE_CHOICES = [("to", "Town"), ("pc", "Post Code")]
-    type = models.CharField(max_length=2, default="to")
+    type = models.CharField(max_length=2, default="to", choices=TYPE_CHOICES)
     name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):

@@ -23,8 +23,7 @@ class CampaignViewSet(SnippetViewSet):
         MultiFieldPanel(
             (
                 InlinePanel(
-                    "email_content", label="Email Content", max_num=5, min_num=5
-                ),
+                    "email_content", label="Email Content"),
             ),
             heading="Content",
         ),
