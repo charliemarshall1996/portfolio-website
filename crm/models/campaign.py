@@ -95,7 +95,7 @@ class EmailContent(ClusterableModel):
     stage = models.CharField(max_length=1, choices=STAGE_CHOICES, default="i")
     greeting = models.TextField(blank=True)
     intro = models.TextField(blank=True)
-    main = models.TextField(blank=True)
+    main = models.TextField(blank=True, null=True)
     closing = models.TextField(blank=True)
     farewell = models.TextField(blank=True)
 
@@ -144,7 +144,7 @@ class BulletContent(Orderable):
         return f"{self.metric} {self.score_range}"
 
 
-class CampaignSearchLocation(models.Model):
+class CampaignSearchLocation(Orderable):
     campaign = ParentalKey(
         Campaign, on_delete=models.CASCADE, related_name="search_locations"
     )
