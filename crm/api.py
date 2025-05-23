@@ -73,7 +73,8 @@ def add_lead_view(request):
         ]
         if email_obj.email not in entity_email_objs:
             logger.debug("No email record exists for %s", email)
-            models.EntityEmail.objects.get_or_create(entity=entity, email=email_obj)
+            models.EntityEmail.objects.get_or_create(
+                entity=entity, email=email_obj)
 
         if website_obj.url not in entity_website_objs:
             logger.debug("No website record exists for %s", url)
@@ -93,8 +94,10 @@ def add_lead_view(request):
             logger.debug("No website record exists for %s", url)
             website_obj = models.Website.objects.create(url=url)
 
-        models.EntityEmail.objects.get_or_create(entity=entity, email=email_obj)
-        models.EntityWebsite.objects.get_or_create(entity=entity, website=website_obj)
+        models.EntityEmail.objects.get_or_create(
+            entity=entity, email=email_obj)
+        models.EntityWebsite.objects.get_or_create(
+            entity=entity, website=website_obj)
 
     # Create Lead
     lead = models.Lead.objects.filter(
@@ -102,7 +105,8 @@ def add_lead_view(request):
     )
 
     if not lead:
-        logger.debug("No lead exists for %s %s", data["first_name"], data["last_name"])
+        logger.debug("No lead exists for %s %s",
+                     data["first_name"], data["last_name"])
         models.Lead.objects.create(
             entity=entity, first_name=data["first_name"], last_name=data["last_name"]
         )
@@ -121,7 +125,8 @@ def brevo_webhook_view(request):
     content_pk, param_pk = tuple(tag.split(","))
 
     if not event_type or not email:
-        logger.warning("Brevo webhook missing expected fields: %s", request.data)
+        logger.warning(
+            "Brevo webhook missing expected fields: %s", request.data)
         return response.Response(
             {"detail": "Invalid payload"}, status=status.HTTP_400_BAD_REQUEST
         )
@@ -132,7 +137,8 @@ def brevo_webhook_view(request):
     email_obj = models.Email.objects.filter(email=email).first()
     if email_obj:
         logger.debug("Email exists for %s", email)
-        outreach_email = models.OutreachEmail.objects.filter(email=email_obj).first()
+        outreach_email = models.OutreachEmail.objects.filter(
+            email=email_obj).first()
         if outreach_email:
             outreach = outreach_email.outreach
             engagement = models.Engagement.objects.create(outreach=outreach)
@@ -140,29 +146,35 @@ def brevo_webhook_view(request):
                 url = request.data.get("link")
                 utils.create_web_engagement(engagement, url, "l")
                 utils.update_lead_status_from_email_obj(email_obj, "i")
-                utils.increment_all_campaign_action_metrics(content_pk, param_pk, "l")
+                utils.increment_all_campaign_action_metrics(
+                    content_pk, param_pk, "l")
             elif event_type in EMAIL_OPENS:
                 utils.create_email_engagement(engagement, email_obj, "o")
                 if event_type == "unique_opened":
                     utils.increment_all_campaign_action_metrics(
                         content_pk, param_pk, "1"
                     )
-                utils.increment_all_campaign_action_metrics(content_pk, param_pk, "o")
+                utils.increment_all_campaign_action_metrics(
+                    content_pk, param_pk, "o")
             elif event_type in EMAIL_OPT_OUTS:
                 logger.debug("Email opted out %s", email)
                 utils.create_email_engagement(engagement, email_obj, "x")
                 utils.opt_out_email_obj(email_obj)
                 logger.debug("Email opted out: %s", email_obj.opted_out)
                 utils.update_lead_status_from_email_obj(email_obj, "x")
-                utils.increment_all_campaign_action_metrics(content_pk, param_pk, "x")
+                utils.increment_all_campaign_action_metrics(
+                    content_pk, param_pk, "x")
             elif event_type in EMAIL_BOUNCES:
                 utils.create_email_engagement(engagement, email_obj, "b")
                 utils.bounce_email_obj(email_obj)
                 utils.update_lead_status_from_email_obj(email_obj, "x")
-                utils.increment_all_campaign_action_metrics(content_pk, param_pk, "b")
+                utils.increment_all_campaign_action_metrics(
+                    content_pk, param_pk, "b")
             elif event_type in EMAIL_SENT:
-                utils.increment_all_campaign_action_metrics(content_pk, param_pk, "s")
+                utils.increment_all_campaign_action_metrics(
+                    content_pk, param_pk, "s")
             elif event_type in EMAIL_DELIVERED:
-                utils.increment_all_campaign_action_metrics(content_pk, param_pk, "d")
+                utils.increment_all_campaign_action_metrics(
+                    content_pk, param_pk, "d")
 
     return response.Response({"status": "received"}, status=status.HTTP_200_OK)
