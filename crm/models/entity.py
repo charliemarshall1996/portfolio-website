@@ -75,6 +75,7 @@ class Lead(models.Model):
     notes = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    campaign = models.PositiveIntegerField(null=True, blank=True)
     entity = models.OneToOneField(
         Entity, on_delete=models.CASCADE, null=True, blank=True
     )
