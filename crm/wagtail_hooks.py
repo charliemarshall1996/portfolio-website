@@ -55,27 +55,3 @@ class LeadViewSet(SnippetViewSet):
     menu_label = "Leads"
     menu_icon = "user"
     list_display = ("first_name", "last_name", "status")
-
-
-class OutreachEmailInlinePanel(InlinePanel):
-    model = models.OutreachEmail
-    extra = 1
-
-
-class OutreachWebsiteInlinePanel(InlinePanel):
-    model = models.OutreachWebsite
-    extra = 1
-
-
-class OutreachViewSet(SnippetViewSet):
-    model = models.Outreach
-    menu_label = "Outreach"
-    menu_icon = "mail"
-    list_display = ("campaign_search_parameter", "date", "medium")
-    panels = [
-        FieldPanel("campaign_search_parameter"),
-        FieldPanel("date"),
-        FieldPanel("medium"),
-        OutreachEmailInlinePanel("outreachemail_set", label="Emails"),
-        OutreachWebsiteInlinePanel("outreachwebsite_set", label="Websites"),
-    ]

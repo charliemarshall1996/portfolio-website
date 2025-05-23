@@ -14,14 +14,17 @@ class Outreach(ClusterableModel):
         "crm.CampaignSearchParameter", on_delete=models.CASCADE
     )
     date = models.DateTimeField()
-    medium = models.CharField(max_length=1, choices=MEDIUM_CHOICES, default="e")
+    medium = models.CharField(
+        max_length=1, choices=MEDIUM_CHOICES, default="e")
 
 
 class OutreachEmail(models.Model):
-    outreach = ParentalKey(Outreach, on_delete=models.CASCADE)
+    outreach = ParentalKey(
+        Outreach, on_delete=models.CASCADE, related_name="email")
     email = models.ForeignKey("crm.Email", on_delete=models.CASCADE)
 
 
 class OutreachWebsite(models.Model):
-    outreach = ParentalKey(Outreach, on_delete=models.CASCADE)
+    outreach = ParentalKey(
+        Outreach, on_delete=models.CASCADE, related_name="website")
     website = models.ForeignKey("crm.Website", on_delete=models.CASCADE)
