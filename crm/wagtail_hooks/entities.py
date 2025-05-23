@@ -19,7 +19,7 @@ class EntityViewSet(SnippetViewSet):
         InlinePanel("phone_numbers", label="Phone Numbers"),
         InlinePanel("addresses", label="Addresses"),
         InlinePanel("websites", label="Websites"),
-        InlinePanel("locations", label="Search Locations"),
+        InlinePanel("search_locations", label="Search Locations"),
         InlinePanel("verticals", label="Verticals"),
     ]
 

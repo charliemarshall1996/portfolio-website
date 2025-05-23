@@ -77,6 +77,7 @@ class Lead(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     campaign = models.PositiveIntegerField(null=True, blank=True)
+    campaign_search_param = models.PositiveIntegerField(null=True, blank=True)
     entity = models.OneToOneField(
         Entity, on_delete=models.CASCADE, null=True, blank=True
     )

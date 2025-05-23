@@ -122,6 +122,9 @@ def add_lead_view(request):
         )
         utils.increment_all_campaign_action_metrics(
             None, search_param_pk, "+", incl_email_content=False)
+    lead.campaign = campaign_pk
+    lead.campaign_search_param = search_param_pk
+    lead.save()
     if location_pk != 0:
         location = models.SearchLocation.objects.get(pk=int(location_pk))
         models.EntitySearchLocation.objects.get_or_create(

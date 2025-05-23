@@ -92,7 +92,9 @@ class EmailContent(ClusterableModel):
     campaign = ParentalKey(
         Campaign, on_delete=models.CASCADE, related_name="email_content"
     )
+
     stage = models.CharField(max_length=1, choices=STAGE_CHOICES, default="i")
+    subject = models.TextField(blank=True)
     greeting = models.TextField(blank=True)
     intro = models.TextField(blank=True)
     main = models.TextField(blank=True, null=True)
@@ -111,6 +113,43 @@ class EmailContent(ClusterableModel):
 
     def __str__(self):
         return f"EmailContent for {self.campaign.pk}"
+
+    def get_full_email(self, first_name, metric_score_map, link):
+        """
+        metric_score_map: dict of metric -> score_range, e.g. {'seo': 'h', 'performance': 'm'}
+        link: URL string to append as anchor tag at closing.
+        """
+
+        # Collect bullet contents matching any metric/score_range pair
+        bullet_items = []
+        for metric, score_range in metric_score_map.items():
+            bullets = self.bullet_contents.filter(
+                metric=metric, score_range=score_range)
+            bullet_items.extend(bullets)
+
+        # Build unordered list HTML if we have bullets
+        if bullet_items:
+            bullet_html = "<ul>"
+            for bullet in bullet_items:
+                bullet_html += f"<li>{bullet.content}</li>"
+            bullet_html += "</ul>"
+        else:
+            bullet_html = ""
+
+        return f"""
+            <p>{self.greeting}</p>
+            <p>Hi {first_name},</p>
+            <p>{self.intro}</p>
+            <p>{self.main}</p>
+            {bullet_html}
+            <p>{self.closing} <a href="{link}">{link}</a></p>
+            <p>{self.farewell}</p>
+            <p>Charlie Marshall,<br>
+            Web & Data Developer<br>
+            https://www.charlie-marshall.com<br>
+            07464 706 184<br>
+            <a href="https://calendly.com/charlie-charlie-marshall/30min">Book a Free Consultation</a></p>
+        """
 
 
 class BulletContent(Orderable):

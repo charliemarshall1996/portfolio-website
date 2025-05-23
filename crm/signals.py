@@ -1,6 +1,10 @@
+import logging
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from . import models, utils
+from . import models, utils, services
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 @receiver(post_save, sender=models.Contact)
@@ -16,7 +20,8 @@ def create_entity_for_contact(sender, instance, created, **kwargs):
 @receiver(post_save, sender=models.Company)
 def create_entity_for_company(sender, instance, created, **kwargs):
     if not instance.entity:
-        entity = models.Entity.objects.create(name=instance.name, is_company=True)
+        entity = models.Entity.objects.create(
+            name=instance.name, is_company=True)
         instance.entity = entity
         instance.save()
 
@@ -39,6 +44,17 @@ def sync_search_params(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=models.Website)
 def normalize_website_url(sender, instance: models.Website, created, **kwargs):
+    if created:
+        client = services.LighthouseAnalysisClient()
+        logger.info("Analyzing website %s", instance.pk)
+        data = client.run(instance.url)
+        logger.info("Website analyzed: %s", data)
+
+        if data:
+            analysis = models.LighthouseAnalysis.objects.create(
+                website=instance, data=data)
+            analysis.save()
+
     is_not_formatted = any(
         [
             instance.url.startswith("https://"),

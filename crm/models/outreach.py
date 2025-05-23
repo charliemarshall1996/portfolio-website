@@ -13,7 +13,7 @@ class Outreach(ClusterableModel):
     campaign_search_parameter = models.ForeignKey(
         "crm.CampaignSearchParameter", on_delete=models.CASCADE
     )
-    date = models.DateTimeField()
+    date = models.DateTimeField(auto_now_add=True)
     medium = models.CharField(
         max_length=1, choices=MEDIUM_CHOICES, default="e")
 
