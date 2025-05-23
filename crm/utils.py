@@ -158,3 +158,31 @@ def increment_all_campaign_action_metrics(email_content_pk, param_pk, action, in
     if incl_email_content:
         content = models.EmailContent.objects.get(pk=email_content_pk)
         increment_metric(content, action, owner="e")
+
+
+def get_campaign_pk_from_search_param(search_param: models.CampaignSearchParameter):
+    return search_param.campaign.pk
+
+
+def get_search_term_pk_from_search_param(search_param: models.CampaignSearchParameter):
+    campaign = search_param.campaign
+    vertical = campaign.vertical
+    search_term = models.SearchTerm.objects.get(
+        vertical=vertical, term=search_param.search_term)
+    return search_term.pk
+
+
+def get_location_pk_from_search_param(search_param: models.CampaignSearchParameter):
+    campaign_locations = models.CampaignSearchLocation.objects.filter(
+        campaign=search_param.campaign
+    )
+    name_to_pk = {
+        cl.location.name: cl.location.pk for cl in campaign_locations
+    }
+    return name_to_pk.get(search_param.location, 0)
+
+
+def get_vertical_pk_from_search_params(search_param: models.CampaignSearchParameter):
+    campaign = search_param.campaign
+    vertical = campaign.vertical
+    return vertical.pk

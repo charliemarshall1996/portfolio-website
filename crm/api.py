@@ -59,6 +59,11 @@ def add_lead_view(request):
     search_term_pk = data.get("search_term_pk")
     vertical_pk = data.get("vertical_pk")
     search_param_pk = data.get("id")
+    logger.debug("Location PK: %s", location_pk)
+    logger.debug("Campaign PK: %s", campaign_pk)
+    logger.debug("Search Term PK: %s", search_term_pk)
+    logger.debug("Vertical PK: %s", vertical_pk)
+    logger.debug("Param PK: %s", search_param_pk)
 
     email = utils.normalize_email(email_raw)
     url = utils.normalize_url(url)
@@ -117,10 +122,20 @@ def add_lead_view(request):
         )
         utils.increment_all_campaign_action_metrics(
             None, search_param_pk, "+", incl_email_content=False)
-    models.EntitySearchLocation.objects.get_or_create(entity, location_pk)
-    models.EntityVertical.objects.get_or_create(entity, vertical_pk)
-    models.EntitySearchTerm.objects.get_or_create(entity, search_term_pk)
-    models.EntityCampaign.objects.get_or_create(entity, campaign_pk)
+    if location_pk != 0:
+        location = models.SearchLocation.objects.get(pk=int(location_pk))
+        models.EntitySearchLocation.objects.get_or_create(
+            entity=entity, location=location)
+
+    vertical = models.Vertical.objects.get(pk=int(vertical_pk))
+    models.EntityVertical.objects.get_or_create(
+        entity=entity, vertical=vertical)
+    search_term = models.SearchTerm.objects.get(pk=int(search_term_pk))
+    models.EntitySearchTerm.objects.get_or_create(
+        entity=entity, search_term=search_term)
+    campaign = models.Campaign.objects.get(pk=int(campaign_pk))
+    models.EntityCampaign.objects.get_or_create(
+        entity=entity, campaign=campaign)
 
     return response.Response({"status": "ok"})
 
