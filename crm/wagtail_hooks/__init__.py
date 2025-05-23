@@ -1,5 +1,5 @@
+
 from wagtail.snippets.models import register_snippet
 
-from .campaign import CampaignViewSetGroup
-
-register_snippet(CampaignViewSetGroup)
+from .dimensions import DimensionsViewSetGroup
+register_snippet(DimensionsViewSetGroup)

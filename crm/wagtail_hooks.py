@@ -1,27 +1,12 @@
 from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
-from wagtail.admin.panels import FieldPanel, InlinePanel
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail import hooks
 
-from crm.models import (
-    Entity,
-    Contact,
-    Company,
-    Lead,
-    Email,
-    PhoneNumber,
-    Address,
-    Website,
-    SearchLocation,
-    Vertical,
-    Outreach,
-    OutreachEmail,
-    OutreachWebsite,
-    CompanyContact,
-)
+from . import models
 
 
 class EntityViewSet(SnippetViewSet):
-    model = Entity
+    model = models.Entity
     menu_label = "Entities"
     menu_icon = "user"
     list_display = ("name", "is_company")
@@ -41,19 +26,19 @@ class EntityViewSet(SnippetViewSet):
 
 
 class ContactViewSet(SnippetViewSet):
-    model = Contact
+    model = models.Contact
     menu_label = "Contacts"
     menu_icon = "user"
     list_display = ("first_name", "last_name", "job_title", "linkedin")
 
 
 class CompanyContactInlinePanel(InlinePanel):
-    model = CompanyContact
+    model = models.CompanyContact
     extra = 1
 
 
 class CompanyViewSet(SnippetViewSet):
-    model = Company
+    model = models.Company
     menu_label = "Companies"
     menu_icon = "group"
     list_display = ("name", "registration_number")
@@ -66,24 +51,24 @@ class CompanyViewSet(SnippetViewSet):
 
 
 class LeadViewSet(SnippetViewSet):
-    model = Lead
+    model = models.Lead
     menu_label = "Leads"
     menu_icon = "user"
     list_display = ("first_name", "last_name", "status")
 
 
 class OutreachEmailInlinePanel(InlinePanel):
-    model = OutreachEmail
+    model = models.OutreachEmail
     extra = 1
 
 
 class OutreachWebsiteInlinePanel(InlinePanel):
-    model = OutreachWebsite
+    model = models.OutreachWebsite
     extra = 1
 
 
 class OutreachViewSet(SnippetViewSet):
-    model = Outreach
+    model = models.Outreach
     menu_label = "Outreach"
     menu_icon = "mail"
     list_display = ("campaign_search_parameter", "date", "medium")
@@ -96,43 +81,38 @@ class OutreachViewSet(SnippetViewSet):
     ]
 
 
-class EmailViewSet(SnippetViewSet):
-    model = Email
-    menu_label = "Emails"
-    menu_icon = "mail"
-    list_display = ("email",)
+class CampaignViewSet(SnippetViewSet):
+    model = models.Campaign
+    panels = [
+        FieldPanel("type"),
+        FieldPanel("medium"),
+        FieldPanel("description"),
+        FieldPanel("start_date"),
+        FieldPanel("end_date"),
+        FieldPanel("is_active"),
+        MultiFieldPanel(
+            (
+                FieldPanel("vertical"),
+                InlinePanel("search_locations", label="locations"),
+            ),
+            heading="Search Parameters",
+        ),
+        MultiFieldPanel(
+            (
+                InlinePanel(
+                    "email_content", label="Email Content", max_num=5, min_num=5
+                ),
+            ),
+            heading="Conent",
+        ),
+    ]
+    list_display = ["start_date", "end_date", "type", "medium", "is_active"]
 
 
-class PhoneNumberViewSet(SnippetViewSet):
-    model = PhoneNumber
-    menu_label = "Phone Numbers"
-    menu_icon = "site"
-    list_display = ("number",)
-
-
-class AddressViewSet(SnippetViewSet):
-    model = Address
-    menu_label = "Addresses"
-    menu_icon = "home"
-    list_display = ("address_line_1", "city", "postcode")
-
-
-class WebsiteViewSet(SnippetViewSet):
-    model = Website
-    menu_label = "Websites"
-    menu_icon = "site"
-    list_display = ("url",)
-
-
-class SearchLocationViewSet(SnippetViewSet):
-    model = SearchLocation
-    menu_label = "Search Locations"
-    menu_icon = "location"
-    list_display = ("name",)
-
-
-class VerticalViewSet(SnippetViewSet):
-    model = Vertical
-    menu_label = "Verticals"
-    menu_icon = "list-ul"
-    list_display = ("name",)
+class CampaignViewSetGroup(SnippetViewSetGroup):
+    items = [
+        CampaignViewSet,
+    ]
+    menu_icon = "calendar-alt"
+    menu_name = "campaign"
+    menu_label = "Campaign"
