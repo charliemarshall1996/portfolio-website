@@ -36,7 +36,7 @@ class EntityViewSet(SnippetViewSet):
         InlinePanel("addresses", label="Addresses"),
         InlinePanel("websites", label="Websites"),
         InlinePanel("locations", label="Search Locations"),
-        InlinePanel("verticals", label="Verticals")
+        InlinePanel("verticals", label="Verticals"),
     ]
 
 

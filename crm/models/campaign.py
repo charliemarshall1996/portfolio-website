@@ -20,10 +20,8 @@ class Campaign(ClusterableModel):
     vertical = models.ForeignKey(
         "crm.Vertical", on_delete=models.SET_NULL, null=True, related_name="campaigns"
     )
-    type = models.CharField(
-        max_length=50, choices=TYPE_CHOICES, default="site_audit")
-    medium = models.CharField(
-        max_length=50, choices=MEDIUM_CHOICES, default="email")
+    type = models.CharField(max_length=50, choices=TYPE_CHOICES, default="site_audit")
+    medium = models.CharField(max_length=50, choices=MEDIUM_CHOICES, default="email")
     description = models.TextField(blank=True)
     start_date = models.DateTimeField(null=True, blank=True)
     end_date = models.DateTimeField(null=True, blank=True)
@@ -40,11 +38,10 @@ class CampaignMetric(Orderable):
         ("1", "First Opens"),
         ("l", "Link Clicks"),
         ("b", "Bounces"),
-        ("x", "Opt-Outs")
+        ("x", "Opt-Outs"),
     ]
 
-    campaign = ParentalKey(Campaign, on_delete=models.CASCADE,
-                           related_name="metrics")
+    campaign = ParentalKey(Campaign, on_delete=models.CASCADE, related_name="metrics")
     action = models.CharField(max_length=1, choices=ACTION_CHOICES)
     value = models.IntegerField(default=0)
     updated_at = models.DateTimeField(auto_now=True)
@@ -71,11 +68,12 @@ class CampaignSearchParameterMetric(Orderable):
         ("1", "First Opens"),
         ("l", "Link Clicks"),
         ("b", "Bounces"),
-        ("x", "Opt-Outs")
+        ("x", "Opt-Outs"),
     ]
 
-    campaign_search_parameter = ParentalKey(CampaignSearchParameter, on_delete=models.CASCADE,
-                                            related_name="metrics")
+    campaign_search_parameter = ParentalKey(
+        CampaignSearchParameter, on_delete=models.CASCADE, related_name="metrics"
+    )
     action = models.CharField(max_length=1, choices=ACTION_CHOICES)
     value = models.IntegerField(default=0)
     updated_at = models.DateTimeField(auto_now=True)
@@ -85,12 +83,10 @@ class CampaignSearchParameterMetric(Orderable):
 
 
 class EmailContent(ClusterableModel):
-    STAGE_CHOICES = [
-        ("i", "Initial"),
-        ("f", "Follow-Up")
-    ]
+    STAGE_CHOICES = [("i", "Initial"), ("f", "Follow-Up")]
     campaign = ParentalKey(
-        Campaign, on_delete=models.CASCADE, related_name='email_content')
+        Campaign, on_delete=models.CASCADE, related_name="email_content"
+    )
     stage = models.CharField(max_length=1, choices=STAGE_CHOICES, default="i")
     greeting = models.TextField(blank=True)
     intro = models.TextField(blank=True)
@@ -99,13 +95,13 @@ class EmailContent(ClusterableModel):
     farewell = models.TextField(blank=True)
 
     panels = [
-        FieldPanel('stage'),
-        FieldPanel('greeting'),
-        FieldPanel('intro'),
+        FieldPanel("stage"),
+        FieldPanel("greeting"),
+        FieldPanel("intro"),
         FieldPanel("main"),
-        InlinePanel('bullet_contents', label="Bullet Points"),
-        FieldPanel('closing'),
-        FieldPanel('farewell'),
+        InlinePanel("bullet_contents", label="Bullet Points"),
+        FieldPanel("closing"),
+        FieldPanel("farewell"),
     ]
 
     def __str__(self):
@@ -114,18 +110,19 @@ class EmailContent(ClusterableModel):
 
 class BulletContent(Orderable):
     email_content = ParentalKey(
-        EmailContent, on_delete=models.CASCADE, related_name='bullet_contents')
+        EmailContent, on_delete=models.CASCADE, related_name="bullet_contents"
+    )
 
     METRIC_CHOICES = [
-        ('accessibility', 'Accessibility'),
-        ('best_practices', 'Best Practices'),
-        ('seo', 'SEO'),
-        ('performance', 'Performance'),
+        ("accessibility", "Accessibility"),
+        ("best_practices", "Best Practices"),
+        ("seo", "SEO"),
+        ("performance", "Performance"),
     ]
     SCORE_RANGE_CHOICES = [
-        ('l', 'Low'),
-        ('m', 'Mid'),
-        ('h', 'High'),
+        ("l", "Low"),
+        ("m", "Mid"),
+        ("h", "High"),
     ]
 
     metric = models.CharField(max_length=20, choices=METRIC_CHOICES)
@@ -133,9 +130,9 @@ class BulletContent(Orderable):
     content = models.TextField()
 
     panels = [
-        FieldPanel('metric'),
-        FieldPanel('score_range'),
-        FieldPanel('content'),
+        FieldPanel("metric"),
+        FieldPanel("score_range"),
+        FieldPanel("content"),
     ]
 
     def __str__(self):
@@ -146,8 +143,7 @@ class CampaignSearchLocation(models.Model):
     campaign = ParentalKey(
         Campaign, on_delete=models.CASCADE, related_name="search_locations"
     )
-    location = models.ForeignKey(
-        "crm.SearchLocation", on_delete=models.CASCADE)
+    location = models.ForeignKey("crm.SearchLocation", on_delete=models.CASCADE)
 
 
 class EmailContentMetric(Orderable):
@@ -158,11 +154,12 @@ class EmailContentMetric(Orderable):
         ("1", "First Opens"),
         ("l", "Link Clicks"),
         ("b", "Bounces"),
-        ("x", "Opt-Outs")
+        ("x", "Opt-Outs"),
     ]
 
-    email_content = ParentalKey(EmailContent, on_delete=models.CASCADE,
-                                related_name="metrics")
+    email_content = ParentalKey(
+        EmailContent, on_delete=models.CASCADE, related_name="metrics"
+    )
     action = models.CharField(max_length=1, choices=ACTION_CHOICES)
     value = models.IntegerField(default=0)
     updated_at = models.DateTimeField(auto_now=True)

@@ -16,8 +16,7 @@ def create_entity_for_contact(sender, instance, created, **kwargs):
 @receiver(post_save, sender=models.Company)
 def create_entity_for_company(sender, instance, created, **kwargs):
     if not instance.entity:
-        entity = models.Entity.objects.create(
-            name=instance.name, is_company=True)
+        entity = models.Entity.objects.create(name=instance.name, is_company=True)
         instance.entity = entity
         instance.save()
 
@@ -40,8 +39,13 @@ def sync_search_params(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=models.Website)
 def normalize_website_url(sender, instance: models.Website, created, **kwargs):
-    is_not_formatted = any([instance.url.startswith(
-        "https://"), instance.url.startswith("http://"), instance.url.endswith("/")])
+    is_not_formatted = any(
+        [
+            instance.url.startswith("https://"),
+            instance.url.startswith("http://"),
+            instance.url.endswith("/"),
+        ]
+    )
     if created or is_not_formatted:
         instance.url = utils.normalize_url(instance.url)
         instance.save(update_fields=["url"])
