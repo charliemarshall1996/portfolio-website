@@ -140,7 +140,7 @@ def get_tier(score):
         return "Fail"
 
 
-class WebsiteAnalyzer:
+class LighthouseAnalysisClient:
     def __init__(self):
         self.endpoint = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
         self.key = "AIzaSyCQxitw9nIpckdHFTzOS17ECa8u9VHz2LM"
