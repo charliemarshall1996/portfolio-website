@@ -97,6 +97,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="website",
             name="url",
-            field=models.URLField(unique=True),
+            field=models.URLField(unique=True, blank=True, null=True),
         ),
     ]

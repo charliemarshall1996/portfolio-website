@@ -109,6 +109,7 @@ class EmailContent(ClusterableModel):
         FieldPanel("intro"),
         FieldPanel("main"),
         InlinePanel("bullet_contents", label="Bullet Points"),
+        FieldPanel("link_text"),
         FieldPanel("closing"),
         FieldPanel("farewell"),
     ]
