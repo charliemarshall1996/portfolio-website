@@ -112,7 +112,7 @@ def add_lead_view(request):
     # Create Lead
     lead = models.Lead.objects.filter(
         entity=entity, first_name=data["first_name"], last_name=data["last_name"]
-    )
+    ).first()
 
     if not lead:
         logger.debug("No lead exists for %s %s",

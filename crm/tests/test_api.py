@@ -69,7 +69,6 @@ def param_factory():
         campaign=campaign, location=location.name, search_term=search_term.term)
 
 
-@pytest.mark.skip
 @pytest.mark.django_db
 def test_api_auth_view_returns_user_and_token(auth_client):
     response = auth_client.get("/api/auth/")
@@ -80,7 +79,6 @@ def test_api_auth_view_returns_user_and_token(auth_client):
     assert response.data["auth"] is not None
 
 
-@pytest.mark.skip
 @pytest.mark.django_db
 def test_search_parameter_view_returns_data_and_updates_timestamp(auth_client, param_factory):
     param = param_factory
@@ -186,7 +184,6 @@ def test_receive_lead_with_existing_url_but_new_email(api_client, param_factory)
     assert models.Lead.objects.count() == 1
 
 
-@pytest.mark.skip
 @pytest.mark.django_db
 def test_email_link_click(api_client, email_endpoint_required_data_factory):
     param, lead, email, content, campaign = email_endpoint_required_data_factory
@@ -213,7 +210,6 @@ def test_email_link_click(api_client, email_endpoint_required_data_factory):
     assert lead.status == "i"
 
 
-@pytest.mark.skip
 @pytest.mark.django_db
 def test_email_opt_out(api_client, email_endpoint_required_data_factory):
     param, lead, email, content, campaign = email_endpoint_required_data_factory
@@ -241,7 +237,6 @@ def test_email_opt_out(api_client, email_endpoint_required_data_factory):
     assert lead.status == "x"
 
 
-@pytest.mark.skip
 @pytest.mark.django_db
 def test_email_bounce(api_client, email_endpoint_required_data_factory):
     param, lead, email, content, campaign = email_endpoint_required_data_factory

@@ -1,39 +1,12 @@
 import logging
 
-import sib_api_v3_sdk
-from sib_api_v3_sdk.rest import ApiException
 from django.conf import settings
 from django.utils import timezone
-import brevo_python
-from brevo_python.rest import ApiException
-from pprint import pprint
 
-from crm import models
+from crm import models, services
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-
-
-def send_email_via_brevo(to_email, subject, html_content, tag=None, from_email=None, from_name=None):
-
-    # Configure API key authorization: api-key
-    configuration = brevo_python.Configuration()
-    configuration.api_key['api-key'] = settings.BREVO_API_KEY
-
-    # create an instance of the API class
-    api_instance = brevo_python.TransactionalEmailsApi(
-        brevo_python.ApiClient(configuration))
-    send_smtp_email = brevo_python.SendSmtpEmail(to=[{"email": to_email}], subject=subject, html_content=html_content, sender={
-                                                 "name": "Charlie Marshall", "email": from_email}, tags=[tag])
-
-    try:
-        # Send a transactional email
-        api_response = api_instance.send_transac_email(send_smtp_email)
-        logger.info("API RESPONSE: %s", api_response)
-        return api_response
-    except ApiException as e:
-        logger.error(
-            "Exception when calling TransactionalEmailsApi->send_transac_email: %s\n", e)
 
 
 def run():
@@ -140,14 +113,13 @@ def run():
                 f"Search param {lead.campaign_search_param} not found, skipping lead {lead.pk}")
             continue
         try:
-            response = send_email_via_brevo(
-                to_email=email.email,
-                subject=email_content.subject,
-                html_content=full_email_html,
-                tag=f"{email_content.pk},{search_param.pk}",
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                from_name="Charlie Marshall"
+            response = services.send_email_via_brevo(
+                email.email,
+                email_content.subject,
+                full_email_html,
+                tags=[email_content.pk, search_param.pk]
             )
+            print(f"RESPONSE: {response}")
             outreach = models.Outreach.objects.create(
                 campaign_search_parameter=search_param, medium="e")
             models.OutreachEmail.objects.create(

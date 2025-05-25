@@ -1,9 +1,10 @@
-from django.db import models, transaction
-from django.utils import timezone
+from django.db import models
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import FieldPanel, InlinePanel
 from wagtail.models import Orderable
+
+from crm import services
 
 
 class Campaign(ClusterableModel):
@@ -100,6 +101,7 @@ class EmailContent(ClusterableModel):
     main = models.TextField(blank=True, null=True)
     closing = models.TextField(blank=True)
     farewell = models.TextField(blank=True)
+    link_text = models.TextField(blank=True, null=True)
 
     panels = [
         FieldPanel("stage"),
@@ -114,12 +116,13 @@ class EmailContent(ClusterableModel):
     def __str__(self):
         return f"EmailContent for {self.campaign.pk}"
 
-    def get_full_email(self, first_name, metric_score_map, link):
-        """
-        metric_score_map: dict of metric -> score_range, e.g. {'seo': 'h', 'performance': 'm'}
-        link: URL string to append as anchor tag at closing.
-        """
+    def get_full_email(self, first_name, link, metric_score_map=None):
+        if self.stage == "i" and first_name and metric_score_map and link:
+            return self._get_initial_email(first_name, metric_score_map, link)
+        else:
+            return self._get_follow_up_email(first_name, link)
 
+    def _get_initial_email(self, first_name, metric_score_map, link):
         # Collect bullet contents matching any metric/score_range pair
         bullet_items = []
         for metric, score_range in metric_score_map.items():
@@ -127,29 +130,14 @@ class EmailContent(ClusterableModel):
                 metric=metric, score_range=score_range)
             bullet_items.extend(bullets)
 
-        # Build unordered list HTML if we have bullets
-        if bullet_items:
-            bullet_html = "<ul>"
-            for bullet in bullet_items:
-                bullet_html += f"<li>{bullet.content}</li>"
-            bullet_html += "</ul>"
-        else:
-            bullet_html = ""
+        return services.retrieve_initial_email(first_name, link, self.link_text,
+                                               bullet_items, self.greeting, self.intro,
+                                               self.closing, self.farewell)
 
-        return f"""
-            <p>{self.greeting}</p>
-            <p>Hi {first_name},</p>
-            <p>{self.intro}</p>
-            <p>{self.main}</p>
-            {bullet_html}
-            <p>{self.closing} <a href="{link}">{link}</a></p>
-            <p>{self.farewell}</p>
-            <p>Charlie Marshall,<br>
-            Web & Data Developer<br>
-            https://www.charlie-marshall.com<br>
-            07464 706 184<br>
-            <a href="https://calendly.com/charlie-charlie-marshall/30min">Book a Free Consultation</a></p>
-        """
+    def _get_follow_up_email(self, first_name, link):
+        return services.retrieve_follow_up_email(first_name, link, self.link_text,
+                                                 self.main, self.greeting, self.intro,
+                                                 self.closing, self.farewell)
 
 
 class BulletContent(Orderable):
