@@ -128,6 +128,7 @@ def clean_description_regex(description):
         description = re.sub(r"\[([^\]]+)\]\([^\)]+\)", r"\1", description)
         description = re.sub(r"\[Learn more[^\]]*\]", "", description)
         description = re.sub(r"\bLearn[^.]*\.", "", description)
+        description = re.sub(r'\.\.\.', '', description)
         return description.strip()
 
 
@@ -143,7 +144,7 @@ def get_tier(score):
 class LighthouseAnalysisClient:
     def __init__(self):
         self.endpoint = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed"
-        self.key = "AIzaSyCQxitw9nIpckdHFTzOS17ECa8u9VHz2LM"
+        self.key = settings.GOOGLE_API_KEY
 
         self.data = {
             "scores": {},

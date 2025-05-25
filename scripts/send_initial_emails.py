@@ -9,10 +9,54 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
-def run():
-    twelve_weeks_ago = timezone.now() - timezone.timedelta(weeks=12)
+def retrieve_entity_emails(entity):
+    entity_emails = models.EntityEmail.objects.filter(
+        entity=entity).values_list('email_id', flat=True)
     logger.debug(
-        f"Emails must have last_emailed <= {twelve_weeks_ago} to be eligible")
+        f"Found {len(entity_emails)} emails linked to entity {entity.pk}")
+    return entity_emails
+
+
+def retrieve_email(entity_emails):
+    twelve_weeks_ago = timezone.now() - timezone.timedelta(weeks=12)
+    return models.Email.objects.filter(
+        id__in=entity_emails,
+        bounced=False,
+        opted_out=False,
+        last_emailed__lte=twelve_weeks_ago
+    ).order_by("-last_emailed").first()
+
+
+def retrieve_websites(entity):
+    entity_websites = models.EntityWebsite.objects.filter(
+        entity=entity).values_list('website_id', flat=True)
+    return models.Website.objects.filter(id__in=entity_websites)
+
+
+def retrieve_lighthouse_analysis(websites):
+    return models.LighthouseAnalysis.objects.filter(
+        website__in=websites
+    ).order_by("-created_at").first()
+
+
+def map_lighthouse_scores(lighthouse_analysis):
+
+    data = lighthouse_analysis.data
+    scores = data.get("scores", {})
+    metric_score_map = {}
+
+    for metric, score in scores.items():
+        if score <= 50:
+            metric_score_map[metric] = "l"
+        elif score <= 90:
+            metric_score_map[metric] = "m"
+        else:
+            metric_score_map[metric] = "h"
+
+    return metric_score_map
+
+
+def run():
 
     emails_sent = 0
 
@@ -28,33 +72,24 @@ def run():
     for lead in leads:
         logger.debug(f"Processing lead {lead.pk} for entity {lead.entity_id}")
 
-        entity = lead.entity
-
         if not lead.campaign or not lead.campaign_search_param:
             logger.debug(
                 f"Skipping lead {lead.pk} due to missing campaign or search param")
             continue
 
-        entity_emails = models.EntityEmail.objects.filter(
-            entity=entity).values_list('email_id', flat=True)
-        logger.debug(
-            f"Found {len(entity_emails)} emails linked to entity {entity.pk}")
+        entity = lead.entity
+        entity_emails = retrieve_entity_emails(entity)
+        if not entity_emails:
+            continue
 
-        email = models.Email.objects.filter(
-            id__in=entity_emails,
-            bounced=False,
-            opted_out=False,
-            last_emailed__lte=twelve_weeks_ago
-        ).order_by("-last_emailed").first()
+        email = retrieve_email(entity_emails)
         if not email:
             logger.debug(
                 f"No eligible email found for entity {entity.pk}, skipping lead {lead.pk}")
             continue
         logger.debug(f"Selected email {email.email} for entity {entity.pk}")
 
-        entity_websites = models.EntityWebsite.objects.filter(
-            entity=entity).values_list('website_id', flat=True)
-        websites = models.Website.objects.filter(id__in=entity_websites)
+        websites = retrieve_websites(entity)
         if not websites.exists():
             logger.debug(
                 f"No websites found for entity {entity.pk}, skipping lead {lead.pk}")
@@ -62,9 +97,7 @@ def run():
         logger.debug(
             f"Found {websites.count()} websites for entity {entity.pk}")
 
-        lighthouse_analysis = models.LighthouseAnalysis.objects.filter(
-            website__in=websites
-        ).order_by("-created_at").first()
+        lighthouse_analysis = retrieve_lighthouse_analysis(websites)
         if not lighthouse_analysis:
             logger.debug(
                 f"No LighthouseAnalysis found for websites of entity {entity.pk}, skipping")
@@ -72,17 +105,8 @@ def run():
         logger.debug(
             f"Using LighthouseAnalysis {lighthouse_analysis.pk} for entity {entity.pk}")
 
-        data = lighthouse_analysis.data
-        scores = data.get("scores", {})
-        metric_score_map = {}
+        metric_score_map = map_lighthouse_scores(lighthouse_analysis)
 
-        for metric, score in scores.items():
-            if score <= 50:
-                metric_score_map[metric] = "l"
-            elif score <= 90:
-                metric_score_map[metric] = "m"
-            else:
-                metric_score_map[metric] = "h"
         logger.debug(
             f"Metric score map for lead {lead.pk}: {metric_score_map}")
 
