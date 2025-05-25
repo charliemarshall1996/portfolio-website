@@ -109,7 +109,6 @@ class EmailContent(ClusterableModel):
         FieldPanel("intro"),
         FieldPanel("main"),
         InlinePanel("bullet_contents", label="Bullet Points"),
-        FieldPanel("link_text"),
         FieldPanel("closing"),
         FieldPanel("farewell"),
     ]
@@ -131,12 +130,12 @@ class EmailContent(ClusterableModel):
                 metric=metric, score_range=score_range)
             bullet_items.extend(bullets)
 
-        return services.retrieve_initial_email(first_name, link, self.link_text,
+        return services.retrieve_initial_email(first_name, link, link,
                                                bullet_items, self.greeting, self.intro,
                                                self.closing, self.farewell)
 
     def _get_follow_up_email(self, first_name, link):
-        return services.retrieve_follow_up_email(first_name, link, self.link_text,
+        return services.retrieve_follow_up_email(first_name, link, link,
                                                  self.main, self.greeting, self.intro,
                                                  self.closing, self.farewell)
 
