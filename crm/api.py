@@ -1,5 +1,5 @@
 import logging
-
+from django.db.models import OuterRef, Exists
 from django.utils import timezone
 
 from rest_framework import response, authentication, permissions, status
@@ -36,8 +36,22 @@ def api_auth_view(request, format=None):
 @authentication_classes([authentication.TokenAuthentication])
 @permission_classes([permissions.IsAuthenticated])
 def search_parameter_view(request, format=None):
+
+    # Subqueries
+    term_exists = Exists(
+        models.SearchTerm.objects.filter(term=OuterRef('search_term'))
+    )
+
+    location_exists = Exists(
+        models.SearchLocation.objects.filter(name=OuterRef('location'))
+    )
+
+    # Filter CampaignSearchParameter
     params = (
-        models.CampaignSearchParameter.objects.filter(is_active=True)
+        models.CampaignSearchParameter.objects
+        .filter(is_active=True)
+        .annotate(term_valid=term_exists, location_valid=location_exists)
+        .filter(term_valid=True, location_valid=True)
         .order_by("last_run")
         .first()
     )
