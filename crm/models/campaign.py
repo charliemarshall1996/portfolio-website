@@ -60,7 +60,9 @@ class CampaignSearchParameter(ClusterableModel):
         Campaign, on_delete=models.CASCADE, related_name="search_parameters"
     )
     location = models.CharField(max_length=200)
+    location_pk = models.IntegerField(blank=True, null=True)
     search_term = models.CharField(max_length=200)
+    search_term_pk = models.IntegerField(blank=True, null=True)
     last_run = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 

@@ -54,7 +54,7 @@ def retrieve_initial_email(first_name, link, link_text, bullet_items,
         <p>Hi {first_name},</p>
         <p>{intro}</p>
         {bullet_html}
-        <p>{closing} <a href="{link}">{link_text}</a></p>
+        <p>{closing} <a href="{link}">{link}</a></p>
         <p>{farewell}</p>
         <p>Charlie Marshall,<br>
         Web & Data Developer<br>
@@ -73,7 +73,7 @@ def retrieve_follow_up_email(first_name, link, link_text, main,
         <p>Hi {first_name},</p>
         <p>{intro}</p>
         <p>{main}</p>
-        <p>{closing} <a href="{link}">{link_text}</a></p>
+        <p>{closing} <a href="{link}">{link}</a></p>
         <p>{farewell}</p>
         <p>Charlie Marshall,<br>
         Web & Data Developer<br>

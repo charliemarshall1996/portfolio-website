@@ -1,7 +1,7 @@
 import logging
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from . import models, utils, services
+from . import models, utils
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -57,7 +57,19 @@ def normalize_website_url(sender, instance: models.Website, created, **kwargs):
 
 
 @receiver(post_save, sender=models.Email)
-def normalize_email(sender, instance: models.Email, created, **kwargs):
+def normalize_email(sender, instance: models.Email, created, *args, **kwargs):
     if created:
         instance.email = utils.normalize_email(instance.email)
         instance.save(update_fields=["email"])
+
+
+@receiver(post_save, sender=models.SearchTerm)
+def update_search_params(sender, instance: models.SearchTerm, created, *args, **kwargs):
+    if not created:
+        utils.sync_search_terms_parameters(instance)
+
+
+@receiver(post_save, sender=models.SearchLocation)
+def update_search_param_locations(sender, instance: models.SearchLocation, created, *args, **kwargs):
+    if not created:
+        utils.sync_locations_parameters(instance)

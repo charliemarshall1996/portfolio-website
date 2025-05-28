@@ -65,12 +65,33 @@ def sync_campaign_search_parameters(campaign: models.Campaign):
             val.save(update_fields=["is_active"])
 
 
+def sync_search_terms_parameters(search_term: models.SearchTerm):
+    params = list(models.CampaignSearchParameter.objects.filter(
+        search_term_pk=search_term.pk))
+    for p in params:
+        p.search_term = search_term.term
+        p.save()
+
+
+def sync_vertical_parameters(vertical: models.Vertical):
+    for search_term in list(models.SearchTerm.objects.filter(vertical=vertical)):
+        sync_campaign_search_parameters(search_term)
+
+
 def sync_campaign_is_active_end_date(campaign: models.Campaign):
     """Updates Campaign is_active value based on end_date value."""
     if campaign.end_date:
         if timezone.now() > campaign.end_date and campaign.is_active:
             campaign.is_active = False
             campaign.save(update_fields=["is_active"])
+
+
+def sync_locations_parameters(location: models.SearchLocation):
+    params = list(models.CampaignSearchParameter.objects.filter(
+        location_pk=location.pk))
+    for p in params:
+        p.location = location.name
+        p.save()
 
 
 def normalize_email(email: str):
