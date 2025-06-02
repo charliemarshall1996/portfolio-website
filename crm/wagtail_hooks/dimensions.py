@@ -1,85 +1,43 @@
-
-from crm import models
 from wagtail.admin.panels import FieldPanel, InlinePanel
+
 from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
 
-
-class AddressViewSet(SnippetViewSet):
-    model = models.Address
-    menu_label = "Addresses"
-    list_display = ("address_line_1", "town", "postcode")
-    panels = [
-        FieldPanel("line1"),
-        FieldPanel("line2"),
-        FieldPanel("town"),
-        FieldPanel("region"),
-        FieldPanel("postcode"),
-        FieldPanel("country")
-    ]
+from crm.models import SearchLocation, Vertical, Email
 
 
 class EmailViewSet(SnippetViewSet):
-    model = models.Email
-    menu_label = "Emails"
-    list_display = ("email", "opted_out", "bounced")
-    panel = [
+    model = Email
+    panels = [
         FieldPanel("email"),
         FieldPanel("opted_out"),
         FieldPanel("bounced"),
         FieldPanel("last_emailed", read_only=True)
     ]
-
-
-class LighthouseAnalysisViewSet(SnippetViewSet):
-    model = models.LighthouseAnalysis
-    list_display = ("website__url", "created_at", "report_url")
-    panels = [
-        FieldPanel("website", read_only=True),
-        FieldPanel("created_at", read_only=True),
-        FieldPanel("report_url", read_only=True)
-    ]
-
-
-class PhoneNumberViewSet(SnippetViewSet):
-    model = models.PhoneNumber
-    menu_label = "Phone Numbers"
-    list_display = ("number", "type")
-    panels = [
-        FieldPanel("phone_number"),
-        FieldPanel("type")
-    ]
+    list_display = ["email", "opted_out", "bounced", "last_emailed"]
 
 
 class SearchLocationViewSet(SnippetViewSet):
-    model = models.SearchLocation
-    list_display = ("name", "type")
+    model = SearchLocation
     panels = [
-        FieldPanel("name"),
-        FieldPanel("type")
+        FieldPanel("type"),
+        FieldPanel("name")
     ]
+    list_display = ["name", "type"]
 
 
 class VerticalViewSet(SnippetViewSet):
-    model = models.Vertical
-    list_display = ("name",)
+    model = Vertical
     panels = [
         FieldPanel("name"),
-        InlinePanel("painpoints"),
+        FieldPanel("pain_points"),
+        FieldPanel("description"),
         InlinePanel("search_terms")
     ]
-
-
-class WebsiteViewSet(SnippetViewSet):
-    model = models.Website
-    list_display = ("url",)
-    panels = [
-        FieldPanel("url")
-    ]
+    list_display = ["name"]
 
 
 class DimensionsViewSetGroup(SnippetViewSetGroup):
-    items = [AddressViewSet, EmailViewSet, LighthouseAnalysisViewSet,
-             PhoneNumberViewSet, SearchLocationViewSet, VerticalViewSet, WebsiteViewSet]
-    menu_icon = "tasks"
+    items = (SearchLocationViewSet, VerticalViewSet, EmailViewSet)
+    menu_icon = "cog"
     menu_name = "dimensions"
     menu_label = "Dimensions"

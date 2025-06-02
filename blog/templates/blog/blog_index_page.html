@@ -1,0 +1,48 @@
+{% extends "core/base.html" %}
+{% load wagtailcore_tags %}{% load wagtailimages_tags %}
+{% include "wagtailadmin/pagination.html" with items=blog_pages %}
+{% block body_class %}template-blogindexpage{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row text-center py-3">
+    <div class="col">
+      <h1>{{ page.title }}</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <ul class="list-group list-group-flush">
+        {% for post in blog_posts %}
+        {% if post.live %}
+        <a class="list-group-item list-group-item-action" href="{% pageurl post.specific fallback='coming_soon' %}">
+          <div class="row">
+            <div class="col">
+              {% image post.specific.thumbnail fill-80x80 %}
+            </div>
+            <div class="col-8">
+                <div class="row">
+                    <div class="col text-nowrap text-truncate ellipsis">
+                        <strong
+                            >{{ post.title }}</strong
+                          >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col ">
+                        <p class="text-nowrap text-truncate ellipsis">{{ post.summary }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+              <p>{{ post.last_published_at|date:"D d M Y" }}</p>
+            </div>
+          </div>
+        </a>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

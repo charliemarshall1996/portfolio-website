@@ -1,40 +1,32 @@
 
-from crm import models
+from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
+
 from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
-from wagtail.admin.panels import FieldPanel, MultiFieldPanel, InlinePanel
+
+from crm.models import Campaign
 
 
-class CampaignViewSet(SnippetViewSet):
-    model = models.Campaign
+class CampaignSnippetViewSet(SnippetViewSet):
+    model = Campaign
     panels = [
+        FieldPanel("name"),
         FieldPanel("type"),
         FieldPanel("medium"),
-        FieldPanel("description"),
         FieldPanel("start_date"),
         FieldPanel("end_date"),
         FieldPanel("is_active"),
         MultiFieldPanel(
-            (
-                FieldPanel("vertical"),
-                InlinePanel("search_locations", label="locations"),
-            ),
-            heading="Search Parameters",
+            (FieldPanel("vertical"),
+             InlinePanel("campaign_search_locations", label="Locations")),
+            heading="Search Parameters"
         ),
-        MultiFieldPanel(
-            (
-                InlinePanel(
-                    "email_content", label="Email Content"),
-            ),
-            heading="Content",
-        ),
+        FieldPanel("description")
     ]
-    list_display = ["start_date", "end_date", "type", "medium", "is_active"]
+    list_display = ["name", "type", "medium", "start_date", "end_date"]
 
 
-class CampaignViewSetGroup(SnippetViewSetGroup):
-    items = [
-        CampaignViewSet,
-    ]
+class CampaignsSnippetViewSetGroup(SnippetViewSetGroup):
+    items = (CampaignSnippetViewSet,)
     menu_icon = "calendar-alt"
-    menu_name = "campaign"
-    menu_label = "Campaign"
+    menu_name = "campaigns"
+    menu_label = "Campaigns"

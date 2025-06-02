@@ -1,10 +1,11 @@
 
 from wagtail.snippets.models import register_snippet
-
-from .campaigns import CampaignViewSetGroup
+from .analyses import AnalysisViewSetGroup
+from .campaigns import CampaignsSnippetViewSetGroup
+from .contacts_and_entities import ContactsAndEntitiesViewsetGroup
 from .dimensions import DimensionsViewSetGroup
-from .entities import EntityViewSetGroup
 
-register_snippet(CampaignViewSetGroup)
+register_snippet(AnalysisViewSetGroup)
+register_snippet(CampaignsSnippetViewSetGroup)
+register_snippet(ContactsAndEntitiesViewsetGroup)
 register_snippet(DimensionsViewSetGroup)
-register_snippet(EntityViewSetGroup)
