@@ -16,11 +16,9 @@ class ContactSnippet(SnippetViewSet):
         FieldPanel("notes"),
         FieldPanel("created_at", read_only=True),
         FieldPanel("updated_at", read_only=True),
-        InlinePanel("contact_entities"),
+        InlinePanel("companies"),
         MultiFieldPanel(
-            (FieldPanel("linkedin"),
-             InlinePanel("contact_emails"),
-             InlinePanel("contact_phone_numbers")),
+            (FieldPanel("linkedin"),),
             heading="Contact Info"
         )
     ]
@@ -38,11 +36,8 @@ class LeadSnippet(SnippetViewSet):
         FieldPanel("notes"),
         FieldPanel("created_at", read_only=True),
         FieldPanel("updated_at", read_only=True),
-        InlinePanel("lead_entities"),
         MultiFieldPanel(
-            (FieldPanel("linkedin"),
-             InlinePanel("lead_emails"),
-             InlinePanel("lead_phone_numbers")),
+            (FieldPanel("linkedin"),),
             heading="Contact Info"
         )
     ]
@@ -52,25 +47,17 @@ class LeadSnippet(SnippetViewSet):
 class EntitySnippet(SnippetViewSet):
     model = Entity
     panels = [
-        FieldPanel("vertical"),
         FieldPanel("campaign_search_parameter", read_only=True),
         FieldPanel("name"),
         FieldPanel("is_company"),
-        FieldPanel("description"),
         FieldPanel("created_at", read_only=True),
         FieldPanel("updated_at", read_only=True),
         MultiFieldPanel(
             (
-                InlinePanel("entity_contacts", label="Contacts"),
-                InlinePanel("entity_leads", label="Leads")
-            ), heading="People"
-        ),
-        MultiFieldPanel(
-            (
-                InlinePanel("entity_addresses"),
-                InlinePanel("entity_emails"),
-                InlinePanel("entity_phone_numbers"),
-                InlinePanel("entity_websites")
+                InlinePanel("addresses"),
+                InlinePanel("emails"),
+                InlinePanel("phone_numbers"),
+                InlinePanel("websites")
             ), heading="Contact Info"
         )
     ]

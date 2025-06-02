@@ -29,7 +29,6 @@ class VerticalViewSet(SnippetViewSet):
     model = Vertical
     panels = [
         FieldPanel("name"),
-        FieldPanel("pain_points"),
         FieldPanel("description"),
         InlinePanel("search_terms")
     ]

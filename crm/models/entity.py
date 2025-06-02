@@ -16,7 +16,7 @@ class Company(ClusterableModel):
     registration_number = models.CharField(
         max_length=200, blank=True, null=True)
     entity = models.OneToOneField(
-        Entity, on_delete=models.CASCADE, null=True, blank=True
+        Entity, on_delete=models.CASCADE, null=True, blank=True, related_name="companies"
     )
 
     def __str__(self):
@@ -41,7 +41,7 @@ class Contact(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     entity = models.OneToOneField(
-        Entity, on_delete=models.CASCADE, null=True, blank=True
+        Entity, on_delete=models.CASCADE, null=True, blank=True, related_name="contacts"
     )
 
     def __str__(self):
@@ -79,7 +79,7 @@ class Lead(models.Model):
     campaign = models.PositiveIntegerField(null=True, blank=True)
     campaign_search_param = models.PositiveIntegerField(null=True, blank=True)
     entity = models.OneToOneField(
-        Entity, on_delete=models.CASCADE, null=True, blank=True
+        Entity, on_delete=models.CASCADE, null=True, blank=True, related_name="leads"
     )
 
 
@@ -161,7 +161,8 @@ class EntityCampaign(models.Model):
 class CompanyContact(models.Model):
     company = ParentalKey(Company, on_delete=models.CASCADE,
                           related_name="contacts")
-    contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
+    contact = models.ForeignKey(
+        Contact, on_delete=models.CASCADE, related_name="companies")
 
     class Meta:
         unique_together = ["company", "contact"]

@@ -9,7 +9,6 @@ from crm.models import Campaign
 class CampaignSnippetViewSet(SnippetViewSet):
     model = Campaign
     panels = [
-        FieldPanel("name"),
         FieldPanel("type"),
         FieldPanel("medium"),
         FieldPanel("start_date"),
@@ -17,7 +16,7 @@ class CampaignSnippetViewSet(SnippetViewSet):
         FieldPanel("is_active"),
         MultiFieldPanel(
             (FieldPanel("vertical"),
-             InlinePanel("campaign_search_locations", label="Locations")),
+             InlinePanel("search_locations", label="Locations")),
             heading="Search Parameters"
         ),
         FieldPanel("description")
