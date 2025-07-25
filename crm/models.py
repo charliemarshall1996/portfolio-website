@@ -79,4 +79,4 @@ class Communication(models.Model):
         unique_together = ["contact", "made_on"]
 
     def __str__(self):
-        return f"{self.contact}, {self.get_medium_display()}, {self.made_on}"
+        return f"{self.contact}, {self.made_on}"
